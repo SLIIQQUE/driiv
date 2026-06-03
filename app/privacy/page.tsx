@@ -19,7 +19,7 @@ const privacySections = [
     icon: Shield,
     title: "Data Protection Strategy",
     content:
-      "At B & H Driving School, your privacy is integral to our safety first philosophy. We use bank-level encryption to safeguard your identification documents, driving records, and contact details.",
+      "At Rydax School, your privacy is integral to our safety first philosophy. We use bank-level encryption to safeguard your identification documents, driving records, and contact details.",
   },
   {
     icon: Eye,
@@ -105,7 +105,7 @@ export default function PrivacyPage() {
                   Introduction
                 </h2>
                 <p className="text-white/60 leading-relaxed">
-                  B & H Driving School Inc. is committed to maintaining the
+                  Rydax School Inc. is committed to maintaining the
                   security and confidentiality of your personal information.
                   This Privacy Policy outlines our practices in accordance with
                   the British Columbia Personal Information Protection Act

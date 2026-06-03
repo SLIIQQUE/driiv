@@ -74,7 +74,7 @@ export default function TestimonialsSection() {
             What Our <span className="text-gradient-cool">Students Say</span>
           </h2>
           <p className="text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
-            Don't just take our word for it. Here's what our students have to say about learning to drive with B & H Driving School.
+            Don't just take our word for it. Here's what our students have to say about learning to drive with Rydax.
           </p>
         </motion.div>
 

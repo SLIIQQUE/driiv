@@ -24,8 +24,8 @@ const baseUrl = "https://bhandhdrivingschool.ca";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "B & H Driving School | Driving Lessons in Surrey, BC",
-    template: "%s | B & H Driving School",
+    default: "Rydax School | Driving Lessons in Surrey, BC",
+    template: "%s | Rydax School",
   },
   description:
     "Learn to drive with confidence in Surrey, BC. Professional driving lessons in the Lower Mainland. ICBC licensed instructors. Book your first lesson today.",
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     "BC driving license",
     "new driver",
   ],
-  authors: [{ name: "B & H Driving School Inc" }],
-  creator: "B & H Driving School",
-  publisher: "B & H Driving School",
+  authors: [{ name: "Rydax School Inc" }],
+  creator: "Rydax School",
+  publisher: "Rydax School",
   icons: {
     icon: [{ url: "/favicon.ico", sizes: "any" }],
   },
@@ -54,14 +54,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_CA",
     url: baseUrl,
-    siteName: "B & H Driving School",
-    title: "B & H Driving School | Driving Lessons in Surrey, BC",
+    siteName: "Rydax School",
+    title: "Rydax School | Driving Lessons in Surrey, BC",
     description:
       "Learn to drive with confidence in Surrey, BC. Professional driving lessons in the Lower Mainland.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "B & H Driving School | Driving Lessons in Surrey, BC",
+    title: "Rydax School | Driving Lessons in Surrey, BC",
     description:
       "Learn to drive with confidence. Professional driving lessons in Surrey, BC.",
   },
@@ -80,7 +80,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "DrivingSchool",
     "@id": `${baseUrl}/#drivingschool`,
-    name: "B & H Driving School Inc",
+    name: "Rydax School Inc",
     description:
       "Learn to drive with confidence in Surrey, BC. Professional driving lessons in the Lower Mainland.",
     url: baseUrl,

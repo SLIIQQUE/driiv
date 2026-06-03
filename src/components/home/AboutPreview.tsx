@@ -57,7 +57,7 @@ export default function AboutPreview() {
                 </div>
               </div>
               <p className="text-xl text-white/50 leading-relaxed max-w-2xl mb-8">
-                B & H Driving School brings a decade of combined experience to the road. Our methodology isn&apos;t just about preparing for a test—it&apos;s about building instinctive safety and absolute road confidence.
+                Rydax brings a decade of combined experience to the road. Our methodology isn&apos;t just about preparing for a test—it&apos;s about building instinctive safety and absolute road confidence.
               </p>
               <Link href="/about" className="inline-flex items-center gap-3 text-white font-bold group-hover:text-accent transition-colors">
                 Read Our Full Story <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />

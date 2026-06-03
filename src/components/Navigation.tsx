@@ -103,7 +103,7 @@ export default function Navigation() {
                 </div>
                 <div className="hidden sm:block">
                   <span className={`font-display font-bold text-xl tracking-tight ${isLight ? "text-[#1A2B48]" : "text-white"}`}>
-                    B & H
+                    Rydax
                   </span>
                   <span className="font-display font-bold text-xl text-gradient tracking-tight ml-1">
                     Driving
@@ -210,7 +210,7 @@ export default function Navigation() {
                     <Car className="w-5 h-5 text-[#FFD700]" />
                   </div>
                   <span className={`font-display font-bold text-lg ${isLight ? "text-[#1A2B48]" : "text-white"}`}>
-                    B & H Driving
+                    Rydax
                   </span>
                 </Link>
                 <button

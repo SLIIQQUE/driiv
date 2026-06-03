@@ -50,7 +50,7 @@ const faqs = [
       },
       {
         q: "Are the instructors ICBC certified?",
-        a: "Absolutely. Every B & H instructor is fully licensed and bonded by ICBC. We undergo regular training audits to ensure our curriculum stays at the highest level of provincial safety standards.",
+        a: "Absolutely. Every Rydax instructor is fully licensed and bonded by ICBC. We undergo regular training audits to ensure our curriculum stays at the highest level of provincial safety standards.",
       },
     ],
   },

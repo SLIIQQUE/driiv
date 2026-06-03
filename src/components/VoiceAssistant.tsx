@@ -68,7 +68,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                 </div>
                 <div>
                   <h3 className="font-bold text-white">AI Assistant</h3>
-                  <p className="text-xs text-white/50">B & H Driving</p>
+                  <p className="text-xs text-white/50">Rydax</p>
                 </div>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white" aria-label="Close chat">

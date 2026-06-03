@@ -54,7 +54,7 @@ export function AboutStory() {
               
               <div className="space-y-8 text-xl text-white/50 leading-relaxed font-medium">
                 <p>
-                  B & H Driving School wasn&apos;t built just to teach people how to pass a road test. It was built to create drivers who are fundamentally safe, aware, and in command of their vehicle.
+                  Rydax wasn&apos;t built just to teach people how to pass a road test. It was built to create drivers who are fundamentally safe, aware, and in command of their vehicle.
                 </p>
                 <p>
                   Under Kerry Hare&apos;s leadership, we have developed a personalized coaching methodology that adapts to each student&apos;s pace. Whether you&apos;re a nervous beginner or looking to refine your skills for a Class 5, our approach remains the same: patience, precision, and excellence.

@@ -43,7 +43,7 @@ export default function Footer() {
               WebkitTextStroke: "1px rgba(255, 215, 0, 0.1)",
             }}
           >
-            B & H Driving
+            Rydax
           </span>
         </motion.div>
       </div>
@@ -95,7 +95,7 @@ export default function Footer() {
               </motion.div>
               <div>
                 <span className="font-display font-bold text-2xl text-white tracking-tight">
-                  B & H
+                  Rydax
                 </span>
                 <span className="font-display font-bold text-2xl text-gradient-premium tracking-tight ml-1">
                   Driving
