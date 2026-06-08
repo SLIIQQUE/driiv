@@ -13,7 +13,9 @@ const navigation = [
   { name: "Pricing", href: "/pricing" },
   { name: "Areas", href: "/areas" },
   { name: "About", href: "/about" },
+  { name: "Why Us", href: "/features" },
   { name: "Reviews", href: "/testimonials" },
+  { name: "FAQ", href: "/faq" },
   { name: "Contact", href: "/contact" },
 ];
 

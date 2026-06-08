@@ -40,7 +40,8 @@ export function ContactHero() {
               className="absolute -top-24 -right-24 w-64 h-64 bg-accent/10 blur-[100px] rounded-full pointer-events-none"
             />
 
-            <motion.h1
+            <h1 className="sr-only">Contact RyDax Driving School Surrey — Book a Lesson</h1>
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -50,7 +51,7 @@ export function ContactHero() {
               <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">session.</span>
               <br />
               In sixty seconds.
-            </motion.h1>
+            </motion.div>
 
             <motion.p
               initial={{ opacity: 0, y: 30 }}

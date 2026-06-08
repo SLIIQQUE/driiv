@@ -101,6 +101,10 @@ export const metadata: Metadata = {
     "apple-mobile-web-app-title": "RyDax",
     "msapplication-TileColor": "#1A2B48",
     "msapplication-config": "/browserconfig.xml",
+    "revisit-after": "7 days",
+    "geo.position": "49.1272748;-122.8740839",
+    "geo.placename": "Surrey",
+    "geo.region": "CA-BC",
   },
 };
 
@@ -117,7 +121,7 @@ export default function RootLayout({
     description:
       "Modern AI-powered driving school in Surrey, BC. Online booking, automated reminders, and ICBC licensed instruction.",
     url: baseUrl,
-    telephone: "REPLACE_WITH_REAL_PHONE_NUMBER",
+    telephone: "+2348103413970",
     address: {
       "@type": "PostalAddress",
       streetAddress: "12588 68A Ave",
@@ -264,6 +268,25 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "@id": `${baseUrl}/#breadcrumb`,
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+                { "@type": "ListItem", position: 2, name: "Services", item: `${baseUrl}/services` },
+                { "@type": "ListItem", position: 3, name: "Pricing", item: `${baseUrl}/pricing` },
+                { "@type": "ListItem", position: 4, name: "Service Areas", item: `${baseUrl}/areas` },
+                { "@type": "ListItem", position: 5, name: "About", item: `${baseUrl}/about` },
+                { "@type": "ListItem", position: 6, name: "FAQ", item: `${baseUrl}/faq` },
+                { "@type": "ListItem", position: 7, name: "Contact", item: `${baseUrl}/contact` },
+              ],
+            }),
+          }}
         />
         <a
           href="#main-content"

@@ -1,9 +1,116 @@
+export interface Lesson {
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  period: string;
+  savings?: string;
+  features: string[];
+  popular?: boolean;
+  color: string;
+}
+
+export const LESSONS: Lesson[] = [
+  {
+    id: "foundation",
+    name: "Foundation Pass",
+    description: "Pay-as-you-go mastery. Ideal for targeted refinement or refresher sessions. Book individual hours with instant confirmation.",
+    price: "$55",
+    period: "per session",
+    features: [
+      "One-on-one dual-control instruction",
+      "24/7 online booking",
+      "Automated SMS & email reminders",
+      "Digital progress report after each session",
+    ],
+    color: "from-accent/20 to-primary-light/20",
+  },
+  {
+    id: "power-pack",
+    name: "Power Pack",
+    description: "Save $25 and unlock priority scheduling. The recommended launch package for new learners ready to build momentum.",
+    price: "$250",
+    period: "5 sessions",
+    savings: "Save $25",
+    popular: true,
+    features: [
+      "Save $25 versus per-session rate",
+      "Priority calendar access",
+      "AI concierge support — 24/7",
+      "Mock assessment included",
+      "Full progress dashboard",
+    ],
+    color: "from-accent/30 to-primary-light/30",
+  },
+  {
+    id: "mastery",
+    name: "Mastery Bundle",
+    description: "Our apex value. Save $100 and receive everything required to progress from novice to test-ready.",
+    price: "$450",
+    period: "10 sessions",
+    savings: "Save $100",
+    features: [
+      "Save $100 versus per-session rate",
+      "Complete curriculum coverage",
+      "2 mock road tests with surgical scoring",
+      "Test-readiness dashboard",
+      "Auto-pay available",
+    ],
+    color: "from-accent/20 to-secondary-foreground/20",
+  },
+  {
+    id: "examination",
+    name: "Examination Package",
+    description: "5 precision sessions + dedicated mock examination + vehicle provision for your ICBC road test.",
+    price: "$350",
+    period: "5 sessions + exam",
+    features: [
+      "5 one-on-one preparation sessions",
+      "Dedicated mock road test",
+      "Vehicle provision for ICBC test",
+      "Test-ready guarantee",
+      "Priority scheduling",
+    ],
+    color: "from-secondary-foreground/20 to-accent/20",
+  },
+  {
+    id: "refresher",
+    name: "Refresher Lesson",
+    description: "Perfect for licensed drivers who need a confidence boost or want to brush up on specific skills before their road test.",
+    price: "$55",
+    period: "per session",
+    features: [
+      "Targeted skill reinforcement",
+      "Flexible scheduling",
+      "Pick specific maneuvers to practice",
+      "Immediate feedback & tips",
+    ],
+    color: "from-white/10 to-accent/10",
+  },
+  {
+    id: "pass-plus",
+    name: "Pass Plus",
+    description: "Advanced training covering motorway, night, and all-weather driving. Highly recommended for new license holders.",
+    price: "$199",
+    period: "6 sessions",
+    features: [
+      "Motorway driving techniques",
+      "Night & all-weather training",
+      "Dual-carriageway & rural roads",
+      "Can reduce insurance premiums",
+    ],
+    color: "from-accent/10 to-white/5",
+  },
+];
+
 export interface Booking {
   id: string;
   customerName: string;
   phone: string;
   email: string;
-  serviceType: "standard" | "block" | "intensive" | "pass-plus" | "refresher";
+  lessonId: string;
+  lessonName: string;
+  lessonPrice: string;
   preferredDate: string;
   preferredTime: string;
   notes?: string;
@@ -11,12 +118,13 @@ export interface Booking {
   createdAt: string;
 }
 
-export type ServiceType = Booking["serviceType"];
-
-export const SERVICE_LABELS: Record<ServiceType, string> = {
-  standard: "Standard Lesson",
-  block: "Block Booking (10 hrs)",
-  intensive: "Intensive Course",
-  "pass-plus": "Pass Plus",
-  refresher: "Refresher Lesson",
-};
+export const BOOKING_HOURS = {
+  weekday: [
+    "09:00", "10:00", "11:00", "12:00",
+    "13:00", "14:00", "15:00", "16:00", "17:00",
+  ],
+  saturday: [
+    "09:00", "10:00", "11:00", "12:00",
+    "13:00", "14:00", "15:00",
+  ],
+} as const;

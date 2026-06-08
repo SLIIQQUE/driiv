@@ -11,7 +11,9 @@ export async function POST(req: NextRequest) {
       "customerName",
       "phone",
       "email",
-      "serviceType",
+      "lessonId",
+      "lessonName",
+      "lessonPrice",
       "preferredDate",
       "preferredTime",
     ];
@@ -20,7 +22,7 @@ export async function POST(req: NextRequest) {
       if (!body[field]) {
         return NextResponse.json(
           { error: `Missing required field: ${field}` },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -29,21 +31,7 @@ export async function POST(req: NextRequest) {
     if (!emailRegex.test(body.email)) {
       return NextResponse.json(
         { error: "Invalid email format" },
-        { status: 400 }
-      );
-    }
-
-    const validServices = [
-      "standard",
-      "block",
-      "intensive",
-      "pass-plus",
-      "refresher",
-    ];
-    if (!validServices.includes(body.serviceType)) {
-      return NextResponse.json(
-        { error: "Invalid service type" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -52,7 +40,9 @@ export async function POST(req: NextRequest) {
       customerName: body.customerName,
       phone: body.phone,
       email: body.email,
-      serviceType: body.serviceType,
+      lessonId: body.lessonId,
+      lessonName: body.lessonName,
+      lessonPrice: body.lessonPrice,
       preferredDate: body.preferredDate,
       preferredTime: body.preferredTime,
       notes: body.notes || "",
@@ -76,7 +66,7 @@ export async function POST(req: NextRequest) {
     console.error("Booking error:", error);
     return NextResponse.json(
       { error: "Failed to create booking" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -90,7 +80,7 @@ export async function GET() {
     console.error("Failed to get bookings:", error);
     return NextResponse.json(
       { error: "Failed to get bookings" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

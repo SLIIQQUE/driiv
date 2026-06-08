@@ -1,15 +1,13 @@
 import { Resend } from "resend";
-import { Booking, SERVICE_LABELS } from "@/types/booking";
+import { Booking } from "@/types/booking";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendBookingConfirmation(booking: Booking) {
-  const serviceLabel = SERVICE_LABELS[booking.serviceType];
-
   return resend.emails.send({
     from: "RYDAX <kerry@bandhds.co.uk>",
     to: [booking.email],
-    subject: `Lesson Confirmed - ${serviceLabel} - RYDAX`,
+    subject: `Lesson Confirmed - ${booking.lessonName} - RYDAX`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -43,7 +41,7 @@ export async function sendBookingConfirmation(booking: Booking) {
             <div class="details">
               <h3>Booking Details</h3>
               <ul>
-                <li><span class="label">Service:</span> ${serviceLabel}</li>
+                <li><span class="label">Service:</span> ${booking.lessonName}</li>
                 <li><span class="label">Date:</span> ${booking.preferredDate}</li>
                 <li><span class="label">Time:</span> ${booking.preferredTime}</li>
                 <li><span class="label">Reference:</span> ${booking.id.slice(0, 8).toUpperCase()}</li>
