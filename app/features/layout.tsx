@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Why Choose RYDAX | RYDAX",
-  description: "Discover why RYDAX is Surrey and Langley's preferred driving school — expert instructors, flexible lessons, high pass rates, and a student-first approach.",
+  title: "Why Choose RyDax Driving School Surrey",
+  description: "See what makes RyDax different: 95% first-attempt pass rate, ICBC-certified instructors, dual-control vehicles, AI-powered booking, and free pickup across Surrey & Langley.",
 }
 
 // TODO: T5-optimise

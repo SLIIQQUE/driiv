@@ -72,24 +72,10 @@ export default function Navigation() {
             <motion.div className="flex xl:flex-1">
               <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3 group">
                 <div className="relative">
-                  <motion.div
-                    className="w-12 h-12 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl flex items-center justify-center"
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  >
+                  <div className="w-12 h-12 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
                     <Car className="w-6 h-6 text-black" />
-                  </motion.div>
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"
-                    animate={{
-                      boxShadow: [
-                        "0 0 20px rgba(255, 215, 0, 0.4)",
-                        "0 0 40px rgba(255, 215, 0, 0.6)",
-                        "0 0 20px rgba(255, 215, 0, 0.4)",
-                      ],
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity" />
                 </div>
                 <div className="hidden sm:block">
                   <span className="font-display font-bold text-xl tracking-tight text-gradient-premium">RYDAX</span>
@@ -124,19 +110,17 @@ export default function Navigation() {
             </div>
 
             <div className="hidden xl:flex xl:flex-1 xl:justify-end items-center gap-4">
-              <motion.button
+              <button
                 onClick={() =>
                   document.querySelector<HTMLButtonElement>("[data-voice-button]")?.click()
                 }
-                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#FFD700] to-[#ccaa00] text-[#1A2B48] font-semibold rounded-full hover:shadow-lg hover:shadow-[#FFD700]/30 transition-all group"
+                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#FFD700] to-[#ccaa00] text-[#1A2B48] font-semibold rounded-full hover:shadow-lg hover:shadow-[#FFD700]/30 hover:scale-105 active:scale-95 transition-all group"
                 style={{ boxShadow: "0 4px 20px rgba(255, 215, 0, 0.3)" }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 aria-label="Open AI Assistant"
               >
                 <Bot className="w-4 h-4 group-hover:rotate-12 transition-transform" />
                 <span className="text-sm">AI Assistant</span>
-              </motion.button>
+              </button>
             </div>
 
             <div className="flex xl:hidden">

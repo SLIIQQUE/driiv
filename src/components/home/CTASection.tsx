@@ -22,11 +22,7 @@ export default function CTASection() {
           className="glass-card border-white/10 rounded-[3rem] p-10 lg:p-20 overflow-hidden relative"
           style={{ scale }}
         >
-          <motion.div
-            className="absolute -top-24 -right-24 w-96 h-96 bg-accent/20 blur-[120px] rounded-full pointer-events-none"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 8, repeat: Infinity }}
-          />
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent/20 blur-[120px] rounded-full pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -72,8 +68,8 @@ export default function CTASection() {
               </div>
 
               <div className="flex items-center gap-6 opacity-40 text-xs font-black uppercase tracking-widest">
-                <motion.div className="flex items-center gap-2" whileHover={{ x: 3 }}><Shield className="w-4 h-4 text-accent" /> ICBC Licensed</motion.div>
-                <motion.div className="flex items-center gap-2" whileHover={{ x: 3 }}><Award className="w-4 h-4 text-accent" /> 95% Pass Rate</motion.div>
+                <div className="flex items-center gap-2 hover-x"><Shield className="w-4 h-4 text-accent" /> ICBC Licensed</div>
+                <div className="flex items-center gap-2 hover-x"><Award className="w-4 h-4 text-accent" /> 95% Pass Rate</div>
               </div>
             </motion.div>
 
@@ -84,17 +80,10 @@ export default function CTASection() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <motion.div
-                className="relative z-10 bg-accent rounded-[2.5rem] p-12 lg:p-16 text-primary shadow-2xl shadow-accent/20 flex flex-col items-center text-center"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 200 }}
-              >
-                <motion.div
-                  animate={{ rotate: [0, 10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                >
+              <div className="relative z-10 bg-accent rounded-[2.5rem] p-12 lg:p-16 text-primary shadow-2xl shadow-accent/20 flex flex-col items-center text-center hover-lift">
+                <div>
                   <Calendar className="w-16 h-16 mb-8 text-primary/80" />
-                </motion.div>
+                </div>
                 <h3 className="text-3xl font-black uppercase tracking-tighter mb-4">Claim Your First Session</h3>
                 <p className="text-primary/70 font-bold mb-2">From $55/hr in Surrey, BC.</p>
                 <p className="text-primary/50 text-sm font-bold mb-10">Instant confirmation. Zero phone calls. Seamless from start to finish.</p>
@@ -106,29 +95,16 @@ export default function CTASection() {
                   <span className="relative z-10 flex items-center gap-3">
                     CLAIM YOUR SLOT <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
                   </span>
-                  <motion.div
-                    className="absolute inset-0 bg-accent/10"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
+                  <span className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Link>
 
-                <motion.div
-                  className="mt-8 flex items-center gap-3 py-3 px-6 bg-primary/5 rounded-full border border-primary/10"
-                  animate={{ opacity: [0.6, 1, 0.6] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
+                <div className="mt-8 flex items-center gap-3 py-3 px-6 bg-primary/5 rounded-full border border-primary/10">
                   <Calendar className="w-5 h-5 text-primary/60" />
                   <span className="text-sm font-black">Available this week — book online now</span>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
 
-              <motion.div
-                className="absolute -top-6 -right-6 w-full h-full border-2 border-accent/20 rounded-[2.5rem] -z-10"
-                animate={{ x: [0, 6, 0], y: [0, -6, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              />
+              <div className="absolute -top-6 -right-6 w-full h-full border-2 border-accent/20 rounded-[2.5rem] -z-10" />
             </motion.div>
           </div>
         </motion.div>

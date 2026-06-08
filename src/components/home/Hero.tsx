@@ -1,23 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, Shield, Car, Clock, Sparkles } from "lucide-react";
+import { ArrowRight, Shield, Car, Clock } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { HeroCard } from "@/components/home/HeroCard";
 
 export default function Hero() {
-  const [mounted, setMounted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
 
   const yTranslate = useTransform(scrollY, [0, 800], [0, 200]);
-  const textScale = useTransform(scrollY, [0, 500], [1, 0.95]);
-  const opacityFade = useTransform(scrollY, [0, 400], [1, 0]);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <section
@@ -55,51 +48,32 @@ export default function Hero() {
 
       <div className="container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <motion.div
-            className="lg:col-span-7 text-left"
-            style={{ scale: textScale, opacity: opacityFade }}
-          >
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8 backdrop-blur-md"
-            >
-              <Sparkles className="w-4 h-4 text-accent" />
+          <div className="lg:col-span-7 text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8 backdrop-blur-md animate-fade-left">
+              <span className="w-4 h-4 text-accent">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                  <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zm4-5a3 3 0 0 1 3 3v2H3V6a3 3 0 0 1 3-3z"/>
+                </svg>
+              </span>
               <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-accent">
                 Surrey&apos;s Most Advanced Driving Academy
               </span>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight mb-8"
-            >
+            <div className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight mb-8 animate-fade-up">
               Elevate Your <br />
               <span className="text-accent">Drive.</span>
               <br />
               Simplify Your Life.
-            </motion.h1>
+            </div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-lg md:text-xl text-white/40 max-w-xl mb-12 leading-relaxed"
-            >
+            <p className="text-lg md:text-xl text-white/40 max-w-xl mb-12 leading-relaxed animate-fade-up delay-100">
               ICBC-licensed mastery meets modern convenience. AI-powered booking, secure payments,
               automated reminders, and real-time progress tracking — all orchestrated seamlessly so
               you can focus on what matters: becoming a confident, skilled driver.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5"
-            >
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5 animate-fade-up delay-200">
               <Link
                 href="/contact"
                 className="group relative px-10 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 overflow-hidden"
@@ -107,7 +81,7 @@ export default function Hero() {
                 <span className="relative z-10 flex items-center gap-3">
                   Book a Lesson <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <motion.div className="absolute inset-0 bg-white/20" initial={{ x: "-100%" }} whileHover={{ x: 0 }} transition={{ duration: 0.3 }} />
+                <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
               <Link
                 href="/services"
@@ -115,33 +89,26 @@ export default function Hero() {
               >
                 Explore Programs
               </Link>
-            </motion.div>
+            </div>
 
-            <motion.div
-              className="mt-16 flex flex-wrap gap-8 items-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
+            <div className="mt-16 flex flex-wrap gap-8 items-center animate-fade-in delay-300">
               {[
                 { icon: Shield, text: "95% Pass Rate" },
                 { icon: Car, text: "Dual-Control Cars" },
                 { icon: Clock, text: "Flexible Slots" },
               ].map((item, i) => (
-                <motion.div
+                <div
                   key={i}
-                  className="flex items-center gap-3"
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 200 }}
+                  className="flex items-center gap-3 hover-lift"
                 >
                   <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
                     <item.icon className="w-5 h-5 text-accent" />
                   </div>
                   <span className="text-sm font-bold text-white/50 uppercase tracking-wider">{item.text}</span>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           <HeroCard />
         </div>

@@ -100,7 +100,7 @@ export default function ServicesPage() {
 
   return (
     <main
-      <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">Professional Driving Lessons & ICBC Test Prep</h1> className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
+className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
         <motion.div
           className="absolute -top-40 -left-40 w-[80vw] h-[80vw] bg-accent/5 rounded-full blur-[160px] pointer-events-none select-none"
@@ -118,7 +118,8 @@ export default function ServicesPage() {
             The Programs
           </motion.div>
 
-          <motion.h1
+          <h1 className="sr-only">Driving Lesson Packages & ICBC Road Test Prep in Surrey</h1>
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
@@ -128,7 +129,7 @@ export default function ServicesPage() {
             <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">trajectory.</span>
             <br />
             We engineer the rest.
-          </motion.h1>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}

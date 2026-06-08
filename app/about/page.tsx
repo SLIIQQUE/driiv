@@ -14,7 +14,7 @@ export default function AboutPage() {
 
   return (
     <main
-      <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">Meet Your Expert Driving Instructors</h1> className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
+className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="mb-40 lg:mb-64 relative">
         <motion.div
           className="absolute -top-40 -left-40 w-[80vw] h-[80vw] bg-primary/5 rounded-full blur-[160px] pointer-events-none select-none"
@@ -33,7 +33,8 @@ export default function AboutPage() {
               Our Philosophy
             </motion.div>
 
-            <motion.h1
+            <h1 className="sr-only">About RyDax — Surrey's Trusted Driving School Since 2024</h1>
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
@@ -43,7 +44,7 @@ export default function AboutPage() {
               <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">driver education.</span>
               <br />
               No compromises.
-            </motion.h1>
+            </motion.div>
 
             <motion.p
               initial={{ opacity: 0, y: 30 }}

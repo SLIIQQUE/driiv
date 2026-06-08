@@ -82,11 +82,7 @@ export default function AboutPreview() {
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <div className="glass-card border-white/5 p-10 lg:p-16 rounded-[3rem] relative overflow-hidden">
-              <motion.div
-                className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 6, repeat: Infinity }}
-              />
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full" />
               <div className="grid grid-cols-2 gap-10 text-center mb-12 relative z-10">
                 {[
                   { value: "95%", label: "First-Try Pass" },

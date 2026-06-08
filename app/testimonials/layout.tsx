@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Student Reviews & Testimonials | RYDAX",
-  description: "Read real student reviews and testimonials from RYDAX Driving School graduates. See why learners in Surrey and Langley choose us for their driving journey.",
+  title: "Student Reviews — RyDax Driving School Surrey",
+  description: "Read real reviews from RyDax students in Surrey, Langley, and Delta. 95% ICBC road test pass rate. See why learners recommend our driving lessons.",
 }
 
 // TODO: T5-optimise

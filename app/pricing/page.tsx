@@ -65,7 +65,7 @@ export default function PricingPage() {
 
   return (
     <main
-      <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">Affordable Driving Lesson Packages</h1> className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
+className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl">
           <motion.div
@@ -78,7 +78,8 @@ export default function PricingPage() {
             Investment
           </motion.div>
 
-          <motion.h1
+          <h1 className="sr-only">Driving Lesson Prices & Packages in Surrey BC</h1>
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
@@ -88,7 +89,7 @@ export default function PricingPage() {
             <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">clarity.</span>
             <br />
             Zero surprises.
-          </motion.h1>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}

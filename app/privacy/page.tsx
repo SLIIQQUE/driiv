@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "motion/react";
 import {
   Shield,
   Eye,
@@ -44,26 +41,21 @@ const privacySections = [
 export default function PrivacyPage() {
   return (
     <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
-      {/* Cinematic Header */}
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-3 text-secondary-foreground font-bold uppercase tracking-[0.3em] text-xs mb-8"
-          >
+          <div className="flex items-center gap-3 text-secondary-foreground font-bold uppercase tracking-[0.3em] text-xs mb-8 animate-fade-left">
             <div className="w-12 h-px bg-secondary-foreground" />
             Security Standards
-          </motion.div>
+          </div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10 animate-fade-up">
             Privacy <br />
             <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">
               Protocol.
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium">
+          <p className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium animate-fade-up delay-100">
             How we protect your identity, driving history, and personal data in
             the digital and physical driving space.
           </p>
@@ -72,17 +64,13 @@ export default function PrivacyPage() {
 
       <div className="mt-20"></div>
 
-      {/* Modern Grid of Privacy pillars */}
       <section className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 mb-32">
           {privacySections.map((section, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-card border-white/5 p-10 lg:p-14 rounded-[3.5rem] relative group overflow-hidden"
+              className="glass-card border-white/5 p-10 lg:p-14 rounded-[3.5rem] relative group overflow-hidden animate-scale-in"
+              style={{ animationDelay: `${i * 0.1}s` }}
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-bl-full group-hover:bg-accent/10 transition-colors" />
               <section.icon className="w-10 h-10 text-accent mb-8 group-hover:scale-110 transition-transform duration-500" />
@@ -92,11 +80,10 @@ export default function PrivacyPage() {
               <p className="text-lg text-white/40 leading-relaxed font-medium">
                 {section.content}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* Detailed Text Block */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 pt-24 border-t border-white/5">
           <div className="lg:col-span-8">
             <div className="prose prose-invert prose-lg max-w-none space-y-12">
@@ -138,7 +125,6 @@ export default function PrivacyPage() {
             </div>
           </div>
 
-          {/* Legal Sidebar */}
           <div className="lg:col-span-4 lg:sticky lg:top-32 space-y-10">
             <div className="glass-card border-white/5 p-10 rounded-[3rem] bg-accent/[0.02]">
               <Scale className="w-8 h-8 text-secondary-foreground mb-6" />
@@ -181,7 +167,6 @@ export default function PrivacyPage() {
         </div>
       </section>
 
-      {/* Simple Audit Footer */}
       <section className="container mt-40">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 py-10 border-y border-white/5 opacity-30">
           <div className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-white">

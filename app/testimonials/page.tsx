@@ -69,7 +69,8 @@ export default function TestimonialsPage() {
             Social Proof
           </motion.div>
 
-          <motion.h1
+          <h1 className="sr-only">Student Reviews — RyDax Driving School Surrey BC</h1>
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
@@ -77,7 +78,7 @@ export default function TestimonialsPage() {
           >
             Over a thousand <br />
             <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">success narratives.</span>
-          </motion.h1>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}

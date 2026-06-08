@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Service Areas \u2014 Surrey, Langley & Beyond | RYDAX",
-  description: "RYDAX Driving School serves Surrey, Langley, and surrounding areas. Check if we cover your location and book lessons with local instructors who know the test routes.",
+  title: "Service Areas — Surrey, Langley & Beyond",
+  description: "RYDAX Driving School covers Surrey, Langley, Delta, Richmond, Burnaby, and New Westminster. Free pickup in all areas. Book online and learn with local ICBC-certified instructors.",
 }
 
 // TODO: T5-optimise

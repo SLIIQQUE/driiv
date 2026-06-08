@@ -51,16 +51,8 @@ export function AboutStats() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <motion.div
-            className="glass-card border-white/5 rounded-[3rem] p-12 lg:p-16 relative overflow-hidden"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 100 }}
-          >
-            <motion.div
-              className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 6, repeat: Infinity }}
-            />
+            <div className="glass-card border-white/5 rounded-[3rem] p-12 lg:p-16 relative overflow-hidden hover-lift">
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full" />
             <div className="grid grid-cols-2 gap-12 text-center relative z-10">
               {stats.map((stat, i) => (
                 <motion.div
@@ -68,7 +60,7 @@ export function AboutStats() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + i * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
+                  className="hover-scale"
                 >
                   <stat.icon className="w-8 h-8 text-accent mx-auto mb-4" />
                   <motion.div
@@ -83,7 +75,7 @@ export function AboutStats() {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

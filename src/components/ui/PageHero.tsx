@@ -32,14 +32,14 @@ interface PageTitleProps {
 
 export function PageTitle({ children, className = "" }: PageTitleProps) {
   return (
-    <motion.h1
+    <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.1 }}
       className={`text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10 ${className}`}
     >
       {children}
-    </motion.h1>
+    </motion.div>
   );
 }
 

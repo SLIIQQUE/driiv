@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Contact RYDAX Driving School | RYDAX",
-  description: "Get in touch with RYDAX Driving School — Surrey and Langley. Book a lesson, ask a question, or request a callback. We're here to help you start driving.",
+  title: "Contact RyDax Driving School Surrey",
+  description: "Book driving lessons in Surrey, Langley, and Delta. Call, email, or book online. Free pickup available. Get started with RyDax Driving School today.",
 }
 
 // TODO: T5-optimise

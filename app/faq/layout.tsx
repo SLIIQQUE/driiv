@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Driving School FAQs | RYDAX",
-  description: "Frequently asked questions about driving lessons, booking, pricing, and requirements at RYDAX Driving School. Get quick answers to common queries.",
+  title: "Driving School FAQ Surrey — ICBC, Lessons & Pricing",
+  description: "Answers to common questions about driving lessons in Surrey: ICBC road test booking, lesson requirements, pricing, service areas, and cancellation policies at RyDax.",
 }
 
 // TODO: T5-optimise

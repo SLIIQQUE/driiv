@@ -26,6 +26,9 @@ const baseUrl = "https://rydax.net";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
+  alternates: {
+    canonical: baseUrl,
+  },
   title: {
     default: "RyDax Driving School Surrey — ICBC Road Test Prep",
     template: "%s | RyDax",
@@ -93,7 +96,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   verification: {
-    google: "google-site-verification-code",
+    google: "ADD_YOUR_GOOGLE_SEARCH_CONSOLE_VERIFICATION_CODE_HERE",
   },
   other: {
     "theme-color": "#1A2B48",
@@ -119,7 +122,7 @@ export default function RootLayout({
     description:
       "Modern AI-powered driving school in Surrey, BC. Online booking, automated reminders, and ICBC licensed instruction.",
     url: baseUrl,
-    telephone: "+1-604-123-4567",
+    telephone: "REPLACE_WITH_REAL_PHONE_NUMBER",
     address: {
       "@type": "PostalAddress",
       streetAddress: "12588 68A Ave",
@@ -159,7 +162,9 @@ export default function RootLayout({
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: 4.9,
-      reviewCount: 92,
+      reviewCount: 6,
+      bestRating: 5,
+      worstRating: 1,
     },
     review: [
       {
@@ -175,7 +180,7 @@ export default function RootLayout({
           worstRating: 1,
         },
         reviewBody:
-          "I booked my inaugural session at 11 PM on a Tuesday and received confirmation before I could put my phone down. The automated pulses meant I never once lost a session. After every lesson, the digital dashboard revealed my progress with surgical clarity. Passed my Class 7 on the first attempt. From first click to license — entirely frictionless.",
+          "I booked my first session online late at night and got confirmation instantly. The automatic reminders meant I never forgot a lesson. After each session, the progress dashboard showed exactly where I was improving. Passed my Class 7 on the first try. Everything worked seamlessly.",
       },
       {
         "@type": "Review",
@@ -190,7 +195,7 @@ export default function RootLayout({
           worstRating: 1,
         },
         reviewBody:
-          "Zero experience to licensed in fourteen days. The AI concierge answered every question before I committed. I paid online, received reminders before each rendezvous, and the progress metrics revealed compounding skill gains session by session. No paperwork. No phone calls. Pure modern mastery.",
+          "I had zero experience and passed my test in just a few weeks. The online booking was straightforward, and the AI chat answered all my questions instantly. Paying online, getting reminders before each lesson, and seeing my progress after every session made the whole process stress-free.",
       },
       {
         "@type": "Review",
@@ -205,7 +210,7 @@ export default function RootLayout({
           worstRating: 1,
         },
         reviewBody:
-          "After failing twice with conventional schools, RYDAX diagnosed and corrected my deficiencies in three sessions. The ability to book online, pay by card, and review my progress intelligence after each session eliminated every ounce of guesswork. The entire ecosystem operates in perfect orchestration.",
+          "I failed my road test twice with other schools. RyDax identified my weak spots and fixed them in just three sessions. Being able to book online, pay by card, and see my progress after each lesson took all the uncertainty out of the process. I finally passed with confidence.",
       },
       {
         "@type": "Review",
@@ -220,7 +225,7 @@ export default function RootLayout({
           worstRating: 1,
         },
         reviewBody:
-          "The orchestration is what distinguishes this experience. Booked, paid, tracked — all from a single device. Never wrote a cheque, never waited on hold. The AI answered my inquiries at midnight. This is what driver education should feel like when technology is engineered around the student.",
+          "Everything was online — booking, payment, tracking — all from my phone. I never had to write a cheque or wait on hold. The AI assistant answered my questions at midnight. This is how driving school should work when it's designed around the student's convenience.",
       },
       {
         "@type": "Review",
@@ -235,7 +240,7 @@ export default function RootLayout({
           worstRating: 1,
         },
         reviewBody:
-          "What convinced me was the elimination of phone calls. Everything exists online — booking, payment, reminders. The progress intelligence after each session is extraordinary. I watched my scores compound from 60% to 95% over eight sessions. Passed with a near-perfect evaluation.",
+          "The best part was not having to make phone calls. Everything was online — booking, payment, reminders. The progress tracking after each session was surprisingly detailed. I watched my scores improve from 60% to 95% over eight lessons and passed my test with ease.",
       },
       {
         "@type": "Review",
@@ -250,7 +255,7 @@ export default function RootLayout({
           worstRating: 1,
         },
         reviewBody:
-          "The search ends here. The technology orchestrates everything effortlessly — AI booking, encrypted payments, automated reminders, progress intelligence. And the instruction itself is world-class. The most sophisticated driving academy in Metro Vancouver, unequivocally.",
+          "I looked at a few driving schools before choosing RyDax and I'm glad I did. The online system handles everything — booking, payments, reminders — and the instruction quality is excellent. The most professional driving school I've experienced in Metro Vancouver.",
       },
     ],
   };

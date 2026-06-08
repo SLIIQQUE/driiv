@@ -1,8 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "motion/react";
-import { Mail, MapPin, ArrowRight, Phone, Car, Bot } from "lucide-react";
+import { Mail, MapPin, ArrowRight, Phone, Car } from "lucide-react";
 
 const navigation = {
   services: [
@@ -29,12 +26,7 @@ export default function Footer() {
   return (
     <footer className="relative bg-[#030305] text-white overflow-hidden pt-20 lg:pt-32 pb-8">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
+        <div className="absolute inset-0 flex items-center justify-center">
           <span
             className="font-display text-[15vw] lg:text-[20vw] font-bold text-white opacity-[0.02] leading-none tracking-tighter lg:whitespace-nowrap"
             style={{
@@ -44,26 +36,12 @@ export default function Footer() {
           >
             RYDAX
           </span>
-        </motion.div>
+        </div>
       </div>
 
-      <div className="absolute inset-0">
-        <motion.div
-          className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[150px]"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary-light/10 rounded-full blur-[150px]"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.3, 0.5],
-          }}
-          transition={{ duration: 8, repeat: Infinity, delay: 2 }}
-        />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[150px] opacity-30" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary-light/10 rounded-full blur-[150px] opacity-30" />
         <div className="absolute inset-0 grid-pattern opacity-20" />
       </div>
 
@@ -71,25 +49,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/10">
           <div className="lg:col-span-4">
             <Link href="/" className="flex items-center gap-3 mb-6 group">
-              <motion.div
-                className="relative"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-              >
-                <div className="w-14 h-14 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl flex items-center justify-center">
+              <div className="relative">
+                <div className="w-14 h-14 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
                   <Car className="w-7 h-7 text-black" />
                 </div>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"
-                  animate={{
-                    boxShadow: [
-                      "0 0 20px rgba(255, 215, 0, 0.4)",
-                      "0 0 40px rgba(255, 215, 0, 0.6)",
-                      "0 0 20px rgba(255, 215, 0, 0.4)",
-                    ],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity" />
+              </div>
               <div>
                 <span className="font-display font-bold text-2xl text-gradient-premium tracking-tight">
                   RYDAX
@@ -101,35 +66,30 @@ export default function Footer() {
             </p>
 
             <div className="flex flex-col gap-4">
-              <motion.a
+              <a
                 href="tel:+16041234567"
-                className="flex items-center gap-3 text-white/70 hover:text-accent transition-colors group"
-                whileHover={{ x: 5 }}
+                className="flex items-center gap-3 text-white/70 hover:text-accent transition-colors group hover-x"
               >
                 <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-accent/20 transition-colors">
                   <Phone className="w-5 h-5" />
                 </div>
                 (604) 123-4567
-              </motion.a>
-              <motion.a
+              </a>
+              <a
                 href="mailto:hello@rydax.net"
-                className="flex items-center gap-3 text-white/70 hover:text-accent transition-colors group"
-                whileHover={{ x: 5 }}
+                className="flex items-center gap-3 text-white/70 hover:text-accent transition-colors group hover-x"
               >
                 <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-accent/20 transition-colors">
                   <Mail className="w-5 h-5" />
                 </div>
                 hello@rydax.net
-              </motion.a>
-              <motion.div
-                className="flex items-center gap-3 text-white/70"
-                whileHover={{ x: 5 }}
-              >
+              </a>
+              <div className="flex items-center gap-3 text-white/70 hover-x">
                 <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                   <MapPin className="w-5 h-5" />
                 </div>
                 12588 68A Ave, Surrey, BC V3W 1M2
-              </motion.div>
+              </div>
             </div>
           </div>
 

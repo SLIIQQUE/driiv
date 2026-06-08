@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "motion/react";
 import {
   Scale,
   FileText,
@@ -44,26 +41,21 @@ const termPillars = [
 export default function TermsPage() {
   return (
     <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
-      {/* Cinematic Header */}
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8"
-          >
+          <div className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8 animate-fade-left">
             <div className="w-12 h-px bg-accent" />
             Studio Engagement
-          </motion.div>
+          </div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10 animate-fade-up">
             Terms of <br />
             <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">
               Service.
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium">
+          <p className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium animate-fade-up delay-100">
             The legal framework governing our relationship. Clear, fair, and
             designed to protect both the learner and the studio.
           </p>
@@ -72,17 +64,13 @@ export default function TermsPage() {
 
       <div className="mt-20"></div>
 
-      {/* Pillars of Agreement */}
       <section className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-32">
           {termPillars.map((pillar, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="premium-card p-10 lg:p-14 rounded-[4rem] group"
+              className="premium-card p-10 lg:p-14 rounded-[4rem] group animate-fade-up"
+              style={{ animationDelay: `${i * 0.1}s` }}
             >
               <pillar.icon className="w-10 h-10 text-accent mb-8 group-hover:scale-125 group-hover:rotate-6 transition-transform duration-500" />
               <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-6">
@@ -91,11 +79,10 @@ export default function TermsPage() {
               <p className="text-lg text-white/40 leading-relaxed font-medium">
                 {pillar.content}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* Legal Text Block */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 pt-24 border-t border-white/5">
           <div className="lg:col-span-8">
             <div className="prose prose-invert prose-lg max-w-none space-y-16">
@@ -165,7 +152,6 @@ export default function TermsPage() {
             </div>
           </div>
 
-          {/* Legal Sidebar */}
           <div className="lg:col-span-4 space-y-8">
             <div className="glass-card border-white/5 p-10 rounded-[3rem] sticky top-32">
               <AlertCircle className="w-8 h-8 text-accent mb-6" />
@@ -202,7 +188,6 @@ export default function TermsPage() {
 
       <div className="mt-20"></div>
 
-      {/* Support Strip */}
       <section className="container mt-40">
         <div className="glass-card border-white/5 p-12 lg:p-16 rounded-[4rem] flex flex-col lg:flex-row items-center justify-between gap-12 bg-linear-to-br from-accent/5 to-transparent">
           <div>

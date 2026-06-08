@@ -1,0 +1,16 @@
+{
+  "name": "RyDax Driving School",
+  "short_name": "RyDax",
+  "description": "Premier driving school serving Surrey, Langley, and Metro Vancouver. ICBC-certified instruction with AI-powered booking.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1A2B48",
+  "theme_color": "#1A2B48",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
