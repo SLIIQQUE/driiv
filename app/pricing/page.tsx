@@ -1,205 +1,251 @@
 "use client";
 
-import { motion } from "motion/react";
-import { Check, Star, ArrowRight, ShieldCheck, Zap, Info } from "lucide-react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { Check, Star, ShieldCheck, Zap, ArrowRight, Bot, Bell, CreditCard, BarChart3, Info } from "lucide-react";
 import Link from "next/link";
+import { useRef } from "react";
 
 const pricingTiers = [
   {
-    name: "Foundation Hour",
+    name: "The Foundation Pass",
     price: "$55",
-    period: "/ 60 min",
-    description: "Ideal for refresher sessions or targeted skill refinement.",
+    period: "/ session",
+    tagline: "Pay-as-you-go mastery",
+    description: "Ideal for targeted refinement or refresher sessions. Book individual hours with instant confirmation, pay with cryptographic security, and receive progress intelligence after every session.",
     features: [
-      "1-on-1 Instruction",
-      "Dual-Control Safety",
-      "Pickup & Dropoff",
-      "Progress Report",
+      "One-on-one dual-control mentorship",
+      "24/7 online booking — instantaneous",
+      "Automated SMS & email pulses",
+      "Digital progress report after each session",
     ],
-    cta: "Book Hour",
+    cta: "Book a session",
     popular: false,
     icon: ShieldCheck,
   },
   {
-    name: "Power Five",
+    name: "The Power Pack",
     price: "$250",
-    period: "/ 5 hours",
-    description: "The perfect start for new learners. Strategic and efficient.",
+    period: "/ 5 sessions",
+    tagline: "Optimal momentum",
+    description: "Save $25 and unlock priority scheduling. The recommended launch package for new learners. Complete booking in under sixty seconds across our ecosystem.",
     features: [
-      "Save $25",
-      "Priority Booking",
-      "Test Prep Modules",
-      "Mock Assessment",
-      "Consistent Vehicle",
+      "Save $25 versus per-session rate",
+      "Priority calendar access",
+      "AI concierge support — 24/7",
+      "Mock assessment included",
+      "Full progress nexus dashboard",
     ],
-    cta: "Book 5 Hours",
+    cta: "Book 5 sessions",
     popular: true,
     icon: Zap,
   },
   {
-    name: "Mastery Ten",
+    name: "The Mastery Bundle",
     price: "$450",
-    period: "/ 10 hours",
-    description: "Complete immersion for those seeking total road confidence.",
+    period: "/ 10 sessions",
+    tagline: "Maximum velocity",
+    description: "Our apex value. Save $100 and receive everything required to progress from novice to test-ready. Two mock examinations, complete curriculum coverage, and your private progress nexus.",
     features: [
-      "Save $100",
-      "Full Curriculum",
-      "2x Mock Tests",
-      "Pass Simulation",
-      "Weekend Option",
+      "Save $100 versus per-session rate",
+      "Complete curriculum immersion",
+      "2 mock road tests with surgical scoring",
+      "Test-readiness dashboard",
+      "Auto-pay available — configure once",
     ],
-    cta: "Book 10 Hours",
+    cta: "Book 10 sessions",
     popular: false,
     icon: Star,
   },
 ];
 
 export default function PricingPage() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.9, 1], [0.6, 1, 1, 0.6]);
+
   return (
-    <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
-      {/* Header */}
+    <main
+      <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">Affordable Driving Lesson Packages</h1> className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
             className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8"
           >
             <div className="w-12 h-px bg-accent" />
-            Pricing Strategy
+            Investment
           </motion.div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10">
-            Absolute <br />
-            <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">
-              Transparency.
-            </span>
-          </h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10"
+          >
+            Radical <br />
+            <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">clarity.</span>
+            <br />
+            Zero surprises.
+          </motion.h1>
 
-          <p className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium">
-            Investment in your safety shouldn&apos;t be a guessing game. Premium
-            instruction with simple, value-driven tiers.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium"
+          >
+            No concealed fees. No contractual entanglement. Book online, pay with cryptographic security, and save up to $100 with curated bundles.
+          </motion.p>
         </div>
       </section>
 
-      <div className="mt-20"></div>
-
-      {/* Pricing Grid */}
-      <section className="container">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+      <section ref={sectionRef} className="container">
+        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch" style={{ opacity }}>
           {pricingTiers.map((tier, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`
-                premium-card p-10 flex flex-col group relative overflow-hidden
-                ${tier.popular ? "border-accent/30 bg-accent/2" : "bg-white/2"}
-              `}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              whileHover={{ y: -8, scale: 1.01 }}
+              className={`premium-card p-10 flex flex-col group relative overflow-hidden cursor-default ${tier.popular ? "border-accent/30 bg-accent/[0.02]" : "bg-white/2"}`}
             >
               {tier.popular && (
-                <div className="absolute top-8 right-8">
-                  <span className="px-4 py-1.5 bg-accent text-primary text-[10px] font-black uppercase tracking-widest rounded-full">
-                    Best Choice
+                <motion.div
+                  initial={{ x: 60, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="absolute top-8 right-8"
+                >
+                  <span className="px-4 py-1.5 bg-accent text-primary text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-accent/20">
+                    Optimal Value
                   </span>
-                </div>
+                </motion.div>
               )}
 
               <div className="mb-12">
-                <div
+                <motion.div
                   className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-10 ${tier.popular ? "bg-accent text-primary" : "bg-white/5 text-white/40"}`}
+                  whileHover={{ scale: 1.15, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 200 }}
                 >
                   <tier.icon className="w-7 h-7" />
-                </div>
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">
-                  {tier.name}
-                </h3>
-                <p className="text-sm text-white/40 font-medium leading-relaxed">
-                  {tier.description}
-                </p>
+                </motion.div>
+                <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-2">{tier.tagline}</div>
+                <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">{tier.name}</h3>
+                <p className="text-sm text-white/40 font-medium leading-relaxed">{tier.description}</p>
               </div>
 
               <div className="mb-12">
                 <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-6xl font-black text-white tracking-tighter">
-                    {tier.price}
-                  </span>
-                  <span className="text-white/30 font-bold uppercase text-xs tracking-widest">
-                    {tier.period}
-                  </span>
+                  <span className="text-6xl font-black text-white tracking-tighter">{tier.price}</span>
+                  <span className="text-white/30 font-bold uppercase text-xs tracking-widest">{tier.period}</span>
                 </div>
-                <div className="w-12 h-1 bg-accent/20 rounded-full" />
+                <motion.div className="w-12 h-1 bg-accent/20 rounded-full" whileHover={{ width: 48 }} />
               </div>
 
               <div className="space-y-4 mb-12 flex-1">
                 {tier.features.map((feature, j) => (
-                  <div
+                  <motion.div
                     key={j}
                     className="flex items-center gap-3 text-sm font-bold text-white/60"
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 + j * 0.04 }}
                   >
-                    <Check
-                      className={`w-4 h-4 ${tier.popular ? "text-accent" : "text-white/20"}`}
-                    />
+                    <Check className={`w-4 h-4 ${tier.popular ? "text-accent" : "text-white/20"}`} />
                     {feature}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
               <Link
                 href="/contact"
-                className={`
-                  w-full py-5 rounded-2xl flex items-center justify-center gap-3 text-sm font-black uppercase tracking-widest transition-all
-                  ${tier.popular ? "bg-accent text-primary hover:scale-[1.02] shadow-2xl shadow-accent/20" : "bg-white/5 text-white hover:bg-white/10"}
-               `}
+                className={`group relative py-5 rounded-2xl flex items-center justify-center gap-3 text-sm font-black uppercase tracking-widest overflow-hidden transition-all ${tier.popular ? "bg-accent text-primary shadow-2xl shadow-accent/20" : "bg-white/5 text-white hover:bg-white/10"}`}
               >
-                {tier.cta} <ArrowRight className="w-4 h-4" />
+                <span className="relative z-10 flex items-center gap-3">
+                  {tier.cta} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <motion.div
+                  className="absolute inset-0 bg-white/10"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3 }}
+                />
               </Link>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
-      <div className="mt-20"></div>
-
-      {/* Road Test Bundle - High Impact Banner */}
-      <section className="container mt-24">
+      <section className="container mt-20">
         <motion.div
-          className="glass-card border-white/5 p-12 lg:p-16 rounded-[3rem] relative overflow-hidden"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          className="glass-card border-white/5 p-10 lg:p-14 rounded-[3rem] relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-linear-to-r from-secondary-foreground/20 via-transparent to-accent/20" />
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-12 relative z-10">
-            <div className="max-w-xl text-center lg:text-left">
-              <div className="flex items-center gap-2 text-secondary-foreground font-black uppercase tracking-widest text-xs mb-4 justify-center lg:justify-start">
-                <Info className="w-4 h-4" /> Recommended for ICBC Tests
-              </div>
+          <div className="relative z-10">
+            <div className="text-center mb-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-secondary-foreground mb-4"
+              >
+                <Info className="w-4 h-4" /> Recommended for ICBC examinations
+              </motion.div>
               <h2 className="text-3xl lg:text-5xl font-black text-white uppercase tracking-tighter mb-4">
-                The Road Test Package
+                The Examination Package — <span className="text-accent">$350</span>
               </h2>
-              <p className="text-white/50 font-medium text-lg leading-relaxed">
-                Everything you need for the final hurdle. Includes 5 precision
-                lessons + a dedicated mock road test session.
+              <p className="text-white/40 font-medium max-w-xl mx-auto">
+                5 precision sessions + dedicated mock examination + vehicle provision for your ICBC road test. Book and pay within our ecosystem.
               </p>
             </div>
-            <div className="flex flex-col items-center">
-              <div className="text-7xl font-black text-white tracking-tighter mb-1">
-                $350
-              </div>
-              <div className="text-xs font-black uppercase tracking-widest text-secondary-foreground mb-8">
-                All-Inclusive
-              </div>
+            <div className="flex justify-center mt-8">
               <Link
                 href="/contact"
-                className="px-12 py-5 bg-secondary-foreground text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:scale-105 transition-all shadow-2xl shadow-secondary-foreground/20"
+                className="group relative px-14 py-5 bg-secondary-foreground text-white rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-secondary-foreground/20"
               >
-                Secure Package
+                <span className="relative z-10">Secure Your Package</span>
+                <motion.div
+                  className="absolute inset-0 bg-white/10"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3 }}
+                />
               </Link>
             </div>
+          </div>
+        </motion.div>
+      </section>
+
+      <section className="container mt-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <h3 className="text-lg font-black text-white uppercase tracking-tighter mb-8">Every booking includes</h3>
+          <div className="flex flex-wrap justify-center gap-10">
+            {[
+              { icon: Bot, label: "AI Concierge" },
+              { icon: Bell, label: "Auto-Reminders" },
+              { icon: CreditCard, label: "Secure Pay" },
+              { icon: BarChart3, label: "Progress Intel" },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                className="flex items-center gap-2 text-sm font-bold text-white/40"
+                whileHover={{ y: -3, color: "#FFD700" }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                <item.icon className="w-5 h-5 text-accent" /> {item.label}
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </section>

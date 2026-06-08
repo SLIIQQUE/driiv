@@ -7,9 +7,9 @@ export async function sendBookingConfirmation(booking: Booking) {
   const serviceLabel = SERVICE_LABELS[booking.serviceType];
 
   return resend.emails.send({
-    from: "Rydax <kerry@bandhds.co.uk>",
+    from: "RYDAX <kerry@bandhds.co.uk>",
     to: [booking.email],
-    subject: `Lesson Confirmed - ${serviceLabel} - Rydax`,
+    subject: `Lesson Confirmed - ${serviceLabel} - RYDAX`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -33,12 +33,12 @@ export async function sendBookingConfirmation(booking: Booking) {
         </head>
         <body>
           <div class="header">
-            <div class="logo">Rydax <span>Driving</span></div>
+            <div class="logo">RYDAX</div>
           </div>
           <div class="content">
             <h2>Your lesson is confirmed!</h2>
             <p>Hi ${booking.customerName},</p>
-            <p>Thank you for booking with Rydax. Your lesson has been confirmed - here's a summary:</p>
+            <p>Thank you for booking with RYDAX. Your lesson has been confirmed - here's a summary:</p>
             
             <div class="details">
               <h3>Booking Details</h3>
@@ -56,7 +56,7 @@ export async function sendBookingConfirmation(booking: Booking) {
             
             <p>See you soon!</p>
             
-            <p>— Kerry Hare<br>Rydax</p>
+            <p>— Kerry Hare<br>RYDAX</p>
           </div>
           <div class="footer">
             <p>Suffolk, United Kingdom<br>

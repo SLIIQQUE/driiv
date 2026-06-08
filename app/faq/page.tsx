@@ -3,250 +3,238 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
-  Plus,
-  Minus,
-  HelpCircle,
-  MessageSquare,
-  ArrowRight,
-  ShieldCheck,
-  Zap,
-  Globe,
+  ChevronDown,
+  BookOpen,
+  CreditCard,
+  Shield,
+  Clock,
+  MessageCircle,
+  Bot,
+  Bell,
+  BarChart3,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 
 const faqs = [
   {
-    category: "Getting Started",
-    questions: [
+    category: "Booking & Scheduling",
+    icon: BookOpen,
+    items: [
       {
-        q: "What do I need for my first lesson?",
-        a: "You must bring your valid BC Learner's License (Class 7L) and wear comfortable, flat-soled shoes. We provide the vehicle (fully insured with dual-controls) for all training sessions.",
+        q: "How do I book a session?",
+        a: "Navigate to any 'Book a Lesson' interface or engage our AI concierge via the voice button. You'll access real-time calendar visibility and receive instantaneous confirmation — no telephone calls, no waiting periods.",
       },
       {
-        q: "How many lessons will I need to pass?",
-        a: "This varies significantly between students. On average, beginners require 10-15 hours of professional instruction combined with private practice. Our instructors will give you a personalized assessment after your first session.",
-      },
-    ],
-  },
-  {
-    category: "The Road Test",
-    questions: [
-      {
-        q: "Can I use the school car for my ICBC road test?",
-        a: "Yes! We offer a specific 'Road Test Package' which includes a warm-up lesson and use of our vehicle for the actual test. Booking this ensures you're driving the car you've trained in.",
+        q: "Can I reschedule or cancel online?",
+        a: "Absolutely. Access your portal and adjust your booking up to 24 hours before your session. Automated pulses maintain your cadence. Modifications are immediate — entirely self-service.",
       },
       {
-        q: "Where do we meet for lessons?",
-        a: "We offer door-to-door service across Surrey, Langley, and Delta. We can pick you up from home, school, or work and drop you off at the same or a different location within our service area.",
+        q: "Are weekend and evening sessions available?",
+        a: "Yes. Our calendar operates seven days per week with early morning through evening availability. Online booking reveals all open slots in real time.",
       },
     ],
   },
   {
-    category: "Policies & Safety",
-    questions: [
+    category: "Payments",
+    icon: CreditCard,
+    items: [
+      {
+        q: "Which payment methods do you accept?",
+        a: "All major credit cards, debit, and e-transfers. Every transaction processes through our encrypted portal. Physical currency is never required.",
+      },
+      {
+        q: "Do you offer session packages?",
+        a: "Yes. The Power Pack (5 sessions, save $25) and Mastery Bundle (10 sessions, save $100) represent our optimal investments. The Examination Package ($350) includes vehicle provision for your ICBC road test.",
+      },
       {
         q: "What is your cancellation policy?",
-        a: "We require 24 hours notice for all cancellations or rescheduling. This allows us to offer the slot to other students. Cancellations with less than 24h notice may be subject to a fee.",
+        a: "Full reimbursement for cancellations 48+ hours before a session. Packages are reimbursed pro-rata. All refunds return to your original payment method — no cheques.",
+      },
+    ],
+  },
+  {
+    category: "Licensing & Examinations",
+    icon: Shield,
+    items: [
+      {
+        q: "Do you prepare for ICBC road tests?",
+        a: "Absolutely. Our Final Edge program includes test circuit simulation, nerve-calibrating techniques, and a comprehensive skills audit. We provide our dual-control vehicle for your actual examination.",
       },
       {
-        q: "Are the instructors ICBC certified?",
-        a: "Absolutely. Every Rydax instructor is fully licensed and bonded by ICBC. We undergo regular training audits to ensure our curriculum stays at the highest level of provincial safety standards.",
+        q: "What is your first-attempt pass rate?",
+        a: "95% of our students pass their ICBC Class 7 or Class 5 road examination on the first attempt. Your test-readiness score is visible in your progress nexus in real time.",
+      },
+      {
+        q: "Can I use your vehicle for my road test?",
+        a: "Yes. Our dual-control fleet is ICBC-inspected and comprehensively insured for road examinations. Included with the Examination Package.",
+      },
+    ],
+  },
+  {
+    category: "The Experience",
+    icon: Clock,
+    items: [
+      {
+        q: "Do I need prior driving experience?",
+        a: "None whatsoever. Foundation Training is architected for absolute novices. We commence in empty parking lots and progress systematically. Book your first session online.",
+      },
+      {
+        q: "How does the AI concierge function?",
+        a: "Engage the voice interface on any page to inquire, check availability, or book sessions. It operates 24/7 and handles every interaction instantaneously.",
+      },
+      {
+        q: "Which areas do you serve?",
+        a: "Surrey, Langley, Delta, Richmond, Burnaby, New Westminster, and surrounding Metro Vancouver communities. Pickup and drop-off are included.",
       },
     ],
   },
 ];
 
 export default function FAQPage() {
-  const [activeQuestion, setActiveQuestion] = useState<string | null>(null);
+  const [openIndex, setOpenIndex] = useState<string | null>(null);
 
   return (
-    <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
-      {/* Cinematic Header */}
+    <main
+      <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">Driving School Questions & Answers</h1> className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl relative z-10">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
             className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8"
           >
             <div className="w-12 h-px bg-accent" />
-            Knowledge Hub
+            Knowledge Base
           </motion.div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10">
-            Common <br />
-            <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">
-              Inquiries.
-            </span>
-          </h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10"
+          >
+            Questions? <br />
+            <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">Answered instantaneously.</span>
+          </motion.h1>
 
-          <p className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium">
-            Everything you need to know about starting your driving journey,
-            road test protocols, and our studio standards.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium"
+          >
+            Every detail about our programs, technology, and process. Or simply engage our AI concierge.
+          </motion.p>
         </div>
       </section>
 
-      <div className="mt-20"></div>
-
-      {/* Grid Layout: Quick Info + Accordions */}
       <section className="container">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
-          {/* Quick Support Cards (Left Column) */}
-          <div className="lg:col-span-4 space-y-6">
-            {[
-              {
-                icon: MessageSquare,
-                title: "Live Support",
-                desc: "Available 8am - 8pm daily",
-                color: "text-accent",
-              },
-              {
-                icon: ShieldCheck,
-                title: "Verified Safety",
-                desc: "ICBC Licensed & Bonded",
-                color: "text-white",
-              },
-              {
-                icon: Zap,
-                title: "Fast Booking",
-                desc: "Immediate slot confirmation",
-                color: "text-accent",
-              },
-              {
-                icon: Globe,
-                title: "Language Support",
-                desc: "English, Punjabi, Hindi",
-                color: "text-white",
-              },
-            ].map((card, i) => (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-7 space-y-8">
+            {faqs.map((group, gi) => (
               <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={gi}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="glass-card border-white/5 p-8 rounded-[2.5rem] group"
+                transition={{ delay: gi * 0.1 }}
+                className="glass-card border-white/5 p-8 lg:p-10 rounded-[2rem]"
               >
-                <card.icon className={`w-8 h-8 mb-4 ${card.color}`} />
-                <h3 className="text-lg font-black text-white uppercase tracking-tight mb-2">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-white/40 font-medium">{card.desc}</p>
-              </motion.div>
-            ))}
+                <div className="flex items-center gap-3 mb-8">
+                  <group.icon className="w-6 h-6 text-accent" />
+                  <h2 className="text-xl font-black text-white uppercase tracking-tighter">{group.category}</h2>
+                </div>
 
-            <div className="pt-8">
-              <Link
-                href="/contact"
-                className="w-full py-6 bg-accent text-primary rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest text-sm hover:scale-105 transition-all shadow-2xl shadow-accent/20"
-              >
-                Ask a Custom Question <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Accordion Content (Right Column) */}
-          <div className="lg:col-span-8 space-y-16">
-            {faqs.map((group, groupIdx) => (
-              <div key={groupIdx}>
-                <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-10 pb-4 border-b border-white/5 flex items-center gap-3">
-                  <span className="text-accent italic font-mono text-sm">
-                    0{groupIdx + 1}
-                  </span>{" "}
-                  {group.category}
-                </h2>
-
-                <div className="space-y-4">
-                  {group.questions.map((faq, i) => {
-                    const id = `${groupIdx}-${i}`;
-                    const isOpen = activeQuestion === id;
-
+                <div className="space-y-1">
+                  {group.items.map((item, ii) => {
+                    const idx = `${gi}-${ii}`;
+                    const isOpen = openIndex === idx;
                     return (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className={`
-                          group glass-card border-white/5 overflow-hidden transition-all duration-500
-                          ${isOpen ? "bg-white/5 border-accent/20" : "hover:border-white/10"}
-                        `}
-                        style={{ borderRadius: "2rem" }}
-                      >
+                      <div key={ii} className="border-b border-white/5 last:border-0">
                         <button
-                          onClick={() => setActiveQuestion(isOpen ? null : id)}
-                          className="w-full p-8 lg:p-10 flex items-center justify-between text-left"
+                          onClick={() => setOpenIndex(isOpen ? null : idx)}
+                          className="w-full flex items-center justify-between py-6 text-left group"
                         >
-                          <span
-                            className={`text-xl font-black transition-colors ${isOpen ? "text-accent" : "text-white"}`}
+                          <span className="text-base font-bold text-white/70 group-hover:text-white transition-colors pr-4">{item.q}</span>
+                          <motion.div
+                            animate={{ rotate: isOpen ? 180 : 0 }}
+                            transition={{ duration: 0.3 }}
                           >
-                            {faq.q}
-                          </span>
-                          <div
-                            className={`
-                            w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-500
-                            ${isOpen ? "bg-accent text-primary rotate-180" : "bg-white/5 text-white/40"}
-                          `}
-                          >
-                            {isOpen ? (
-                              <Minus className="w-5 h-5" />
-                            ) : (
-                              <Plus className="w-5 h-5" />
-                            )}
-                          </div>
+                            <ChevronDown className="w-5 h-5 text-white/30 shrink-0" />
+                          </motion.div>
                         </button>
-
                         <AnimatePresence>
                           {isOpen && (
                             <motion.div
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: "auto", opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.4, ease: "easeInOut" }}
+                              transition={{ duration: 0.3 }}
+                              className="overflow-hidden"
                             >
-                              <div className="px-8 lg:px-10 pb-10">
-                                <div className="w-full h-px bg-white/5 mb-8" />
-                                <p className="text-lg text-white/50 leading-relaxed font-medium">
-                                  {faq.a}
-                                </p>
-                              </div>
+                              <p className="text-white/40 pb-6 text-sm font-medium leading-relaxed">{item.a}</p>
                             </motion.div>
                           )}
                         </AnimatePresence>
-                      </motion.div>
+                      </div>
                     );
                   })}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      <div className="mt-20"></div>
-
-      {/* Trust Sign off */}
-      <section className="container mt-40">
-        <div className="premium-card p-12 lg:p-20 text-center border-white/5 bg-accent/5">
-          <h2 className="text-3xl lg:text-5xl font-black text-white uppercase tracking-tighter mb-8">
-            Still have{" "}
-            <span className="text-accent italic underline decoration-accent/20 decoration-8 underline-offset-12">
-              doubts?
-            </span>
-          </h2>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-            <div className="flex items-center gap-3 text-white/60 font-bold">
-              <HelpCircle className="w-5 h-5 text-accent" /> Personalized
-              consults available
-            </div>
-            <div className="w-px h-8 bg-white/10 hidden sm:block" />
-            <Link
-              href="/contact"
-              className="text-white font-black uppercase tracking-widest text-sm hover:text-accent transition-colors"
+          <div className="lg:col-span-5 lg:sticky lg:top-32 self-start space-y-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="glass-card border-white/5 p-8 lg:p-12 rounded-[2rem]"
             >
-              Contact Instructor Direct →
-            </Link>
+              <MessageCircle className="w-12 h-12 text-accent mb-8" />
+              <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-4">Still Have Questions?</h3>
+              <p className="text-white/40 text-sm font-medium mb-8">Our AI concierge operates 24/7. Or send us a message.</p>
+              <div className="space-y-4">
+                <Link
+                  href="/contact"
+                  className="group relative w-full py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-2 overflow-hidden shadow-2xl shadow-accent/20"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    <MessageCircle className="w-4 h-4" /> Contact Us
+                  </span>
+                  <motion.div className="absolute inset-0 bg-white/10" initial={{ x: "-100%" }} whileHover={{ x: 0 }} transition={{ duration: 0.3 }} />
+                </Link>
+                <div className="text-center text-[11px] font-black uppercase tracking-widest text-white/20">Or call: (604) 123-4567</div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2rem]"
+            >
+              <div className="text-center">
+                <div className="text-xs font-black uppercase tracking-widest text-accent mb-4">Every booking includes</div>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { icon: Bot, label: "AI Concierge" },
+                    { icon: Bell, label: "Reminders" },
+                    { icon: CreditCard, label: "Online Pay" },
+                    { icon: BarChart3, label: "Progress Intel" },
+                  ].map((item, i) => (
+                    <motion.div key={i} className="flex flex-col items-center" whileHover={{ y: -3 }}>
+                      <item.icon className="w-5 h-5 text-accent mb-2" />
+                      <span className="text-[10px] font-bold text-white/30 uppercase">{item.label}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>

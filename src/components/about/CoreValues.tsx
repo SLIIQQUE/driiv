@@ -1,31 +1,31 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Shield, Target, Heart, Zap } from "lucide-react";
+import { Bot, TrendingUp, Shield, Zap } from "lucide-react";
 
 const values = [
   {
-    icon: Shield,
-    title: "Safety First",
-    description: "Our primary objective is to build safe, defensive driving habits that last a lifetime.",
+    icon: Bot,
+    title: "AI That Actually Works",
+    description: "Not a generic chatbot. Our AI is fine-tuned for driving school conversations — bookings, rescheduling, pricing, and payments.",
     color: "from-accent/20 to-transparent"
   },
   {
-    icon: Target,
-    title: "Precision Coaching",
-    description: "Every lesson is tailored to your specific needs, focusing on the details that matter.",
+    icon: TrendingUp,
+    title: "Real Revenue Growth",
+    description: "Every feature is measured by impact. We don't add fluff — only tools that directly increase bookings, reduce churn, or save time.",
     color: "from-secondary-foreground/20 to-transparent"
   },
   {
-    icon: Heart,
-    title: "Extreme Patience",
-    description: "We specialize in nervous drivers, providing a calm and supportive environment.",
+    icon: Shield,
+    title: "Built for Reliability",
+    description: "Your school can't afford downtime. RYDAX runs on enterprise infrastructure with 99.9% uptime and real-time monitoring.",
     color: "from-primary/20 to-transparent"
   },
   {
     icon: Zap,
-    title: "Adaptive Learning",
-    description: "Our methodology evolves as you grow, ensuring you're always challenged but never overwhelmed.",
+    title: "30-Day Onboarding",
+    description: "From sign-up to live. We handle the technical setup, train your team, and optimize your first campaigns. No complexity, no delays.",
     color: "from-accent/20 to-transparent"
   }
 ];

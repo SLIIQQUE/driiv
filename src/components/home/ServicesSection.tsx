@@ -1,158 +1,179 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
-import { ArrowRight, Zap, Shield, Star } from "lucide-react";
+import { Car, Zap, Shield, ArrowRight, CheckCircle2, Bot, Bell, BarChart3, CreditCard, Star } from "lucide-react";
+import { useRef } from "react";
 
 const services = [
   {
-    title: "Standard Lessons",
-    description: "One-to-one driving lessons tailored to your skill level. Book individual hours as you need them.",
-    price: "From $45/hr",
-    icon: Shield,
-    features: ["Flexible duration", "Personalised teaching", "Test preparation"],
+    icon: Car,
+    title: "The Foundation",
+    subtitle: "Beginner to confident",
+    tagline: "Master the essentials",
+    price: "$55/hr",
+    description: "One-on-one mentorship in a dual-control cockpit. Book single hours online, pay securely, and watch your progress compound with every session. Zero commitment, maximum flexibility.",
+    features: ["24/7 online booking — no calls ever", "Pay by card or e-transfer upfront", "Auto-reminders before every rendezvous", "Digital progress after each session"],
+    popular: false,
+    cta: "Book a session",
   },
   {
-    title: "Intensive Courses",
-    description: "Fast-track your learning with an intensive course. Pass in weeks rather than months.",
-    price: "From $550",
     icon: Zap,
-    accelerated: true,
-    features: ["Accelerated learning", "Structured curriculum", "Mock tests included"],
+    title: "The Accelerator",
+    subtitle: "Licensed in 14 days",
+    tagline: "Our most potent program",
+    price: "$650",
+    description: "Ten hours of concentrated mastery designed for rapid ascension. Priority scheduling, mock examinations, and a private progress nexus. From never driven to test-ready in two weeks.",
+    features: ["Priority booking — your slots, locked", "Mock test with granular scoring", "Live progress dashboard included", "Vehicle provided for ICBC exam", "Save $100 versus hourly billing"],
+    popular: true,
+    cta: "Enroll now",
   },
   {
-    title: "Pass Plus",
-    description: "Build confidence after passing your test. Learn advanced driving techniques and save on insurance.",
+    icon: Shield,
+    title: "The Polisher",
+    subtitle: "Post-license refinement",
+    tagline: "Confidence completed",
     price: "$250",
-    icon: Star,
-    features: ["6 modules", "Insurance savings", "Advanced skills"],
+    description: "Already licensed but lack composure at speed? Highway merging, night navigation, all-weather control — sharpen your instincts with a master instructor by your side.",
+    features: ["Highway integration mastery", "Night driving & low-visibility", "All-weather vehicle control", "Precision parking & maneuvers"],
+    popular: false,
+    cta: "Book a session",
   },
 ];
 
 export default function ServicesSection() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.9, 1], [0.6, 1, 1, 0.6]);
+
   return (
-    <section className="section bg-[#030305] relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
+    <section ref={sectionRef} className="section bg-[#030305] relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/3 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="container">
         <motion.div
-          className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[150px]"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-primary-light/10 rounded-full blur-[120px]"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.3, 0.5],
-          }}
-          transition={{ duration: 8, repeat: Infinity, delay: 2 }}
-        />
-      </div>
-      
-      <div className="container relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
         >
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-1.5 bg-accent/10 border border-accent/20 rounded-full text-accent text-sm font-medium mb-4"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8"
           >
-            Our Services
-          </motion.span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            Driving <span className="text-gradient-premium">Services</span>
+            <Star className="w-4 h-4 text-accent" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">Three paths. One destination: mastery.</span>
+          </motion.div>
+          <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] max-w-3xl mx-auto">
+            Choose your <br />
+            <span className="text-accent">trajectory.</span>
           </h2>
-          <p className="text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
-            Professional driving instruction tailored to your needs. Whether you're a complete beginner or looking to improve your skills.
+          <p className="text-white/40 text-lg max-w-xl mx-auto mt-6 font-medium">
+            Every program connects to the same seamless ecosystem — AI booking, online payments, automated reminders, and progress intelligence.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <motion.div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch" style={{ opacity }}>
           {services.map((service, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
               viewport={{ once: true }}
-              whileHover={{ y: -10, rotateX: 5 }}
-              className={`premium-card p-8 relative overflow-hidden ${service.accelerated ? "border-accent/30" : ""}`}
+              transition={{ delay: i * 0.15, duration: 0.5 }}
+              whileHover={{ y: -8, scale: 1.01 }}
+              className={`premium-card p-10 lg:p-12 flex flex-col group relative overflow-hidden cursor-default ${service.popular ? "border-accent/30 bg-accent/[0.02]" : ""}`}
             >
-              {service.accelerated && (
-                <div className="absolute top-0 right-0">
-                  <div className="px-4 py-2 bg-gradient-to-r from-accent to-primary-light text-black text-xs font-bold rounded-bl-xl">
-                    Most Popular
-                  </div>
-                </div>
+              {service.popular && (
+                <motion.div
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="absolute top-6 right-6 px-4 py-1.5 bg-accent text-primary text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-accent/20"
+                >
+                  Most Popular
+                </motion.div>
               )}
-              
+
               <motion.div
-                className="w-14 h-14 bg-gradient-to-br from-accent/20 via-primary-light/20 to-primary/20 rounded-2xl flex items-center justify-center mb-6"
-                whileHover={{ scale: 1.1, rotate: 10 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-10"
+                whileHover={{ scale: 1.15, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 200 }}
               >
-                <service.icon className="w-7 h-7 text-accent" />
+                <service.icon className="w-8 h-8 text-accent" />
               </motion.div>
-              
-              <h3 className="text-2xl font-bold text-white mb-3">{service.title}</h3>
-              <p className="text-white/60 text-sm mb-5 leading-relaxed">{service.description}</p>
-              
-              <div className="text-3xl font-bold text-gradient-premium mb-6">{service.price}</div>
-              
-              <ul className="space-y-3 mb-8">
-                {service.features.map((feature, j) => (
-                  <motion.li
+
+              <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-2">{service.tagline}</div>
+              <div className="text-xs font-black uppercase tracking-widest text-accent mb-2">{service.subtitle}</div>
+              <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-4">{service.title}</h3>
+              <p className="text-white/40 font-medium text-sm leading-relaxed mb-6">{service.description}</p>
+
+              <div className="mb-10">
+                <span className="text-5xl font-black text-white tracking-tighter">{service.price}</span>
+              </div>
+
+              <div className="space-y-3 mb-10 flex-1">
+                {service.features.map((f, j) => (
+                  <motion.div
                     key={j}
+                    className="flex items-center gap-3 text-sm font-bold text-white/50"
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 + j * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-center gap-3 text-sm text-white/50"
+                    transition={{ delay: i * 0.1 + j * 0.05 }}
                   >
-                    <motion.span
-                      className="w-2 h-2 bg-gradient-to-r from-accent to-primary-light rounded-full"
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{ duration: 2, repeat: Infinity, delay: j * 0.3 }}
-                    />
-                    {feature}
-                  </motion.li>
+                    <CheckCircle2 className={`w-4 h-4 ${service.popular ? "text-accent" : "text-white/20"}`} /> {f}
+                  </motion.div>
                 ))}
-              </ul>
-              
+              </div>
+
               <Link
                 href="/contact"
-                className="btn btn-primary w-full justify-center group"
+                className={`group relative py-5 rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 overflow-hidden transition-all ${service.popular ? "bg-accent text-primary shadow-2xl shadow-accent/20" : "bg-white/5 text-white hover:bg-white/10"}`}
               >
-                <span className="flex items-center gap-2">
-                  Book Now
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center gap-3">
+                  {service.cta} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
+                <motion.div
+                  className="absolute inset-0 bg-white/10"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3 }}
+                />
               </Link>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          transition={{ delay: 0.4 }}
+          className="mt-16 glass-card border-white/5 p-8 lg:p-12 rounded-[3rem]"
         >
-          <Link href="/services" className="btn btn-secondary">
-            View All Services
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { icon: Bot, label: "AI Concierge", sub: "24/7" },
+              { icon: CreditCard, label: "Secure Pay", sub: "No cash" },
+              { icon: Bell, label: "Auto-Reminders", sub: "Always" },
+              { icon: BarChart3, label: "Progress Intel", sub: "After every session" },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 + i * 0.1 }}
+                whileHover={{ y: -4 }}
+              >
+                <item.icon className="w-6 h-6 text-accent mx-auto mb-3" />
+                <div className="text-xs font-black uppercase tracking-wider text-white/40">{item.label}</div>
+                <div className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{item.sub}</div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

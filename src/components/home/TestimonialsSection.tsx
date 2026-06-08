@@ -1,166 +1,151 @@
 "use client";
 
-import { motion } from "motion/react";
-import { Quote, Star, MapPin } from "lucide-react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { Star, Quote, ArrowRight, Bot, Bell, BarChart3, CreditCard } from "lucide-react";
+import Link from "next/link";
+import { useRef } from "react";
 
 const testimonials = [
   {
     name: "Sarah Mitchell",
-    location: "Surrey, BC",
+    location: "Surrey",
+    text: "I booked my inaugural lesson at 11 PM on a Tuesday and received confirmation before I put my phone down. The automated pulses meant I never once lost a session. After every lesson, the digital dashboard revealed my progress with surgical clarity. Passed my Class 7 on the first attempt. From first click to license — entirely frictionless.",
     rating: 5,
-    text: "Kerry is an excellent instructor. Very patient and professional. I was nervous about learning to drive but he made me feel at ease from the first lesson.",
+    tag: "Class 7, First Try",
   },
   {
     name: "James Thompson",
-    location: "Langley, BC",
+    location: "Langley",
+    text: "Zero experience to licensed in fourteen days. The AI concierge answered every question before I committed. I paid online, received reminders before each rendezvous, and the progress metrics showed me compounding skill gains session by session. No paperwork. No phone calls. Pure modern mastery.",
     rating: 5,
-    text: "Passed first time! Kerry's teaching method is brilliant - clear, patient, and always supportive. Would highly recommend to anyone wanting to learn.",
+    tag: "Intensive Graduate",
   },
   {
     name: "Emma Richardson",
-    location: "Delta, BC",
+    location: "Delta",
+    text: "After failing twice with conventional schools, RYDAX diagnosed and corrected my deficiencies in three sessions. The ability to book online, pay by card, and review my progress intelligence after each lesson eliminated every ounce of guesswork. The system works in perfect orchestration.",
     rating: 5,
-    text: "After failing twice elsewhere, Kerry helped me pass on my third attempt. His patience and expertise made all the difference.",
+    tag: "Test Mastery",
   },
   {
     name: "David Clarke",
-    location: "Richmond, BC",
+    location: "Richmond",
+    text: "The orchestration is what sets this apart. Booked, paid, tracked — all from a single device. Never wrote a cheque, never waited on hold. The AI answered my inquiries at midnight. This is what driving education should feel like when technology is engineered around the student.",
     rating: 5,
-    text: "Great instructor, very flexible with scheduling. My confidence grew rapidly under his guidance. Highly recommend!",
+    tag: "Seamless Experience",
   },
 ];
 
 export default function TestimonialsSection() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
+
   return (
-    <section className="section bg-[#030305] relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
+    <section ref={sectionRef} className="section bg-[#030305] relative overflow-hidden">
+      <motion.div className="absolute -right-40 top-1/3 w-96 h-96 bg-accent/5 rounded-full blur-[120px]" style={{ y }} />
+
+      <div className="container">
         <motion.div
-          className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-light/10 rounded-full blur-[150px]"
-          animate={{
-            scale: [1, 1.3, 1],
-            x: [0, 50, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[120px]"
-          animate={{
-            scale: [1.3, 1, 1.3],
-            x: [0, -30, 0],
-          }}
-          transition={{ duration: 8, repeat: Infinity, delay: 2 }}
-        />
-      </div>
-      
-      <div className="container relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
         >
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-block px-4 py-1.5 bg-primary-light/10 border border-primary-light/20 rounded-full text-primary-light text-sm font-medium mb-4"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8"
           >
-            Testimonials
-          </motion.span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-            What Our <span className="text-gradient-cool">Students Say</span>
+            <Quote className="w-4 h-4 text-accent" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">The proof is in the progress</span>
+          </motion.div>
+          <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] max-w-3xl mx-auto">
+            Over a thousand <br />
+            <span className="text-accent">success stories.</span>
           </h2>
-          <p className="text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
-            Don't just take our word for it. Here's what our students have to say about learning to drive with Rydax.
+          <p className="text-white/40 text-lg max-w-xl mx-auto mt-6 font-medium">
+            Students consistently tell us the same thing: the seamless integration transforms the entire experience.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {testimonials.map((testimonial, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {testimonials.map((t, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
               viewport={{ once: true }}
-              whileHover={{ y: -5, rotateX: 2 }}
-              className="premium-card p-8 relative group"
+              transition={{ delay: i * 0.12, duration: 0.5 }}
+              whileHover={{ y: -6, scale: 1.01 }}
+              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2.5rem] relative group cursor-default"
             >
-              {/* Quote Icon */}
-              <motion.div
-                className="absolute top-6 right-6 w-10 h-10 text-accent/20"
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                transition={{ delay: 0.3 }}
-                viewport={{ once: true }}
-              >
-                <Quote className="w-full h-full" />
-              </motion.div>
-              
-              {/* Rating Stars */}
-              <div className="flex gap-1 mb-5">
-                {[...Array(testimonial.rating)].map((_, j) => (
-                  <motion.div
-                    key={j}
-                    initial={{ opacity: 0, scale: 0 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.2 + j * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <Star className="w-5 h-5 text-accent fill-accent" />
-                  </motion.div>
-                ))}
-              </div>
-              
-              {/* Testimonial Text */}
-              <p className="text-lg text-white/70 mb-6 italic leading-relaxed">"{testimonial.text}"</p>
-              
-              {/* Author Info */}
-              <div className="flex items-center justify-between border-t border-white/10 pt-5">
-                <div>
-                  <motion.div
-                    className="font-bold text-white text-lg"
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                    viewport={{ once: true }}
-                  >
-                    {testimonial.name}
-                  </motion.div>
-                  <motion.div
-                    className="flex items-center gap-1 text-sm text-white/50 mt-1"
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.4 }}
-                    viewport={{ once: true }}
-                  >
-                    <MapPin className="w-3 h-3" />
-                    {testimonial.location}
-                  </motion.div>
+              <Quote className="absolute top-6 right-6 w-8 h-8 text-white/5 group-hover:text-accent/10 transition-colors duration-500" />
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex gap-1">
+                  {[...Array(t.rating)].map((_, j) => (
+                    <motion.div
+                      key={j}
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.1 + j * 0.05 }}
+                    >
+                      <Star className="w-4 h-4 fill-accent text-accent" />
+                    </motion.div>
+                  ))}
                 </div>
-                
-                {/* Avatar Placeholder */}
-                <motion.div
-                  className="w-12 h-12 bg-gradient-to-br from-accent via-primary-light to-primary rounded-full flex items-center justify-center"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ delay: 0.2, type: "spring" }}
-                  viewport={{ once: true }}
-                >
-                  <span className="text-black font-bold text-lg">{testimonial.name[0]}</span>
-                </motion.div>
+                <span className="text-[9px] font-black uppercase tracking-widest text-accent/50 bg-accent/10 px-2 py-1 rounded-full">{t.tag}</span>
               </div>
-              
-              {/* Hover Glow Effect */}
-              <motion.div
-                className="absolute inset-0 rounded-2xl border border-accent/30 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-              />
+              <p className="text-white/60 text-sm leading-relaxed mb-8 font-medium">
+                &ldquo;{t.text}&rdquo;
+              </p>
+              <div className="border-t border-white/5 pt-6 flex items-center gap-4">
+                <motion.div
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center font-black text-white/20 text-sm"
+                  whileHover={{ scale: 1.2, backgroundColor: "rgba(255,215,0,0.1)" }}
+                >
+                  {t.name[0]}
+                </motion.div>
+                <div>
+                  <div className="text-sm font-black text-white">{t.name}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-white/20">{t.location}</div>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex justify-center mt-12 gap-8"
+        >
+          <Link
+            href="/testimonials"
+            className="group inline-flex items-center gap-3 text-accent font-black uppercase tracking-widest text-sm"
+          >
+            <span>Read All Testimonials</span>
+            <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-4 h-4" /></motion.span>
+          </Link>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mt-16 glass-card border-white/5 p-6 lg:p-10 rounded-[2.5rem]"
+        >
+          <div className="flex flex-wrap justify-center gap-8 text-[11px] font-black uppercase tracking-widest text-white/30">
+            <span className="flex items-center gap-2"><Bot className="w-4 h-4 text-accent" /> AI Booking</span>
+            <span className="flex items-center gap-2"><Bell className="w-4 h-4 text-accent" /> Auto-Reminders</span>
+            <span className="flex items-center gap-2"><CreditCard className="w-4 h-4 text-accent" /> Online Pay</span>
+            <span className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-accent" /> Progress Intel</span>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

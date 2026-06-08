@@ -5,7 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: "/api/*",
     },
-    sitemap: "https://bhandhdrivingschool.co.uk/sitemap.xml",
+    sitemap: "https://rydax.net/sitemap.xml",
   };
 }

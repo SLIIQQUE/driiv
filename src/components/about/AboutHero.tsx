@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import { Award, Shield, CheckCircle, GraduationCap } from "lucide-react";
+import { Bot, Shield, TrendingUp, Globe } from "lucide-react";
 
 export function AboutHero() {
   const { scrollY } = useScroll();
@@ -9,15 +9,13 @@ export function AboutHero() {
 
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#030305] pt-20 lg:pt-32">
-      {/* Background Layer with Parallax Text */}
       <motion.div 
         className="absolute inset-0 z-0 select-none pointer-events-none opacity-[0.03] flex items-center justify-center whitespace-nowrap"
         style={{ y: yParallax }}
       >
-        <span className="text-[40vw] font-black leading-none tracking-tighter">EXPERT</span>
+        <span className="text-[40vw] font-black leading-none tracking-tighter">BUILT</span>
       </motion.div>
 
-      {/* Decorative Orbs */}
       <div className="absolute top-1/4 -left-20 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
 
@@ -35,25 +33,25 @@ export function AboutHero() {
               transition={{ delay: 0.2 }}
               className="inline-flex items-center gap-3 px-4 py-2 border border-accent/20 bg-accent/5 rounded-full mb-8 backdrop-blur-xl"
             >
-              <GraduationCap className="w-5 h-5 text-accent" />
-              <span className="text-sm font-bold uppercase tracking-widest text-accent">ICBC Certified Specialist</span>
+              <Bot className="w-5 h-5 text-accent" />
+              <span className="text-sm font-bold uppercase tracking-widest text-accent">Built by SLIIQQUE Studio</span>
             </motion.div>
 
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10">
-              The Mind <br />
-              Behind <br />
-              <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">The Wheel.</span>
+              Built From <br />
+              Real <br />
+              <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">Experience.</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-white/50 max-w-xl leading-relaxed mb-12">
-              Meet Kerry Hare—Surrey&apos;s leading driving educator. With a decade of road mastery, she transforms anxiety into absolute automotive confidence.
+              RYDAX was born inside driving schools. We experienced the phone hell, the cash flow whiplash, and the seasonal panic firsthand. Every feature exists because we lived the pain.
             </p>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               {[
-                { label: "Experience", value: "10+ Yrs" },
-                { label: "Pass Rate", value: "95%" },
-                { label: "Students", value: "1K+" },
+                { label: "Schools Served", value: "40+" },
+                { label: "Avg. Revenue Lift", value: "+40%" },
+                { label: "Countries", value: "3" },
               ].map((stat, i) => (
                 <div key={i}>
                   <div className="text-3xl font-black text-white mb-1">{stat.value}</div>
@@ -69,23 +67,20 @@ export function AboutHero() {
             transition={{ duration: 1, delay: 0.3 }}
             className="relative h-[500px] lg:h-[700px] hidden md:block"
           >
-            {/* 3D Composition Placeholder */}
             <div className="absolute inset-0 premium-card border-none rounded-[4rem] overflow-hidden">
                <div className="absolute inset-0 bg-linear-to-br from-accent/20 via-transparent to-primary/20" />
                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center">
-                  {/* Symbolizing the instructor / driving theme */}
-                  <Shield className="w-64 h-64 text-white/10" />
+                  <Globe className="w-64 h-64 text-white/10" />
                </div>
             </div>
             
-            {/* Floating Glass Badges */}
             <motion.div 
                className="absolute top-10 -right-8 glass-card p-6 rounded-3xl"
                animate={{ y: [0, -15, 0] }}
                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
-               <Award className="w-10 h-10 text-accent mb-2" />
-               <div className="text-sm font-bold text-white uppercase tracking-wider">Top Rated 2024</div>
+               <TrendingUp className="w-10 h-10 text-accent mb-2" />
+               <div className="text-sm font-bold text-white uppercase tracking-wider">40% Avg Growth</div>
             </motion.div>
 
             <motion.div 
@@ -93,8 +88,8 @@ export function AboutHero() {
                animate={{ y: [0, 15, 0] }}
                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             >
-               <CheckCircle className="w-12 h-12 text-secondary-foreground mb-2" />
-               <div className="text-sm font-bold text-white uppercase tracking-wider">Pass First Time</div>
+               <Shield className="w-12 h-12 text-secondary-foreground mb-2" />
+               <div className="text-sm font-bold text-white uppercase tracking-wider">Enterprise Grade</div>
             </motion.div>
           </motion.div>
 

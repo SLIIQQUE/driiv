@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { Mail, MapPin, ArrowRight, Phone, Car } from "lucide-react";
+import { Mail, MapPin, ArrowRight, Phone, Car, Bot } from "lucide-react";
 
 const navigation = {
   services: [
@@ -15,7 +15,7 @@ const navigation = {
   company: [
     { name: "About", href: "/about" },
     { name: "Areas Covered", href: "/areas" },
-    { name: "Testimonials", href: "/testimonials" },
+    { name: "Reviews", href: "/testimonials" },
     { name: "FAQ", href: "/faq" },
     { name: "Contact", href: "/contact" },
   ],
@@ -28,7 +28,6 @@ const navigation = {
 export default function Footer() {
   return (
     <footer className="relative bg-[#030305] text-white overflow-hidden pt-20 lg:pt-32 pb-8">
-      {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
@@ -43,7 +42,7 @@ export default function Footer() {
               WebkitTextStroke: "1px rgba(255, 215, 0, 0.1)",
             }}
           >
-            Rydax
+            RYDAX
           </span>
         </motion.div>
       </div>
@@ -69,9 +68,7 @@ export default function Footer() {
       </div>
 
       <div className="container relative z-10">
-        {/* Main Footer Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/10">
-          {/* Brand Column */}
           <div className="lg:col-span-4">
             <Link href="/" className="flex items-center gap-3 mb-6 group">
               <motion.div
@@ -94,41 +91,35 @@ export default function Footer() {
                 />
               </motion.div>
               <div>
-                <span className="font-display font-bold text-2xl text-white tracking-tight">
-                  Rydax
-                </span>
-                <span className="font-display font-bold text-2xl text-gradient-premium tracking-tight ml-1">
-                  Driving
+                <span className="font-display font-bold text-2xl text-gradient-premium tracking-tight">
+                  RYDAX
                 </span>
               </div>
             </Link>
             <p className="text-sm leading-7 text-white/60 max-w-md mb-8">
-              Professional driving instruction in Surrey, BC. ICBC licensed
-              driving school serving the Lower Mainland. Helping learners pass
-              their driving test with confidence since 2018.
+              Surrey&apos;s most advanced driving school. AI-powered booking, automated reminders, and ICBC licensed instruction. Learn to drive with confidence.
             </p>
 
-            {/* Contact Info */}
             <div className="flex flex-col gap-4">
               <motion.a
-                href="tel:+1604XXXXXXX"
+                href="tel:+16041234567"
                 className="flex items-center gap-3 text-white/70 hover:text-accent transition-colors group"
                 whileHover={{ x: 5 }}
               >
                 <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-accent/20 transition-colors">
                   <Phone className="w-5 h-5" />
                 </div>
-                (604) XXX-XXXX
+                (604) 123-4567
               </motion.a>
               <motion.a
-                href="mailto:info@bhandhdrivingschool.ca"
+                href="mailto:hello@rydax.net"
                 className="flex items-center gap-3 text-white/70 hover:text-accent transition-colors group"
                 whileHover={{ x: 5 }}
               >
                 <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-accent/20 transition-colors">
                   <Mail className="w-5 h-5" />
                 </div>
-                info@bhandhdrivingschool.ca
+                hello@rydax.net
               </motion.a>
               <motion.div
                 className="flex items-center gap-3 text-white/70"
@@ -142,7 +133,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Links Columns */}
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-12">
             <div>
               <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-6">

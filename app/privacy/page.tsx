@@ -19,7 +19,7 @@ const privacySections = [
     icon: Shield,
     title: "Data Protection Strategy",
     content:
-      "At Rydax School, your privacy is integral to our safety first philosophy. We use bank-level encryption to safeguard your identification documents, driving records, and contact details.",
+      "At RYDAX, your privacy is integral to our safety first philosophy. We use bank-level encryption to safeguard your identification documents, driving records, and contact details.",
   },
   {
     icon: Eye,
@@ -105,7 +105,7 @@ export default function PrivacyPage() {
                   Introduction
                 </h2>
                 <p className="text-white/60 leading-relaxed">
-                  Rydax School Inc. is committed to maintaining the
+                  RYDAX Inc. is committed to maintaining the
                   security and confidentiality of your personal information.
                   This Privacy Policy outlines our practices in accordance with
                   the British Columbia Personal Information Protection Act
@@ -171,7 +171,7 @@ export default function PrivacyPage() {
                 contact our administrative head directly.
               </p>
               <Link
-                href="mailto:privacy@bhandhdrivingschool.ca"
+                href="mailto:privacy@rydax.net"
                 className="inline-flex items-center gap-3 text-accent font-black uppercase tracking-widest text-xs hover:underline"
               >
                 EMAIL PRIVACY DEPT <ArrowRight className="w-4 h-4" />

@@ -67,8 +67,8 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                   <MessageCircle className="w-5 h-5 text-black" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white">AI Assistant</h3>
-                  <p className="text-xs text-white/50">Rydax</p>
+                  <h3 className="font-bold text-white">RYDAX AI</h3>
+                  <p className="text-xs text-white/50">Driving School Platform</p>
                 </div>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white" aria-label="Close chat">
@@ -80,8 +80,8 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
               {state.messages.length === 0 && (
                 <div className="text-center text-white/40 py-8">
                   <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p className="text-sm">Hi! How can I help you today?</p>
-                  <p className="text-xs mt-2">I can help with lessons, pricing, or bookings.</p>
+                  <p className="text-sm">Hi! I&apos;m RYDAX AI. Ask me about our platform features, pricing, or book a demo.</p>
+                  <p className="text-xs mt-2">I can help with AI voice, scheduling, payments, or marketing.</p>
                 </div>
               )}
               

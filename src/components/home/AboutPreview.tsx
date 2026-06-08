@@ -1,147 +1,126 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
-import { ArrowRight, Award, Users, Star, Shield, MapPin, CheckCircle } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  CheckCircle2,
+  Car,
+  Shield,
+  Quote,
+} from "lucide-react";
+import { useRef } from "react";
 
 export default function AboutPreview() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const x = useTransform(scrollYProgress, [0, 1], [0, 0]);
+
   return (
-    <section className="section bg-[#030305] relative overflow-hidden">
-      {/* Background Decorative Element */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+    <section ref={sectionRef} className="section bg-[#030305] relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  h-[800px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="container relative z-10">
-        <div className="max-w-3xl mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.2em] text-xs mb-4"
-          >
-            <div className="w-10 h-px bg-accent" />
-            The Studio Standard
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-black text-white leading-tight"
-          >
-            Setting the Pace in <br />
-            <span className="text-secondary-foreground">Driving Excellence.</span>
-          </motion.h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[240px]">
-          
-          {/* Main Story Block */}
-          <motion.div 
-            className="md:col-span-8 md:row-span-2 group relative rounded-[2.5rem] bg-linear-to-br from-white/5 to-transparent border border-white/10 p-10 lg:p-14 overflow-hidden flex flex-col justify-end"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, x: 0 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "0px" }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            style={{ x }}
           >
-            <div className="absolute top-0 right-0 w-full h-full bg-[url('/grid.svg')] opacity-10 pointer-events-none" />
-            <div className="relative z-10">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-accent flex items-center justify-center text-primary">
-                  <Shield className="w-8 h-8" />
-                </div>
-                <div>
-                   <h3 className="text-2xl font-bold text-white">ICBC Licensed Elite</h3>
-                   <p className="text-accent text-sm font-medium uppercase tracking-wider">Surrey & Lower Mainland</p>
-                </div>
-              </div>
-              <p className="text-xl text-white/50 leading-relaxed max-w-2xl mb-8">
-                Rydax brings a decade of combined experience to the road. Our methodology isn&apos;t just about preparing for a test—it&apos;s about building instinctive safety and absolute road confidence.
-              </p>
-              <Link href="/about" className="inline-flex items-center gap-3 text-white font-bold group-hover:text-accent transition-colors">
-                Read Our Full Story <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </Link>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8"
+            >
+              <Quote className="w-4 h-4 text-accent" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">The RYDAX difference</span>
+            </motion.div>
+            <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] mb-8">
+              Metro Vancouver&apos;s <br />
+              <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-8">most sophisticated</span>
+              <br />
+              driving academy.
+            </h2>
+            <p className="text-white/40 text-lg leading-relaxed font-medium mb-10">
+              We dismantled everything frustrating about learning to drive — the phone tag, the cash, the forgotten sessions, the black-box progress — and engineered a seamless technological ecosystem around what matters: masterful instruction.
+            </p>
+            <div className="space-y-5 mb-12">
+              {[
+                "AI assistant books your sessions in seconds, any hour",
+                "Encrypted online payments — cash is a relic",
+                "Automated pulses so you never lose a session",
+                "Digital intelligence reports after every lesson",
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + i * 0.08 }}
+                  className="flex items-center gap-4 text-sm font-bold text-white/60"
+                >
+                  <CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> {item}
+                </motion.div>
+              ))}
             </div>
-            {/* Background Glow */}
-            <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-accent/10 blur-[100px] group-hover:bg-accent/20 transition-all duration-700" />
-          </motion.div>
-
-          {/* Stats Block - Pass Rate */}
-          <motion.div 
-            className="md:col-span-4 md:row-span-1 premium-card group rounded-[2.5rem] p-8 flex flex-col justify-center items-center text-center overflow-hidden"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <Star className="w-10 h-10 text-accent mb-4 group-hover:scale-125 transition-transform duration-500" />
-            <div className="text-5xl font-black text-white mb-2">95%</div>
-            <div className="text-sm font-bold text-white/40 uppercase tracking-widest">Road Test Pass Rate</div>
-          </motion.div>
-
-          {/* Stats Block - Students */}
-          <motion.div 
-            className="md:col-span-4 md:row-span-1 glass-card border-white/5 group rounded-[2.5rem] p-8 flex flex-col justify-center items-center text-center overflow-hidden"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <Users className="w-10 h-10 text-secondary-foreground mb-4 group-hover:scale-110 transition-transform duration-500" />
-            <div className="text-5xl font-black text-white mb-2">1K+</div>
-            <div className="text-sm font-bold text-white/40 uppercase tracking-widest">Successful Drivers</div>
-          </motion.div>
-
-          {/* Feature Block - Safety */}
-          <motion.div 
-            className="md:col-span-4 md:row-span-1 glass-card border-white/5 rounded-[2.5rem] p-8 overflow-hidden relative"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <div className="flex gap-4 items-start">
-               <CheckCircle className="w-6 h-6 text-accent shrink-0" />
-               <div>
-                  <h4 className="text-white font-bold mb-2">Dual Control Safety</h4>
-                  <p className="text-sm text-white/40">State-of-the-art vehicles equipped for maximum safety during training.</p>
-               </div>
-            </div>
-          </motion.div>
-
-          {/* Feature Block - Location */}
-          <motion.div 
-            className="md:col-span-4 md:row-span-1 glass-card border-white/5 rounded-[2.5rem] p-8 overflow-hidden relative"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <div className="flex gap-4 items-start">
-               <MapPin className="w-6 h-6 text-white shrink-0" />
-               <div>
-                  <h4 className="text-white font-bold mb-2">Wide Coverage</h4>
-                  <p className="text-sm text-white/40">Serving Surrey, Delta, Langley and throughout the Lower Mainland.</p>
-               </div>
-            </div>
-          </motion.div>
-
-          {/* Experience Block */}
-          <motion.div 
-            className="md:col-span-4 md:row-span-1 bg-accent rounded-[2.5rem] p-10 flex flex-col justify-center shadow-2xl shadow-accent/20"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="text-primary font-black text-6xl leading-none">5+</div>
-            <div className="text-primary/70 font-bold uppercase tracking-widest text-xs mt-2">Years of Excellence</div>
-            <Link href="/contact" className="mt-6 w-12 h-12 rounded-full border-2 border-primary/20 flex items-center justify-center text-primary hover:bg-primary hover:text-accent transition-all">
-              <ArrowRight className="w-6 h-6" />
+            <Link
+              href="/about"
+              className="group inline-flex items-center gap-3 px-8 py-5 bg-white/5 border border-white/10 rounded-2xl font-black uppercase tracking-widest text-sm text-white hover:bg-white/10 transition-all"
+            >
+              <span>Our Philosophy</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <div className="glass-card border-white/5 p-10 lg:p-16 rounded-[3rem] relative overflow-hidden">
+              <motion.div
+                className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 6, repeat: Infinity }}
+              />
+              <div className="grid grid-cols-2 gap-10 text-center mb-12 relative z-10">
+                {[
+                  { value: "95%", label: "First-Try Pass" },
+                  { value: "1K+", label: "Drivers Forged" },
+                  { value: "5+", label: "Seasons Of Excellence" },
+                  { value: "6", label: "Cities Covered" },
+                ].map((stat, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 + i * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <motion.div
+                      className="text-5xl font-black text-white mb-2"
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      transition={{ delay: 0.5 + i * 0.1 }}
+                    >
+                      {stat.value}
+                    </motion.div>
+                    <div className="text-[11px] font-black uppercase tracking-widest text-accent">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+              <div className="border-t border-white/5 pt-8">
+                <div className="flex items-center justify-center gap-2 text-xs font-black uppercase tracking-widest text-white/30">
+                  <Shield className="w-4 h-4 text-accent" />
+                  <span>ICBC Licensed • Dual-Control Fleet • Fully Insured</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

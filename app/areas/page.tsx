@@ -1,197 +1,218 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import {
   MapPin,
-  CheckCircle,
-  Navigation2,
-  Globe,
+  Shield,
+  Building2,
   ArrowRight,
+  Car,
+  CheckCircle,
+  Bot,
+  Bell,
+  CreditCard,
+  BarChart3,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
+import { useRef } from "react";
 
 const areas = [
   {
-    name: "Surrey",
-    info: "Main Studio Hub",
-    status: "Primary",
-    size: "large",
-    color: "from-accent/20 to-transparent",
+    city: "Surrey",
+    description: "Our founding city. Serving South Surrey, Guildford, Newton, Fleetwood, and Whalley. Pickup and drop-off at your location. Book online for instantaneous confirmation.",
+    image: "SR",
+    color: "from-accent/20 via-accent/5 to-transparent",
   },
   {
-    name: "Langley",
-    info: "Extended Service",
-    status: "Covered",
-    size: "medium",
-    color: "from-white/5 to-transparent",
+    city: "Langley",
+    description: "Comprehensive coverage of Langley, Brookswood, Walnut Grove, Willoughby, and Fort Langley. Our AI concierge handles your booking. We'll meet you wherever you are.",
+    image: "LG",
+    color: "from-secondary-foreground/20 via-secondary-foreground/5 to-transparent",
   },
   {
-    name: "Delta",
-    info: "North & South",
-    status: "Covered",
-    size: "small",
-    color: "from-white/5 to-transparent",
+    city: "Delta",
+    description: "North Delta, Ladner, Tsawwassen — fully covered. AI booking available 24/7. Instant confirmation, automated reminders, seamless orchestration.",
+    image: "DT",
+    color: "from-primary/20 via-primary/5 to-transparent",
   },
   {
-    name: "Richmond",
-    info: "Test Route Expert",
-    status: "Primary",
-    size: "medium",
-    color: "from-accent/20 to-transparent",
+    city: "Richmond",
+    description: "Complete coverage including Steveston and Bridgeport. ICBC test circuit specialists with real-time progress intelligence.",
+    image: "RM",
+    color: "from-accent/20 via-accent/5 to-transparent",
   },
   {
-    name: "Burnaby",
-    info: "Highway Focus",
-    status: "Covered",
-    size: "small",
-    color: "from-white/5 to-transparent",
+    city: "Burnaby",
+    description: "Metrotown, Brentwood, Lougheed, SFU corridor. Book online, pay with cryptographic security, track your trajectory after every session.",
+    image: "BB",
+    color: "from-secondary-foreground/ la-foreground/20 via-secondary-foreground/5 to-transparent",
   },
   {
-    name: "New West",
-    info: "Urban Training",
-    status: "Covered",
-    size: "small",
-    color: "from-white/5 to-transparent",
-  },
-  {
-    name: "Coquitlam",
-    info: "Commuter Routes",
-    status: "Extended",
-    size: "medium",
-    color: "from-white/5 to-transparent",
-  },
-  {
-    name: "White Rock",
-    info: "Coastal Circuit",
-    status: "Covered",
-    size: "small",
-    color: "from-white/5 to-transparent",
+    city: "New Westminster",
+    description: "Queensborough, Sapperton, and the entire Royal City. Automated pulses maintain your cadence. The full ecosystem, everywhere we operate.",
+    image: "NW",
+    color: "from-primary/20 via-primary/5 to-transparent",
   },
 ];
 
 export default function AreasPage() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
+
   return (
     <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
-      {/* Cinematic Header */}
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl relative z-10">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
             className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8"
           >
             <div className="w-12 h-px bg-accent" />
-            Service Perimeter
+            Coverage
           </motion.div>
 
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10">
-            Greater <br />
-            <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">
-              Surrey.
-            </span>
-          </h1>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="mb-10"
+          >
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10">
+              Our Driving Lesson Service Areas in BC
+            </h1>
+          </motion.div>
 
-          <p className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium">
-            Professional mobile instruction delivered directly to your doorstep.
-            Our studio radius covers the most high-demand training zones in the
-            Lower Mainland.
-          </p>
-        </div>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium"
+          >
+            Pickup and drop-off included across Metro Vancouver. Book online, pay securely, receive automated pulses — wherever you&apos;re located.
+          </motion.p>
+        </div}
       </section>
 
-      {/* Stats / Radius Banner */}
-      <section className="container mb-20">
-        <div className="flex flex-wrap gap-12 border-y border-white/5 py-12">
-          {[
-            { label: "Surrey HQ", value: "Primary Hub", icon: MapPin },
-            { label: "Coverage", value: "30km Radius", icon: Navigation2 },
-            { label: "Transit", value: "Mobile Studio", icon: Globe },
-          ].map((stat, i) => (
-            <div key={i} className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-accent">
-                <stat.icon className="w-6 h-6" />
-              </div>
-              <div>
-                <div className="text-[10px] font-black uppercase tracking-widest text-white/30">
-                  {stat.label}
-                </div>
-                <div className="text-xl font-black text-white">
-                  {stat.value}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <section ref={sectionRef} className="container mb-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="flex flex-wrap gap-6 items-center justify-center lg:justify-start opacity-40 mb-16"
+        >
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><Car className="w-4 h-4 text-accent" /> Pickup & Drop-off</div>
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><Shield className="w-4 h-4 text-accent" /> ICBC Licensed</div>
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><Building2 className="w-4 h-4 text-accent" /> All Neighbourhoods</div>
+        </motion.div>
 
-      {/* Grid Areas */}
-      <section className="container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ y }}>
           {areas.map((area, i) => (
             <motion.div
-              key={area.name}
+              key={area.city}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="break-inside-avoid glass-card border-white/5 p-8 lg:p-10 rounded-[3rem] group relative overflow-hidden flex flex-col"
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2.5rem] group relative overflow-hidden hover:border-accent/20 transition-all duration-500 cursor-default"
             >
-              {/* Card Glow */}
-              <div
-                className={`absolute top-0 right-0 w-64 h-64 bg-linear-to-br ${area.color} blur-[80px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700`}
-              />
-
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex justify-between items-start mb-8">
-                  <div
-                    className={`
-                        px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest
-                        ${area.status === "Primary" ? "bg-accent text-primary" : "bg-white/10 text-white/50"}
-                     `}
-                  >
-                    {area.status}
+              <div className={`absolute inset-0 bg-linear-to-br ${area.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              
+              <div className="relative z-10">
+                <motion.div
+                  className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:bg-accent/10 group-hover:border-accent/20 transition-all"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                >
+                  <span className="font-black text-2xl text-white/30 group-hover:text-accent transition-colors">{area.image}</span>
+                </motion.div>
+                <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-4 group-hover:text-accent transition-colors">{area.city}</h3>
+                <p className="text-white/40 font-medium text-sm leading-relaxed mb-6">{area.description}</p>
+                <div className="flex flex-wrap gap-3">
+                  <div className="flex items-center gap-1.5 text-[10px] font-black text-accent bg-accent/10 px-3 py-1.5 rounded-full">
+                    <CheckCircle className="w-3 h-3" /> Pickup Included
                   </div>
-                  <Navigation2 className="w-5 h-5 text-white/10 group-hover:text-accent group-hover:rotate-45 transition-all duration-500" />
+                  <div className="flex items-center gap-1.5 text-[10px] font-black text-accent bg-accent/10 px-3 py-1.5 rounded-full">
+                    <CheckCircle className="w-3 h-3" /> Online Booking
+                  </div>
                 </div>
-
-                <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">
-                  {area.name}
-                </h3>
-                <p className="text-sm text-white/40 font-medium mb-8">
-                  {area.info}
-                </p>
-
-                <div className="mt-auto pt-6 border-t border-white/5 flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-accent opacity-0 group-hover:opacity-100 transition-opacity">
-                  <CheckCircle className="w-4 h-4" /> Full Service Coverage
-                </div>
-              </div>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 mt-8 text-xs font-black uppercase tracking-widest text-accent hover:underline group/link"
+                >
+                  Book in {area.city} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
+                </Link
+              </div
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
-      <div className="mt-20"></div>
+      <section className="container mt-20">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card border-white/5 p-10 lg:p-14 rounded-[3rem] relative overflow-hidden"
+        >
+          <motion.div
+            className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 6, repeat: Infinity }}
+          />
+          <div className="text-center mb-8 relative z-10">
+            <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2">Every service area includes</h3
+          </div
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
+            {[
+              { icon: Bot, label: "AI Concierge", sub: "24/7" },
+              { icon: CreditCard, label: "Online Pay", sub: "Cashless" },
+              { icon: Bell, label: "Reminders", sub: "Automated" },
+              { icon: BarChart3, label: "Progress Intel", sub: "After each" },
+            ].map((item, i) => (
+              <motion.div key={i} whileHover={{ y: -4 }}>
+                <item.icon className="w-6 h-6 text-accent mx-auto mb-3" />
+                <div className="text-sm font-black uppercase tracking-wider text-white/40">{item.label}</div
+                <div className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{item.sub}</div
+              </motion.div>
+            ))}
+          </div
+        </motion.div>
+      </section>
 
-      {/* Final Inquiry Section */}
-      <section className="container mt-32">
-        <div className="premium-card p-12 lg:p-20 rounded-[4rem] text-center bg-accent/5">
-          <h2 className="text-4xl lg:text-6xl font-black text-white uppercase tracking-tighter mb-6">
-            Outside the{" "}
-            <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">
-              Perimeter?
-            </span>
-          </h2>
-          <p className="text-xl text-white/40 max-w-2xl mx-auto mb-10 font-medium">
-            We often extend our services for block bookings or intensive
-            courses. Contact the studio to discuss your location.
-          </p>
-          <Link
-            href="/contact"
-            className="px-10 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm hover:scale-110 transition-all inline-flex items-center gap-3"
-          >
-            Request Location Audit <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+      <section className="container mt-16">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 la-scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="premium-card p-12 lg:p-20 rounded-[4rem] relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-linear-to-br from-accent/10 via-transparent to-secondary-foreground/10" />
+          <div className="grid grid-cols-1 lg:grid-cols-s2 gap-16 items-center relative z-10">
+            <div className
+              >
+              <h2 className="text-4xl lg:text-6xl font-black text-white uppercase tracking-tighter mb-6 leading-[0.95]">
+                Your Area Not Listed?
+              </h2>
+              <p className="text-white/40 text-lg font-medium leading-relaxed">
+                We&apos;re expanding rapidly. Contact us to verify availability — and if we can&apos;t reach you, we&apos;ll recommend the nearest pickup point.
+              </p>
+            </div
+            <div className="flex justify-center lg:justify-end">
+              <Link
+                href="/contact"
+                className="group relative px-14 py-6 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center gap-3 overflow-hidden shadow-2xl shadow-accent/20"
+              >
+                <span className="relative z-10 flex items-center gap-3">
+                  Check Availability <ArrowRight className="w-5 h-5" />
+                </span
+                <motion.div className="absolute inset-0 bg-white/10" initial={{ x: \"-100%\" }} whileHover={{ x: 0 }} transition={{ duration: 0.3 }} />
+              </Link
+            </div
+          </div
+        </motion.div>
       </section>
     </main>
   );
