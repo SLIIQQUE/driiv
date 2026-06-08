@@ -94,7 +94,7 @@ export default function AreasPage() {
           >
             Pickup and drop-off included across Metro Vancouver. Book online, pay securely, receive automated pulses — wherever you&apos;re located.
           </motion.p>
-        </div}
+        </div>
       </section>
 
       <section ref={sectionRef} className="container mb-20">
@@ -143,8 +143,8 @@ export default function AreasPage() {
                   className="inline-flex items-center gap-2 mt-8 text-xs font-black uppercase tracking-widest text-accent hover:underline group/link"
                 >
                   Book in {area.city} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
-                </Link
-              </div
+                </Link>
+              </div>
             </motion.div>
           ))}
         </motion.div>
@@ -163,8 +163,8 @@ export default function AreasPage() {
             transition={{ duration: 6, repeat: Infinity }}
           />
           <div className="text-center mb-8 relative z-10">
-            <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2">Every service area includes</h3
-          </div
+            <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2">Every service area includes</h3>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
             {[
               { icon: Bot, label: "AI Concierge", sub: "24/7" },
@@ -174,32 +174,31 @@ export default function AreasPage() {
             ].map((item, i) => (
               <motion.div key={i} whileHover={{ y: -4 }}>
                 <item.icon className="w-6 h-6 text-accent mx-auto mb-3" />
-                <div className="text-sm font-black uppercase tracking-wider text-white/40">{item.label}</div
-                <div className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{item.sub}</div
+                <div className="text-sm font-black uppercase tracking-wider text-white/40">{item.label}</div>
+                <div className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{item.sub}</div>
               </motion.div>
             ))}
-          </div
+          </div>
         </motion.div>
       </section>
 
       <section className="container mt-16">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 la-scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           className="premium-card p-12 lg:p-20 rounded-[4rem] relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-linear-to-br from-accent/10 via-transparent to-secondary-foreground/10" />
-          <div className="grid grid-cols-1 lg:grid-cols-s2 gap-16 items-center relative z-10">
-            <div className
-              >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+            <div>
               <h2 className="text-4xl lg:text-6xl font-black text-white uppercase tracking-tighter mb-6 leading-[0.95]">
                 Your Area Not Listed?
               </h2>
               <p className="text-white/40 text-lg font-medium leading-relaxed">
                 We&apos;re expanding rapidly. Contact us to verify availability — and if we can&apos;t reach you, we&apos;ll recommend the nearest pickup point.
               </p>
-            </div
+            </div>
             <div className="flex justify-center lg:justify-end">
               <Link
                 href="/contact"
@@ -207,11 +206,11 @@ export default function AreasPage() {
               >
                 <span className="relative z-10 flex items-center gap-3">
                   Check Availability <ArrowRight className="w-5 h-5" />
-                </span
-                <motion.div className="absolute inset-0 bg-white/10" initial={{ x: \"-100%\" }} whileHover={{ x: 0 }} transition={{ duration: 0.3 }} />
-              </Link
-            </div
-          </div
+                </span>
+                <motion.div className="absolute inset-0 bg-white/10" initial={{ x: "-100%" }} whileHover={{ x: 0 }} transition={{ duration: 0.3 }} />
+              </Link>
+            </div>
+          </div>
         </motion.div>
       </section>
     </main>

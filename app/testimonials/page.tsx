@@ -56,8 +56,7 @@ export default function TestimonialsPage() {
   const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
-    <main
-      <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">Success Stories from Our Students</h1> className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
+    <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl relative z-10">
           <motion.div

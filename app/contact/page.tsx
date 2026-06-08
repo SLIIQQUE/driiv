@@ -6,8 +6,7 @@ import { ContactInfo } from "@/components/contact/ContactInfo";
 
 export default function ContactPage() {
   return (
-    <main
-      <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4">Book Your First Lesson Today</h1> className="bg-[#030305] pb-40 lg:pb-64 overflow-hidden">
+    <main className="bg-[#030305] pb-40 lg:pb-64 overflow-hidden">
       <ContactHero />
       
       <section className="relative z-10">
