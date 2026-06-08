@@ -6,8 +6,8 @@ const navigation = {
     { name: "Standard Lessons", href: "/services" },
     { name: "Intensive Courses", href: "/services" },
     { name: "Block Bookings", href: "/pricing" },
-    { name: "Pass Plus", href: "/services" },
-    { name: "Refresher Lessons", href: "/services" },
+    { name: "Examination Package", href: "/services" },
+    { name: "Foundation Pass", href: "/services" },
     { name: "Pricing & Packages", href: "/pricing" },
   ],
   quickLinks: [

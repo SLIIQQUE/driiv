@@ -73,34 +73,6 @@ export const LESSONS: Lesson[] = [
     ],
     color: "from-secondary-foreground/20 to-accent/20",
   },
-  {
-    id: "refresher",
-    name: "Refresher Lesson",
-    description: "Perfect for licensed drivers who need a confidence boost or want to brush up on specific skills before their road test.",
-    price: "$55",
-    period: "per session",
-    features: [
-      "Targeted skill reinforcement",
-      "Flexible scheduling",
-      "Pick specific maneuvers to practice",
-      "Immediate feedback & tips",
-    ],
-    color: "from-white/10 to-accent/10",
-  },
-  {
-    id: "pass-plus",
-    name: "Pass Plus",
-    description: "Advanced training covering motorway, night, and all-weather driving. Highly recommended for new license holders.",
-    price: "$199",
-    period: "6 sessions",
-    features: [
-      "Motorway driving techniques",
-      "Night & all-weather training",
-      "Dual-carriageway & rural roads",
-      "Can reduce insurance premiums",
-    ],
-    color: "from-accent/10 to-white/5",
-  },
 ];
 
 export interface Booking {

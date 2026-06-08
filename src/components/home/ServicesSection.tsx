@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
-import { Car, Zap, Star, FileCheck, RefreshCw, Award, ArrowRight, CheckCircle2, Bot, Bell, BarChart3,   CreditCard } from "lucide-react";
+import { Car, Zap, Star, FileCheck, ArrowRight, CheckCircle2, Bot, Bell, BarChart3, CreditCard } from "lucide-react";
 import { useRef } from "react";
 
 const services = [
@@ -50,28 +50,6 @@ const services = [
     popular: false,
     cta: "Secure your package",
   },
-  {
-    icon: RefreshCw,
-    title: "Refresher Lesson",
-    subtitle: "Reclaim your confidence",
-    tagline: "Post-license refinement",
-    price: "$55 / session",
-    description: "Already licensed but the road feels foreign? Book individual sessions — no commitment. Highway, night, and maneuver-specific training with immediate feedback.",
-    features: ["Targeted skill reinforcement", "Flexible scheduling", "Pick specific maneuvers", "Immediate feedback & tips"],
-    popular: false,
-    cta: "Book a session",
-  },
-  {
-    icon: Award,
-    title: "Pass Plus",
-    subtitle: "Beyond the license",
-    tagline: "Advanced driver training",
-    price: "$199 / 6 sessions",
-    description: "Advanced training covering motorway, night, dual-carriageway, and all-weather driving. Highly recommended for new license holders. Can reduce insurance premiums.",
-    features: ["Motorway driving techniques", "Night & all-weather training", "Dual-carriageway & rural roads", "Can reduce insurance premiums"],
-    popular: false,
-    cta: "Enroll now",
-  },
 ];
 
 export default function ServicesSection() {
@@ -109,7 +87,7 @@ export default function ServicesSection() {
           </p>
         </motion.div>
 
-        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch" style={{ opacity }}>
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch" style={{ opacity }}>
           {services.map((service, i) => (
             <motion.div
               key={i}

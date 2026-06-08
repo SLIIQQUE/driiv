@@ -7,7 +7,6 @@ import {
   Zap,
   Star,
   FileCheck,
-  RefreshCw,
   ArrowRight,
   CheckCircle2,
   Award,
@@ -16,7 +15,6 @@ import {
   Bell,
   BarChart3,
   CreditCard,
-  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
@@ -90,40 +88,6 @@ const services = [
       "Priority scheduling",
     ],
     price: "$350",
-    popular: false,
-  },
-  {
-    id: "refresher",
-    icon: RefreshCw,
-    title: "Refresher Lesson",
-    subtitle: "Reclaim your confidence",
-    tagline: "Return with renewed mastery",
-    description:
-      "Already licensed but the road feels foreign? Book individual sessions — no commitment, no package pressure. Highway, nocturnal, and adverse-condition training. Pay per session, track your progress in real time.",
-    features: [
-      "Targeted skill reinforcement",
-      "Flexible scheduling — no package obligation",
-      "Pick specific maneuvers to practice",
-      "Immediate feedback & tips",
-    ],
-    price: "$55 / session",
-    popular: false,
-  },
-  {
-    id: "pass-plus",
-    icon: Shield,
-    title: "Pass Plus",
-    subtitle: "Advanced driver training",
-    tagline: "Beyond the license",
-    description:
-      "Advanced training covering motorway, night, dual-carriageway, and all-weather driving. Highly recommended for new license holders. Can reduce future insurance premiums.",
-    features: [
-      "Motorway driving techniques",
-      "Night & all-weather training",
-      "Dual-carriageway & rural roads",
-      "Can reduce insurance premiums",
-    ],
-    price: "$199 / 6 sessions",
     popular: false,
   },
 ];
