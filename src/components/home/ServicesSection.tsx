@@ -2,42 +2,42 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
-import { Car, Zap, Shield, ArrowRight, CheckCircle2, Bot, Bell, BarChart3, CreditCard, Star } from "lucide-react";
+import { Car, Zap, Star, ArrowRight, CheckCircle2, Bot, Bell, BarChart3, CreditCard, Award } from "lucide-react";
 import { useRef } from "react";
 
 const services = [
   {
     icon: Car,
-    title: "The Foundation",
-    subtitle: "Beginner to confident",
+    title: "Foundation Pass",
+    subtitle: "Pay-as-you-go mastery",
     tagline: "Master the essentials",
-    price: "$55/hr",
+    price: "$55 / session",
     description: "One-on-one mentorship in a dual-control cockpit. Book single hours online, pay securely, and watch your progress compound with every session. Zero commitment, maximum flexibility.",
-    features: ["24/7 online booking — no calls ever", "Pay by card or e-transfer upfront", "Auto-reminders before every rendezvous", "Digital progress after each session"],
+    features: ["24/7 online booking — no calls ever", "Pay by card or e-transfer upfront", "Auto-reminders before every rendezvous", "Digital progress report after each session"],
     popular: false,
     cta: "Book a session",
   },
   {
     icon: Zap,
-    title: "The Accelerator",
-    subtitle: "Licensed in 14 days",
-    tagline: "Our most potent program",
-    price: "$650",
-    description: "Ten hours of concentrated mastery designed for rapid ascension. Priority scheduling, mock examinations, and a private progress nexus. From never driven to test-ready in two weeks.",
-    features: ["Priority booking — your slots, locked", "Mock test with granular scoring", "Live progress dashboard included", "Vehicle provided for ICBC exam", "Save $100 versus hourly billing"],
+    title: "Power Pack",
+    subtitle: "Save $25 — optimal momentum",
+    tagline: "Our most popular program",
+    price: "$250 / 5 sessions",
+    description: "Five sessions with priority scheduling, mock assessment, and a full progress dashboard. Save $25 versus per-session pricing. The ideal launch package for new learners.",
+    features: ["Save $25 versus per-session rate", "Priority calendar access", "Mock assessment included", "Full progress dashboard"],
     popular: true,
-    cta: "Enroll now",
+    cta: "Book 5 sessions",
   },
   {
-    icon: Shield,
-    title: "The Polisher",
-    subtitle: "Post-license refinement",
-    tagline: "Confidence completed",
-    price: "$250",
-    description: "Already licensed but lack composure at speed? Highway merging, night navigation, all-weather control — sharpen your instincts with a master instructor by your side.",
-    features: ["Highway integration mastery", "Night driving & low-visibility", "All-weather vehicle control", "Precision parking & maneuvers"],
+    icon: Star,
+    title: "Mastery Bundle",
+    subtitle: "Save $100 — maximum velocity",
+    tagline: "Our apex value",
+    price: "$450 / 10 sessions",
+    description: "Ten sessions covering the complete curriculum with two mock road tests. Save $100 versus à la carte and progress from novice to test-ready with surgical precision.",
+    features: ["Save $100 versus per-session rate", "Complete curriculum coverage", "2 mock road tests", "Test-readiness dashboard"],
     popular: false,
-    cta: "Book a session",
+    cta: "Book 10 sessions",
   },
 ];
 

@@ -11,14 +11,13 @@ import {
   Bell,
   CreditCard,
   BarChart3,
-  Info,
 } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
 
 const pricingTiers = [
   {
-    name: "The Foundation Pass",
+    name: "Foundation Pass",
     price: "$55",
     period: "/ session",
     tagline: "Pay-as-you-go mastery",
@@ -35,7 +34,7 @@ const pricingTiers = [
     icon: ShieldCheck,
   },
   {
-    name: "The Power Pack",
+    name: "Power Pack",
     price: "$250",
     period: "/ 5 sessions",
     tagline: "Optimal momentum",
@@ -53,7 +52,7 @@ const pricingTiers = [
     icon: Zap,
   },
   {
-    name: "The Mastery Bundle",
+    name: "Mastery Bundle",
     price: "$450",
     period: "/ 10 sessions",
     tagline: "Maximum velocity",
@@ -67,6 +66,24 @@ const pricingTiers = [
       "Auto-pay available — configure once",
     ],
     cta: "Book 10 sessions",
+    popular: false,
+    icon: Star,
+  },
+  {
+    name: "Examination Package",
+    price: "$350",
+    period: "/ 5 sessions + exam",
+    tagline: "Test-day dominance",
+    description:
+      "Five precision sessions plus a dedicated mock examination and vehicle provision for your ICBC road test. Recommended for students preparing for their road test.",
+    features: [
+      "5 one-on-one preparation sessions",
+      "Dedicated mock road test",
+      "Vehicle provision for ICBC test",
+      "Test-ready guarantee",
+      "Priority scheduling",
+    ],
+    cta: "Secure your package",
     popular: false,
     icon: Star,
   },
@@ -130,7 +147,7 @@ export default function PricingPage() {
 
       <section ref={sectionRef} className="container">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mt-20"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch mt-20"
           style={{ opacity }}
         >
           {pricingTiers.map((tier, i) => (
@@ -213,46 +230,6 @@ export default function PricingPage() {
               </Link>
             </motion.div>
           ))}
-        </motion.div>
-      </section>
-
-      <section className="container ">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="glass-card border-white/5 p-10 lg:p-16 rounded-[3rem] relative overflow-hidden mt-20"
-        >
-          <div className="absolute inset-0 bg-linear-to-r from-secondary-foreground/20 via-transparent to-accent/20" />
-          <div className="relative z-10">
-            <div className="text-center mb-8">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-secondary-foreground mb-4"
-              >
-                <Info className="w-4 h-4" /> Recommended for ICBC examinations
-              </motion.div>
-              <h2 className="text-3xl lg:text-5xl font-black text-white uppercase tracking-tighter mb-4">
-                The Examination Package —{" "}
-                <span className="text-accent">$350</span>
-              </h2>
-              <p className="text-white/40 font-medium max-w-xl mx-auto">
-                5 precision sessions + dedicated mock examination + vehicle
-                provision for your ICBC road test. Book and pay within our
-                ecosystem.
-              </p>
-            </div>
-            <div className="flex justify-center mt-8">
-              <Link
-                href="/booking"
-                className="group relative px-14 py-5 bg-secondary-foreground text-white rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-secondary-foreground/20"
-              >
-                <span className="relative z-10">Secure Your Package</span>
-                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-              </Link>
-            </div>
-          </div>
         </motion.div>
       </section>
 

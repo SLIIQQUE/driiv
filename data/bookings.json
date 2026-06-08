@@ -1,0 +1,16 @@
+[
+  {
+    "id": "d1a5f411-4e7d-4a64-8ae7-23c6975ad58b",
+    "customerName": "Gabriel Njoabozia",
+    "phone": "08103413970",
+    "email": "mails4gabriel@gmail.com",
+    "lessonId": "power-pack",
+    "lessonName": "Power Pack",
+    "lessonPrice": "$250",
+    "preferredDate": "June 9, 2026",
+    "preferredTime": "09:00",
+    "notes": "Hello",
+    "status": "pending",
+    "createdAt": "2026-06-08T18:37:31.173Z"
+  }
+]
