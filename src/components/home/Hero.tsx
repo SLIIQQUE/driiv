@@ -11,6 +11,8 @@ export default function Hero() {
   const { scrollY } = useScroll();
 
   const yTranslate = useTransform(scrollY, [0, 800], [0, 200]);
+  const goldY = useTransform(scrollY, [0, 1000], [0, 150]);
+  const blueY = useTransform(scrollY, [0, 1000], [0, -100]);
 
   return (
     <section
@@ -24,14 +26,14 @@ export default function Hero() {
           className="absolute top-[15%] left-[5%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-20 pointer-events-none"
           style={{
             background: "radial-gradient(circle, #FFD700 0%, transparent 70%)",
-            y: useTransform(scrollY, [0, 1000], [0, 150]),
+            y: goldY,
           }}
         />
         <motion.div
           className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] rounded-full blur-[100px] opacity-15 pointer-events-none"
           style={{
             background: "radial-gradient(circle, #1A2B48 0%, transparent 70%)",
-            y: useTransform(scrollY, [0, 1000], [0, -100]),
+            y: blueY,
           }}
         />
 

@@ -74,23 +74,19 @@ export function AboutHero() {
                </div>
             </div>
             
-            <motion.div 
+             <div 
                className="absolute top-10 -right-8 glass-card p-6 rounded-3xl"
-               animate={{ y: [0, -15, 0] }}
-               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
                <TrendingUp className="w-10 h-10 text-accent mb-2" />
                <div className="text-sm font-bold text-white uppercase tracking-wider">40% Avg Growth</div>
-            </motion.div>
+            </div>
 
-            <motion.div 
+             <div 
                className="absolute bottom-20 -left-12 glass-card p-8 rounded-3xl"
-               animate={{ y: [0, 15, 0] }}
-               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             >
                <Shield className="w-12 h-12 text-secondary-foreground mb-2" />
                <div className="text-sm font-bold text-white uppercase tracking-wider">Enterprise Grade</div>
-            </motion.div>
+            </div>
           </motion.div>
 
         </div>

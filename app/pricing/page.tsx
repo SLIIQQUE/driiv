@@ -111,8 +111,7 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              whileHover={{ y: -8, scale: 1.01 }}
-              className={`premium-card p-10 flex flex-col group relative overflow-hidden cursor-default ${tier.popular ? "border-accent/30 bg-accent/[0.02]" : "bg-white/2"}`}
+              className={`premium-card p-10 flex flex-col group relative overflow-hidden cursor-default hover:-translate-y-2 hover:scale-[1.01] transition-all duration-500 ${tier.popular ? "border-accent/30 bg-accent/[0.02]" : "bg-white/2"}`}
             >
               {tier.popular && (
                 <motion.div
@@ -128,13 +127,11 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
               )}
 
               <div className="mb-12">
-                <motion.div
-                  className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-10 ${tier.popular ? "bg-accent text-primary" : "bg-white/5 text-white/40"}`}
-                  whileHover={{ scale: 1.15, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 200 }}
+                <div
+                  className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-10 ${tier.popular ? "bg-accent text-primary" : "bg-white/5 text-white/40"} hover:scale-110 hover:rotate-6 transition-transform duration-300`}
                 >
                   <tier.icon className="w-7 h-7" />
-                </motion.div>
+                </div>
                 <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-2">{tier.tagline}</div>
                 <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">{tier.name}</h3>
                 <p className="text-sm text-white/40 font-medium leading-relaxed">{tier.description}</p>
@@ -145,7 +142,7 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                   <span className="text-6xl font-black text-white tracking-tighter">{tier.price}</span>
                   <span className="text-white/30 font-bold uppercase text-xs tracking-widest">{tier.period}</span>
                 </div>
-                <motion.div className="w-12 h-1 bg-accent/20 rounded-full" whileHover={{ width: 48 }} />
+                <div className="w-12 h-1 bg-accent/20 rounded-full group-hover:w-12 transition-all duration-300" />
               </div>
 
               <div className="space-y-4 mb-12 flex-1">
@@ -170,13 +167,8 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                 <span className="relative z-10 flex items-center gap-3">
                   {tier.cta} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <motion.div
-                  className="absolute inset-0 bg-white/10"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </Link>
+              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
+            </Link>
             </motion.div>
           ))}
         </motion.div>
@@ -212,14 +204,9 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                 className="group relative px-14 py-5 bg-secondary-foreground text-white rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-secondary-foreground/20"
               >
                 <span className="relative z-10">Secure Your Package</span>
-                <motion.div
-                  className="absolute inset-0 bg-white/10"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </Link>
-            </div>
+              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
+            </Link>
+          </div>
           </div>
         </motion.div>
       </section>
@@ -240,9 +227,7 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
             ].map((item, i) => (
               <motion.div
                 key={i}
-                className="flex items-center gap-2 text-sm font-bold text-white/40"
-                whileHover={{ y: -3, color: "#FFD700" }}
-                transition={{ type: "spring", stiffness: 200 }}
+                className="flex items-center gap-2 text-sm font-bold text-white/40 hover:-translate-y-0.5 hover:text-accent transition-all duration-300"
               >
                 <item.icon className="w-5 h-5 text-accent" /> {item.label}
               </motion.div>

@@ -22,12 +22,7 @@ export function SlideButton({ href, children, className = "", showArrow = true }
         {children}
         {showArrow && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
       </span>
-      <motion.div
-        className="absolute inset-0 bg-white/10"
-        initial={{ x: "-100%" }}
-        whileHover={{ x: 0 }}
-        transition={{ duration: 0.3 }}
-      />
+      <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
     </Link>
   );
 }

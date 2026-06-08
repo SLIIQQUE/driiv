@@ -112,8 +112,7 @@ export default function TestimonialsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5 }}
-              whileHover={{ y: -6, scale: 1.01 }}
-              className="break-inside-avoid glass-card border-white/5 p-8 lg:p-10 rounded-[3rem] group relative overflow-hidden flex flex-col mb-8 cursor-default"
+              className="break-inside-avoid glass-card border-white/5 p-8 lg:p-10 rounded-[3rem] group relative overflow-hidden flex flex-col mb-8 cursor-default hover:-translate-y-1.5 hover:scale-[1.01] transition-all duration-500"
             >
               <Quote className="absolute top-8 right-8 w-12 h-12 text-white/5 group-hover:text-accent/10 transition-colors duration-500" />
 
@@ -135,12 +134,11 @@ export default function TestimonialsPage() {
               </p>
 
               <div className="mt-auto flex items-center gap-5 pt-6 border-t border-white/5">
-                <motion.div
-                  className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center font-black text-xl text-white/20"
-                  whileHover={{ scale: 1.2, backgroundColor: "rgba(255,215,0,0.1)" }}
+                <div
+                  className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center font-black text-xl text-white/20 hover:scale-110 hover:bg-accent/10 transition-all duration-300"
                 >
                   {testimonial.name[0]}
-                </motion.div>
+                </div>
                 <div>
                   <h4 className="text-sm font-black text-white uppercase tracking-tighter">{testimonial.name}</h4>
                   <div className="flex items-center gap-2 text-white/20 text-[10px] font-black uppercase tracking-widest">
@@ -160,10 +158,8 @@ export default function TestimonialsPage() {
           viewport={{ once: true }}
           className="glass-card border-white/5 p-10 lg:p-14 rounded-[3rem] relative overflow-hidden"
         >
-          <motion.div
+          <div
             className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 6, repeat: Infinity }}
           />
           <div className="text-center mb-8 relative z-10">
             <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2">Every student experiences</h3>
@@ -175,11 +171,11 @@ export default function TestimonialsPage() {
               { icon: CreditCard, label: "Online Pay", sub: "Cashless" },
               { icon: BarChart3, label: "Progress Intel", sub: "After each" },
             ].map((item, i) => (
-              <motion.div key={i} whileHover={{ y: -4 }}>
+              <div key={i} className="hover:-translate-y-1 transition-transform duration-300">
                 <item.icon className="w-6 h-6 text-accent mx-auto mb-3" />
                 <div className="text-sm font-black uppercase tracking-wider text-white/40">{item.label}</div>
                 <div className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{item.sub}</div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </motion.div>
@@ -207,7 +203,7 @@ export default function TestimonialsPage() {
               <span className="relative z-10 flex items-center gap-3">
                 Begin Your Journey <ArrowRight className="w-5 h-5" />
               </span>
-              <motion.div className="absolute inset-0 bg-white/10" initial={{ x: "-100%" }} whileHover={{ x: 0 }} transition={{ duration: 0.3 }} />
+              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
             </Link>
           </div>
         </motion.div>

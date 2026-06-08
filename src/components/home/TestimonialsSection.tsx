@@ -79,8 +79,7 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.12, duration: 0.5 }}
-              whileHover={{ y: -6, scale: 1.01 }}
-              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2.5rem] relative group cursor-default"
+              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2.5rem] relative group cursor-default hover:-translate-y-1.5 hover:scale-[1.01] transition-all duration-500"
             >
               <Quote className="absolute top-6 right-6 w-8 h-8 text-white/5 group-hover:text-accent/10 transition-colors duration-500" />
               <div className="flex items-center gap-3 mb-6">
@@ -102,12 +101,11 @@ export default function TestimonialsSection() {
                 &ldquo;{t.text}&rdquo;
               </p>
               <div className="border-t border-white/5 pt-6 flex items-center gap-4">
-                <motion.div
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center font-black text-white/20 text-sm"
-                  whileHover={{ scale: 1.2, backgroundColor: "rgba(255,215,0,0.1)" }}
+                <div
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center font-black text-white/20 text-sm hover:scale-110 hover:bg-accent/10 transition-all duration-300"
                 >
                   {t.name[0]}
-                </motion.div>
+                </div>
                 <div>
                   <div className="text-sm font-black text-white">{t.name}</div>
                   <div className="text-[10px] font-black uppercase tracking-widest text-white/20">{t.location}</div>
@@ -128,7 +126,7 @@ export default function TestimonialsSection() {
             className="group inline-flex items-center gap-3 text-accent font-black uppercase tracking-widest text-sm"
           >
             <span>Read All Testimonials</span>
-            <motion.span whileHover={{ x: 4 }}><ArrowRight className="w-4 h-4" /></motion.span>
+            <span className="group-hover:translate-x-1 transition-transform duration-300"><ArrowRight className="w-4 h-4" /></span>
           </Link>
         </motion.div>
 

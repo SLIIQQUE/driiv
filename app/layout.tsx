@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
 import { Outfit, Space_Mono } from "next/font/google";
 import "./globals.css";
-import dynamic from "next/dynamic";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-
-const VoiceAssistant = dynamic(
-  () => import("@/components/VoiceAssistant").then((mod) => ({ default: mod.VoiceAssistant }))
-);
+import VoiceAssistantWrapper from "@/components/VoiceAssistantWrapper";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -95,9 +91,8 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  verification: {
-    google: "ADD_YOUR_GOOGLE_SEARCH_CONSOLE_VERIFICATION_CODE_HERE",
-  },
+  // TODO: Replace with actual Google Search Console verification code
+  // verification: { google: "..." },
   other: {
     "theme-color": "#1A2B48",
     "mobile-web-app-capable": "yes",
@@ -281,7 +276,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <VoiceAssistant />
+          <VoiceAssistantWrapper />
       </body>
     </html>
   );

@@ -1,5 +1,3 @@
-"use client";
-
 import { PageHero, PageTitle, PageDescription } from "@/components/ui";
 import { FeatureSteps } from "@/components/features/FeatureSteps";
 import { FeatureCards } from "@/components/features/FeatureCards";

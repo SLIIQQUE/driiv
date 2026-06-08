@@ -1,12 +1,10 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import Link from "next/link";
 import {
   ArrowRight,
-  Bot,
   CheckCircle2,
-  Car,
   Shield,
   Quote,
 } from "lucide-react";
@@ -14,8 +12,6 @@ import { useRef } from "react";
 
 export default function AboutPreview() {
   const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
-  const x = useTransform(scrollYProgress, [0, 1], [0, 0]);
 
   return (
     <section ref={sectionRef} className="section bg-[#030305] relative overflow-hidden">
@@ -28,7 +24,6 @@ export default function AboutPreview() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "0px" }}
             transition={{ duration: 0.8 }}
-            style={{ x }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -90,13 +85,13 @@ export default function AboutPreview() {
                   { value: "5+", label: "Seasons Of Excellence" },
                   { value: "6", label: "Cities Covered" },
                 ].map((stat, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + i * 0.1 }}
-                    whileHover={{ scale: 1.05 }}
-                  >
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + i * 0.1 }}
+              className="hover:scale-105 transition-transform duration-300"
+            >
                     <motion.div
                       className="text-5xl font-black text-white mb-2"
                       initial={{ opacity: 0 }}

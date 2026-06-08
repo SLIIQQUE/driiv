@@ -159,7 +159,7 @@ export default function FaqAccordion() {
                 <span className="relative z-10 flex items-center gap-2">
                   <MessageCircle className="w-4 h-4" /> Contact Us
                 </span>
-                <motion.div className="absolute inset-0 bg-white/10" initial={{ x: "-100%" }} whileHover={{ x: 0 }} transition={{ duration: 0.3 }} />
+                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
               </Link>
               <div className="text-center text-[11px] font-black uppercase tracking-widest text-white/20">Or call: (604) 123-4567</div>
             </div>

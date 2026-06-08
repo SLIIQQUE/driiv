@@ -40,12 +40,11 @@ export function AboutMilestones() {
               className="flex gap-8 pb-16 last:pb-0 relative"
             >
               <div className="flex flex-col items-center">
-                <motion.div
-                  className="w-16 h-16 rounded-2xl bg-accent text-primary flex items-center justify-center font-black z-10 shadow-2xl shadow-accent/10 text-sm"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
+                <div
+                  className="w-16 h-16 rounded-2xl bg-accent text-primary flex items-center justify-center font-black z-10 shadow-2xl shadow-accent/10 text-sm hover:scale-110 hover:rotate-6 transition-transform duration-300"
                 >
                   {m.year.slice(2)}
-                </motion.div>
+                </div>
                 {i < milestones.length - 1 && (
                   <motion.div
                     className="w-px flex-1 bg-linear-to-b from-accent/30 to-transparent mt-4"

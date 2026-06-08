@@ -112,16 +112,13 @@ export function FeatureCards() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.08, duration: 0.5 }}
-            whileHover={{ y: -6, scale: 1.02 }}
-            className="glass-card border-white/5 p-8 lg:p-10 rounded-[2.5rem] group hover:border-accent/20 transition-all cursor-default"
+            className="glass-card border-white/5 p-8 lg:p-10 rounded-[2.5rem] group hover:border-accent/20 hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-500 cursor-default"
           >
-            <motion.div
-              className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-accent/10 group-hover:border-accent/20 transition-all"
-              whileHover={{ scale: 1.15, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 200 }}
+            <div
+              className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-accent/10 group-hover:border-accent/20 transition-all hover:scale-110 hover:rotate-6 duration-300"
             >
               <item.icon className="w-7 h-7 text-accent" />
-            </motion.div>
+            </div>
             <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-1">{item.tagline}</div>
             <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-4 group-hover:text-accent transition-colors">{item.title}</h3>
             <p className="text-sm text-white/40 font-medium leading-relaxed mb-6">{item.description}</p>
@@ -132,10 +129,10 @@ export function FeatureCards() {
                 </div>
               ))}
             </div>
-            <motion.div className="flex items-baseline gap-1" whileHover={{ x: 4 }}>
+            <div className="flex items-baseline gap-1 hover:translate-x-1 transition-transform duration-300">
               <span className="text-3xl font-black text-accent">{item.stat}</span>
               <span className="text-[10px] font-black uppercase tracking-widest text-white/30 ml-1">{item.statLabel}</span>
-            </motion.div>
+            </div>
           </motion.div>
         ))}
       </div>

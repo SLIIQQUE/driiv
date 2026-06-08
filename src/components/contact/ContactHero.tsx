@@ -36,10 +36,8 @@ export function ContactHero() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="glass-card border-white/10 rounded-[3rem] p-10 lg:p-20 relative overflow-hidden"
           >
-            <motion.div
+             <div
               className="absolute -top-24 -right-24 w-64 h-64 bg-accent/10 blur-[100px] rounded-full pointer-events-none"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 8, repeat: Infinity }}
             />
 
             <motion.h1
@@ -75,14 +73,12 @@ export function ContactHero() {
                 { icon: Bell, label: "Pulses" },
                 { icon: BarChart3, label: "Progress Intel" },
               ].map((item, i) => (
-                <motion.div
+                  <div
                   key={i}
-                  className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/40"
-                  whileHover={{ color: "#FFD700", y: -2 }}
-                  transition={{ type: "spring", stiffness: 200 }}
+                  className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/40 hover:text-accent hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <item.icon className="w-4 h-4 text-accent" /> {item.label}
-                </motion.div>
+                </div>
               ))}
             </motion.div>
 
@@ -92,24 +88,24 @@ export function ContactHero() {
               transition={{ delay: 0.5 }}
               className="flex flex-wrap gap-8 items-center pt-8 border-t border-white/5"
             >
-              <motion.div className="flex items-center gap-3" whileHover={{ x: 4 }}>
+              <div className="flex items-center gap-3 hover:translate-x-1 transition-transform duration-300">
                 <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
                   <Phone className="w-5 h-5" />
                 </div>
                 <span className="text-white font-bold tracking-tight">(604) 123-4567</span>
-              </motion.div>
-              <motion.div className="flex items-center gap-3" whileHover={{ x: 4 }}>
+              </div>
+              <div className="flex items-center gap-3 hover:translate-x-1 transition-transform duration-300">
                 <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
                   <Mail className="w-5 h-5" />
                 </div>
                 <span className="text-white font-bold tracking-tight">hello@rydax.net</span>
-              </motion.div>
-              <motion.div className="hidden md:flex items-center gap-3" whileHover={{ x: 4 }}>
+              </div>
+              <div className="hidden md:flex items-center gap-3 hover:translate-x-1 transition-transform duration-300">
                 <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
                   <MessageSquare className="w-5 h-5" />
                 </div>
                 <span className="text-white font-bold tracking-tight">Same-Day Response</span>
-              </motion.div>
+              </div>
             </motion.div>
           </motion.div>
         </div>

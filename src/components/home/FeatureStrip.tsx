@@ -97,20 +97,17 @@ export default function FeatureStrip() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="glass-card border-white/5 p-6 lg:p-8 rounded-[2rem] group hover:border-accent/20 transition-all relative overflow-hidden cursor-default"
+              className="glass-card border-white/5 p-6 lg:p-8 rounded-[2rem] group hover:border-accent/20 hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-500 relative overflow-hidden cursor-default"
             >
               <motion.div
                 className={`absolute inset-0 bg-linear-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
               />
               <div className="relative z-10">
-                <motion.div
-                  className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-accent/10 group-hover:border-accent/20 transition-all"
-                  whileHover={{ scale: 1.15, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 200 }}
+                <div
+                  className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-accent/10 group-hover:border-accent/20 transition-all hover:scale-110 hover:rotate-6 duration-300"
                 >
                   <feature.icon className="w-6 h-6 text-accent" />
-                </motion.div>
+                </div>
                 <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-1">{feature.tagline}</div>
                 <h3 className="text-lg font-black text-white uppercase tracking-tighter mb-3 group-hover:text-accent transition-colors">{feature.title}</h3>
                 <p className="text-sm text-white/40 font-medium leading-relaxed mb-8">{feature.description}</p>
@@ -119,13 +116,11 @@ export default function FeatureStrip() {
                   className="text-xs font-black uppercase tracking-widest text-accent group/link inline-flex items-center gap-2"
                 >
                   <span>{feature.cta}</span>
-                  <motion.span
-                    className="inline-block"
-                    whileHover={{ x: 4 }}
-                    transition={{ type: "spring", stiffness: 200 }}
+                    <span
+                    className="inline-block group-hover:translate-x-1 transition-transform duration-300"
                   >
                     <ArrowRight className="w-3 h-3" />
-                  </motion.span>
+                  </span>
                 </Link>
               </div>
             </motion.div>

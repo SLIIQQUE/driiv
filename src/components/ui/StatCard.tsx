@@ -17,7 +17,7 @@ export function StatCard({ icon: Icon, value, label, delay = 0 }: StatCardProps)
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: delay }}
-      whileHover={{ scale: 1.05 }}
+      className="hover:scale-105 transition-transform duration-300"
     >
       {Icon && <Icon className="w-8 h-8 text-accent mx-auto mb-4" />}
       <motion.div

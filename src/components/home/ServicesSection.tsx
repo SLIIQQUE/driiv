@@ -84,8 +84,7 @@ export default function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15, duration: 0.5 }}
-              whileHover={{ y: -8, scale: 1.01 }}
-              className={`premium-card p-10 lg:p-12 flex flex-col group relative overflow-hidden cursor-default ${service.popular ? "border-accent/30 bg-accent/[0.02]" : ""}`}
+              className={`premium-card p-10 lg:p-12 flex flex-col group relative overflow-hidden cursor-default hover:-translate-y-2 hover:scale-[1.01] transition-all duration-500 ${service.popular ? "border-accent/30 bg-accent/[0.02]" : ""}`}
             >
               {service.popular && (
                 <motion.div
@@ -98,13 +97,11 @@ export default function ServicesSection() {
                 </motion.div>
               )}
 
-              <motion.div
-                className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-10"
-                whileHover={{ scale: 1.15, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 200 }}
+              <div
+                className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-10 hover:scale-110 hover:rotate-6 transition-transform duration-300"
               >
                 <service.icon className="w-8 h-8 text-accent" />
-              </motion.div>
+              </div>
 
               <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-2">{service.tagline}</div>
               <div className="text-xs font-black uppercase tracking-widest text-accent mb-2">{service.subtitle}</div>
@@ -136,12 +133,7 @@ export default function ServicesSection() {
                 <span className="relative z-10 flex items-center gap-3">
                   {service.cta} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <motion.div
-                  className="absolute inset-0 bg-white/10"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
+                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
               </Link>
             </motion.div>
           ))}
@@ -166,7 +158,7 @@ export default function ServicesSection() {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 + i * 0.1 }}
-                whileHover={{ y: -4 }}
+                className="hover:-translate-y-1 transition-transform duration-300"
               >
                 <item.icon className="w-6 h-6 text-accent mx-auto mb-3" />
                 <div className="text-xs font-black uppercase tracking-wider text-white/40">{item.label}</div>

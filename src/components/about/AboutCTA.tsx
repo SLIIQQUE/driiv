@@ -35,7 +35,7 @@ export function AboutCTA() {
               <span className="relative z-10 flex items-center gap-3">
                 Book a Session <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
-              <motion.div className="absolute inset-0 bg-white/10" initial={{ x: "-100%" }} whileHover={{ x: 0 }} transition={{ duration: 0.3 }} />
+              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
             </Link>
           </motion.div>
         </motion.div>

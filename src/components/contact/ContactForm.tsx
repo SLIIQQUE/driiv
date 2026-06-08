@@ -64,8 +64,7 @@ export function ContactForm() {
             </p>
             <motion.button
               onClick={() => setFormState("idle")}
-              className="text-accent font-black uppercase tracking-widest text-sm hover:underline flex items-center gap-2 group"
-              whileHover={{ x: 4 }}
+              className="text-accent font-black uppercase tracking-widest text-sm hover:underline flex items-center gap-2 group hover:translate-x-1 transition-transform duration-300"
             >
               New Request <ArrowRight className="w-4 h-4" />
             </motion.button>
@@ -78,10 +77,8 @@ export function ContactForm() {
             exit={{ opacity: 0, y: -20 }}
             className="glass-card border-white/5 rounded-[3rem] p-10 lg:p-16 relative overflow-hidden"
           >
-            <motion.div
+            <div
               className="absolute top-0 right-0 w-64 h-64 bg-accent/5 blur-[100px] pointer-events-none"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 6, repeat: Infinity }}
             />
 
             <div className="relative z-10">
@@ -98,7 +95,7 @@ export function ContactForm() {
 
                <form onSubmit={handleSubmit} className="space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <motion.div className="group space-y-2" whileHover={{ x: 4 }}>
+                     <div className="group space-y-2 hover:translate-x-1 transition-transform duration-300">
                         <label className="text-[10px] uppercase tracking-[0.3em] font-black text-white/30 ml-4 group-focus-within:text-accent transition-colors">Full Name</label>
                         <div className="relative">
                            <User className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-accent transition-colors" />
@@ -110,9 +107,9 @@ export function ContactForm() {
                               className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
                            />
                         </div>
-                     </motion.div>
+                     </div>
 
-                     <motion.div className="group space-y-2" whileHover={{ x: 4 }}>
+                     <div className="group space-y-2 hover:translate-x-1 transition-transform duration-300">
                         <label className="text-[10px] uppercase tracking-[0.3em] font-black text-white/30 ml-4 group-focus-within:text-accent transition-colors">Email Address</label>
                         <div className="relative">
                            <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-accent transition-colors" />
@@ -124,11 +121,11 @@ export function ContactForm() {
                               className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
                            />
                         </div>
-                     </motion.div>
+                     </div>
                    </div>
 
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <motion.div className="group space-y-2" whileHover={{ x: 4 }}>
+                     <div className="group space-y-2 hover:translate-x-1 transition-transform duration-300">
                         <label className="text-[10px] uppercase tracking-[0.3em] font-black text-white/30 ml-4 group-focus-within:text-accent transition-colors">Phone Number</label>
                         <div className="relative">
                            <Phone className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-accent transition-colors" />
@@ -140,9 +137,9 @@ export function ContactForm() {
                               className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
                            />
                         </div>
-                     </motion.div>
+                     </div>
 
-                     <motion.div className="group space-y-2" whileHover={{ x: 4 }}>
+                     <div className="group space-y-2 hover:translate-x-1 transition-transform duration-300">
                         <label className="text-[10px] uppercase tracking-[0.3em] font-black text-white/30 ml-4 group-focus-within:text-accent transition-colors">Program</label>
                         <div className="relative">
                            <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-accent transition-colors pointer-events-none" />
@@ -161,10 +158,10 @@ export function ContactForm() {
                               <option value="general" className="bg-[#030305]">General Inquiry</option>
                            </select>
                         </div>
-                     </motion.div>
+                     </div>
                   </div>
 
-                  <motion.div className="group space-y-2" whileHover={{ x: 4 }}>
+                  <div className="group space-y-2 hover:translate-x-1 transition-transform duration-300">
                     <label className="text-[10px] uppercase tracking-[0.3em] font-black text-white/30 ml-4 group-focus-within:text-accent transition-colors">Message</label>
                      <textarea
                         name="message"
@@ -172,13 +169,13 @@ export function ContactForm() {
                         placeholder="Your experience level, preferred session times, or any inquiries..."
                         className="w-full bg-white/5 border border-white/10 rounded-4xl py-6 px-8 text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10 resize-none"
                      />
-                  </motion.div>
+                   </div>
 
-                  <motion.button
+
+                  <button
                      type="submit"
                      disabled={formState === "submitting"}
-                     className="group relative w-full bg-accent text-primary py-6 rounded-2xl flex items-center justify-center gap-4 text-xl font-black overflow-hidden shadow-2xl shadow-accent/20 disabled:opacity-50"
-                     whileHover={{ scale: 1.02 }}
+                     className="group relative w-full bg-accent text-primary py-6 rounded-2xl flex items-center justify-center gap-4 text-xl font-black overflow-hidden shadow-2xl shadow-accent/20 disabled:opacity-50 hover:scale-[1.02] transition-transform duration-300"
                   >
                       {formState === "submitting" ? (
                          <>
@@ -190,10 +187,10 @@ export function ContactForm() {
                           <span className="relative z-10 flex items-center gap-4">
                             REQUEST BOOKING <Send className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                           </span>
-                          <motion.div className="absolute inset-0 bg-white/10" initial={{ x: "-100%" }} whileHover={{ x: 0 }} transition={{ duration: 0.3 }} />
+                          <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
                         </>
                       )}
-                  </motion.button>
+                  </button>
                </form>
 
                <motion.div

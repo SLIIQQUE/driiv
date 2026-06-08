@@ -151,8 +151,7 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              whileHover={{ y: -8, scale: 1.01 }}
-              className={`premium-card p-10 lg:p-12 relative flex flex-col group overflow-hidden cursor-default ${service.popular ? "border-accent/30 bg-accent/[0.02]" : ""}`}
+              className={`premium-card p-10 lg:p-12 relative flex flex-col group overflow-hidden cursor-default hover:-translate-y-2 hover:scale-[1.01] transition-all duration-500 ${service.popular ? "border-accent/30 bg-accent/[0.02]" : ""}`}
             >
               {service.popular && (
                 <motion.div
@@ -167,13 +166,11 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
 
               <div className="relative z-10 h-full flex flex-col">
                 <div className="flex justify-between items-start mb-12">
-                  <motion.div
-                    className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center"
-                    whileHover={{ scale: 1.15, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 200 }}
+                  <div
+                    className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:scale-110 hover:rotate-6 transition-transform duration-300"
                   >
                     <service.icon className="w-8 h-8 text-accent" />
-                  </motion.div>
+                  </div>
                   <div className="text-right">
                     <div className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-1">Investment</div>
                     <div className="text-3xl font-black text-white">{service.price}</div>
@@ -239,7 +236,7 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + i * 0.08 }}
-                  whileHover={{ y: -4 }}
+                  className="hover:-translate-y-1 transition-transform duration-300"
                 >
                   <item.icon className="w-8 h-8 text-accent mx-auto mb-4" />
                   <div className="text-sm font-black uppercase tracking-wider">{item.label}</div>
@@ -270,7 +267,7 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                whileHover={{ scale: 1.05 }}
+                className="hover:scale-105 transition-transform duration-300"
               >
                 <stat.icon className="w-12 h-12 text-accent mx-auto mb-6" />
                 <motion.div

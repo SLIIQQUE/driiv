@@ -43,7 +43,6 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
       <motion.button
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={handleOpenAI}
         data-voice-button
