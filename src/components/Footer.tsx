@@ -7,18 +7,22 @@ const navigation = {
     { name: "Intensive Courses", href: "/services" },
     { name: "Block Bookings", href: "/pricing" },
     { name: "Pass Plus", href: "/services" },
-    { name: "Pricing", href: "/pricing" },
+    { name: "Refresher Lessons", href: "/services" },
+    { name: "Pricing & Packages", href: "/pricing" },
   ],
-  company: [
-    { name: "About", href: "/about" },
+  quickLinks: [
+    { name: "Home", href: "/" },
+    { name: "Book Now", href: "/booking" },
+    { name: "Features", href: "/features" },
     { name: "Areas Covered", href: "/areas" },
     { name: "Reviews", href: "/testimonials" },
     { name: "FAQ", href: "/faq" },
-    { name: "Contact", href: "/contact" },
   ],
-  legal: [
-    { name: "Terms of Service", href: "/terms" },
+  company: [
+    { name: "About Us", href: "/about" },
+    { name: "Contact", href: "/contact" },
     { name: "Privacy Policy", href: "/privacy" },
+    { name: "Terms of Service", href: "/terms" },
   ],
 };
 
@@ -114,10 +118,10 @@ export default function Footer() {
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-6">
-                Company
+                Quick Links
               </h3>
               <ul role="list" className="space-y-4">
-                {navigation.company.map((item) => (
+                {navigation.quickLinks.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
@@ -132,10 +136,10 @@ export default function Footer() {
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-6">
-                Legal
+                Company
               </h3>
               <ul role="list" className="space-y-4">
-                {navigation.legal.map((item) => (
+                {navigation.company.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
