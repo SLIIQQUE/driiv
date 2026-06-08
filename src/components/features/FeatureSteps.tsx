@@ -61,7 +61,7 @@ export function FeatureSteps() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.4 }}
-        className="mt-16 glass-card border-white/5 p-8 rounded-[2.5rem]"
+        className="mt-16 glass-card border-white/5 p-8 rounded-[2rem]"
       >
         <div className="flex flex-wrap justify-center gap-8 text-sm font-black text-white/40">
           <span className="flex items-center gap-2"><Zap className="w-4 h-4 text-accent" /> Book in 60 seconds</span>

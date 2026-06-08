@@ -38,7 +38,7 @@ export function ContactInfo() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.1, duration: 0.5 }}
-        className="glass-card border-white/5 p-10 rounded-[2.5rem] hover:-translate-y-1 transition-transform duration-300"
+        className="glass-card border-white/5 p-10 rounded-[2rem] hover:-translate-y-1 transition-transform duration-300"
       >
         <Clock className="w-10 h-10 text-white/20 mb-8" />
         <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-6">Session Hours</h3>
@@ -68,7 +68,7 @@ export function ContactInfo() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="bg-accent rounded-[2.5rem] p-10 flex flex-col justify-between hover:-translate-y-1 hover:scale-[1.02] transition-transform duration-300"
+        className="bg-accent rounded-[2rem] p-10 flex flex-col justify-between hover:-translate-y-1 hover:scale-[1.02] transition-transform duration-300"
       >
         <div>
            <div className="flex items-center gap-3 mb-6">
@@ -87,7 +87,7 @@ export function ContactInfo() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.3, duration: 0.5 }}
-        className="md:col-span-2 glass-card border-white/5 p-10 rounded-[2.5rem] flex flex-col md:flex-row gap-8 items-center justify-between hover:-translate-y-1 transition-transform duration-300"
+        className="md:col-span-2 glass-card border-white/5 p-10 rounded-[2rem] flex flex-col md:flex-row gap-8 items-center justify-between hover:-translate-y-1 transition-transform duration-300"
       >
         <div className="flex items-center gap-6">
            <div
@@ -102,7 +102,7 @@ export function ContactInfo() {
         </div>
         <button
            onClick={() => document.querySelector<HTMLButtonElement>("[data-voice-button]")?.click()}
-           className="group relative px-10 py-4 bg-white/5 border border-white/10 rounded-2xl text-white font-black text-sm uppercase tracking-widest overflow-hidden hover:scale-105 transition-transform duration-300"
+           className="group relative px-8 py-5 bg-white/5 border border-white/10 rounded-2xl text-white font-black text-sm uppercase tracking-widest overflow-hidden hover:scale-[1.02] transition-transform duration-300"
         >
            <span className="relative z-10 flex items-center gap-2">
              Try AI Voice <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

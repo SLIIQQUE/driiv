@@ -1,7 +1,18 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import { Quote, Star, MapPin, Award, CheckCircle, ArrowRight, Bot, Bell, CreditCard, BarChart3 } from "lucide-react";
+import {
+  Quote,
+  Star,
+  MapPin,
+  Award,
+  CheckCircle,
+  ArrowRight,
+  Bot,
+  Bell,
+  CreditCard,
+  BarChart3,
+} from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -52,7 +63,10 @@ const testimonials = [
 
 export default function TestimonialsPage() {
   const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
   const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
@@ -69,7 +83,9 @@ export default function TestimonialsPage() {
             Social Proof
           </motion.div>
 
-          <h1 className="sr-only">Student Reviews — RyDax Driving School Surrey BC</h1>
+          <h1 className="sr-only">
+            Student Reviews — RyDax Driving School Surrey BC
+          </h1>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -77,16 +93,20 @@ export default function TestimonialsPage() {
             className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10"
           >
             Over a thousand <br />
-            <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">success narratives.</span>
+            <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">
+              success narratives.
+            </span>
           </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium"
+            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium my-10"
           >
-            Our students consistently highlight the seamless orchestration. AI booking, online payments, automated reminders, and progress intelligence — all converging so you can concentrate on the road.
+            Our students consistently highlight the seamless orchestration. AI
+            booking, online payments, automated reminders, and progress
+            intelligence — all converging so you can concentrate on the road.
           </motion.p>
         </div>
       </section>
@@ -97,14 +117,24 @@ export default function TestimonialsPage() {
           whileInView={{ opacity: 1, y: 0 }}
           className="flex flex-wrap gap-8 items-center justify-center lg:justify-start opacity-40"
         >
-          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><CheckCircle className="w-4 h-4 text-accent" /> ICBC Certified</div>
-          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><Award className="w-4 h-4 text-accent" /> 95% Pass Rate</div>
-          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><Star className="w-4 h-4 fill-secondary-foreground" /> Google Verified</div>
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest">
+            <CheckCircle className="w-4 h-4 text-accent" /> ICBC Certified
+          </div>
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest">
+            <Award className="w-4 h-4 text-accent" /> 95% Pass Rate
+          </div>
+          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest">
+            <Star className="w-4 h-4 fill-secondary-foreground" /> Google
+            Verified
+          </div>
         </motion.div>
       </section>
 
       <section ref={sectionRef} className="container">
-        <motion.div className="columns-1 md:columns-2 lg:columns-3 gap-8" style={{ y }}>
+        <motion.div
+          className="columns-1 md:columns-2 lg:columns-3 gap-8 mt-20"
+          style={{ y }}
+        >
           {testimonials.map((testimonial, i) => (
             <motion.div
               key={i}
@@ -119,12 +149,17 @@ export default function TestimonialsPage() {
               <div className="flex items-center gap-2 mb-6">
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, j) => (
-                    <motion.div key={j} initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.05 + j * 0.03 }}>
+                    <motion.div
+                      key={j}
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.05 + j * 0.03 }}
+                    >
                       <Star className="w-4 h-4 fill-accent text-accent" />
                     </motion.div>
                   ))}
                 </div>
-                <span className="text-[9px] font-black text-accent uppercase tracking-widest ml-2 bg-accent/10 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-black text-accent uppercase tracking-widest ml-2 bg-accent/10 px-2 py-0.5 rounded-full">
                   {testimonial.tag}
                 </span>
               </div>
@@ -134,13 +169,13 @@ export default function TestimonialsPage() {
               </p>
 
               <div className="mt-auto flex items-center gap-5 pt-6 border-t border-white/5">
-                <div
-                  className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center font-black text-xl text-white/20 hover:scale-110 hover:bg-accent/10 transition-all duration-300"
-                >
+                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center font-black text-xl text-white/20 hover:scale-110 hover:bg-accent/10 transition-all duration-300">
                   {testimonial.name[0]}
                 </div>
                 <div>
-                  <h4 className="text-sm font-black text-white uppercase tracking-tighter">{testimonial.name}</h4>
+                  <h4 className="text-sm font-black text-white uppercase tracking-tighter">
+                    {testimonial.name}
+                  </h4>
                   <div className="flex items-center gap-2 text-white/20 text-[10px] font-black uppercase tracking-widest">
                     <MapPin className="w-3 h-3" /> {testimonial.location}
                   </div>
@@ -151,18 +186,18 @@ export default function TestimonialsPage() {
         </motion.div>
       </section>
 
-      <section className="container mt-20">
+      <section className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass-card border-white/5 p-10 lg:p-14 rounded-[3rem] relative overflow-hidden"
+          className="glass-card border-white/5 p-10 lg:p-16 rounded-[3rem] relative overflow-hidden mb-20"
         >
-          <div
-            className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full"
-          />
+          <div className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full" />
           <div className="text-center mb-8 relative z-10">
-            <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2">Every student experiences</h3>
+            <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2">
+              Every student experiences
+            </h3>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
             {[
@@ -171,34 +206,44 @@ export default function TestimonialsPage() {
               { icon: CreditCard, label: "Online Pay", sub: "Cashless" },
               { icon: BarChart3, label: "Progress Intel", sub: "After each" },
             ].map((item, i) => (
-              <div key={i} className="hover:-translate-y-1 transition-transform duration-300">
+              <div
+                key={i}
+                className="hover:-translate-y-1 transition-transform duration-300"
+              >
                 <item.icon className="w-6 h-6 text-accent mx-auto mb-3" />
-                <div className="text-sm font-black uppercase tracking-wider text-white/40">{item.label}</div>
-                <div className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{item.sub}</div>
+                <div className="text-sm font-black uppercase tracking-wider text-white/40">
+                  {item.label}
+                </div>
+                <div className="text-[10px] text-white/20 font-bold uppercase tracking-wider">
+                  {item.sub}
+                </div>
               </div>
             ))}
           </div>
         </motion.div>
       </section>
 
-      <section className="container mt-16">
+      <section className="container mt-20">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="premium-card p-12 lg:p-24 text-center relative overflow-hidden bg-accent/5"
+          className="premium-card p-12 lg:p-20 text-center relative overflow-hidden bg-accent/5"
         >
           <div className="relative z-10">
             <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-8">
               Author Your{" "}
-              <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">Success Narrative.</span>
+              <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">
+                Success Narrative.
+              </span>
             </h2>
             <p className="text-xl text-white/40 max-w-2xl mx-auto mb-12 font-medium">
-              Join over 1,000 students who experienced sophisticated driver education. Book online in under sixty seconds.
+              Join over 1,000 students who experienced sophisticated driver
+              education. Book online in under sixty seconds.
             </p>
             <Link
               href="/contact"
-              className="group relative px-12 py-6 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
+              className="group relative px-12 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
             >
               <span className="relative z-10 flex items-center gap-3">
                 Begin Your Journey <ArrowRight className="w-5 h-5" />

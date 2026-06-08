@@ -112,7 +112,7 @@ export function FeatureCards() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.08, duration: 0.5 }}
-            className="glass-card border-white/5 p-8 lg:p-10 rounded-[2.5rem] group hover:border-accent/20 hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-500 cursor-default"
+            className="glass-card border-white/5 p-8 lg:p-10 rounded-[2rem] group hover:border-accent/20 hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-500 cursor-default"
           >
             <div
               className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-accent/10 group-hover:border-accent/20 transition-all hover:scale-110 hover:rotate-6 duration-300"

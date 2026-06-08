@@ -19,7 +19,7 @@ export default function CTASection() {
 
       <div className="container relative z-10">
         <motion.div
-          className="glass-card border-white/10 rounded-[3rem] p-10 lg:p-20 overflow-hidden relative"
+          className="glass-card border-white/10 rounded-[3rem] p-12 lg:p-20 overflow-hidden relative"
           style={{ scale }}
         >
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent/20 blur-[120px] rounded-full pointer-events-none" />
@@ -80,7 +80,7 @@ export default function CTASection() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="relative z-10 bg-accent rounded-[2.5rem] p-12 lg:p-16 text-primary shadow-2xl shadow-accent/20 flex flex-col items-center text-center hover-lift">
+              <div className="relative z-10 bg-accent rounded-[3rem] p-12 lg:p-16 text-primary shadow-2xl shadow-accent/20 flex flex-col items-center text-center hover-lift">
                 <div>
                   <Calendar className="w-16 h-16 mb-8 text-primary/80" />
                 </div>
@@ -90,7 +90,7 @@ export default function CTASection() {
 
                 <Link
                   href="/contact"
-                  className="group relative w-full bg-primary text-accent py-6 rounded-2xl flex items-center justify-center gap-3 text-xl font-black overflow-hidden shadow-xl shadow-primary/20"
+                  className="group relative w-full bg-primary text-accent py-5 rounded-2xl flex items-center justify-center gap-3 text-xl font-black overflow-hidden shadow-xl shadow-primary/20"
                 >
                   <span className="relative z-10 flex items-center gap-3">
                     CLAIM YOUR SLOT <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
@@ -104,7 +104,7 @@ export default function CTASection() {
                 </div>
               </div>
 
-              <div className="absolute -top-6 -right-6 w-full h-full border-2 border-accent/20 rounded-[2.5rem] -z-10" />
+              <div className="absolute -top-6 -right-6 w-full h-full border-2 border-accent/20 rounded-[3rem] -z-10" />
             </motion.div>
           </div>
         </motion.div>

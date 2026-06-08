@@ -167,7 +167,7 @@ export function ContactForm() {
                         name="message"
                         rows={4}
                         placeholder="Your experience level, preferred session times, or any inquiries..."
-                        className="w-full bg-white/5 border border-white/10 rounded-4xl py-6 px-8 text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10 resize-none"
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-8 text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10 resize-none"
                      />
                    </div>
 
@@ -175,7 +175,7 @@ export function ContactForm() {
                   <button
                      type="submit"
                      disabled={formState === "submitting"}
-                     className="group relative w-full bg-accent text-primary py-6 rounded-2xl flex items-center justify-center gap-4 text-xl font-black overflow-hidden shadow-2xl shadow-accent/20 disabled:opacity-50 hover:scale-[1.02] transition-transform duration-300"
+                      className="group relative w-full bg-accent text-primary py-5 rounded-2xl flex items-center justify-center gap-4 text-xl font-black overflow-hidden shadow-2xl shadow-accent/20 disabled:opacity-50 hover:scale-[1.02] transition-transform duration-300"
                   >
                       {formState === "submitting" ? (
                          <>

@@ -40,7 +40,7 @@ export function AboutValuesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="glass-card border-white/5 p-8 text-center group cursor-default hover:border-accent/20 hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-300"
+              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2rem] text-center group cursor-default hover:border-accent/20 hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-300"
             >
               <val.icon className="w-10 h-10 text-accent mx-auto mb-6 group-hover:scale-125 transition-transform duration-300" />
               <h3 className="text-lg font-black text-white uppercase mb-2">{val.label}</h3>

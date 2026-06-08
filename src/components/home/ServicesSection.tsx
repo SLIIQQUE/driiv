@@ -56,7 +56,7 @@ export default function ServicesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -84,7 +84,7 @@ export default function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15, duration: 0.5 }}
-              className={`premium-card p-10 lg:p-12 flex flex-col group relative overflow-hidden cursor-default hover:-translate-y-2 hover:scale-[1.01] transition-all duration-500 ${service.popular ? "border-accent/30 bg-accent/[0.02]" : ""}`}
+              className={`premium-card p-10 lg:p-16 flex flex-col group relative overflow-hidden cursor-default hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-500 ${service.popular ? "border-accent/30 bg-accent/[0.02]" : ""}`}
             >
               {service.popular && (
                 <motion.div
@@ -144,7 +144,7 @@ export default function ServicesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="mt-16 glass-card border-white/5 p-8 lg:p-12 rounded-[3rem]"
+          className="mt-16 glass-card border-white/5 p-8 lg:p-10 rounded-[3rem]"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[

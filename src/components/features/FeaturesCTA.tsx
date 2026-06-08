@@ -11,7 +11,7 @@ export function FeaturesCTA() {
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        className="premium-card p-12 lg:p-24 text-center relative overflow-hidden bg-accent/5"
+        className="premium-card p-12 lg:p-20 text-center relative overflow-hidden bg-accent/5"
       >
         <div className="relative z-10">
           <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-8">
@@ -23,7 +23,7 @@ export function FeaturesCTA() {
           </p>
           <Link
             href="/contact"
-            className="group relative px-12 py-6 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
+            className="group relative px-12 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
           >
             <span className="relative z-10 flex items-center gap-3">
               Book a Session <ArrowRight className="w-5 h-5" />

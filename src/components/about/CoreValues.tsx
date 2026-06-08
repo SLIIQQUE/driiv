@@ -38,7 +38,7 @@ export function CoreValues() {
           {values.map((value, i) => (
             <motion.div
               key={i}
-              className="premium-card p-10 flex flex-col items-center text-center group cursor-default"
+              className="premium-card p-10 rounded-[2rem] flex flex-col items-center text-center group cursor-default"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}

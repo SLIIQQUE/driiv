@@ -68,7 +68,7 @@ export default function FeatureStrip() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}

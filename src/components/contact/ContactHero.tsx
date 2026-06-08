@@ -8,10 +8,10 @@ export function ContactHero() {
   const y = useTransform(scrollY, [0, 400], [0, 80]);
 
   return (
-    <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-[#030305] pt-32 pb-32 lg:pb-48">
+    <section className="relative min-h-[50vh] flex items-center overflow-hidden bg-[#030305] pt-32 pb-32 lg:pb-48">
       <div className="absolute inset-0 z-0">
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[150px]"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] bg-accent/5 rounded-full blur-[150px]"
           style={{ y }}
         />
         <div className="absolute top-0 right-0 w-full h-full bg-[url('/grid.svg')] opacity-[0.05] pointer-events-none" />
@@ -34,7 +34,7 @@ export function ContactHero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="glass-card border-white/10 rounded-[3rem] p-10 lg:p-20 relative overflow-hidden"
+            className="glass-card border-white/10 rounded-[3rem] p-12 lg:p-20 relative overflow-hidden"
           >
              <div
               className="absolute -top-24 -right-24 w-64 h-64 bg-accent/10 blur-[100px] rounded-full pointer-events-none"

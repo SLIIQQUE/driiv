@@ -161,7 +161,7 @@ export default function FaqAccordion() {
                 </span>
                 <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
               </Link>
-              <div className="text-center text-[11px] font-black uppercase tracking-widest text-white/20">Or call: (604) 123-4567</div>
+              <div className="text-center text-[10px] font-black uppercase tracking-widest text-white/20">Or call: (604) 123-4567</div>
             </div>
           </div>
 

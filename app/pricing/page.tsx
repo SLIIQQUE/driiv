@@ -1,7 +1,18 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import { Check, Star, ShieldCheck, Zap, ArrowRight, Bot, Bell, CreditCard, BarChart3, Info } from "lucide-react";
+import {
+  Check,
+  Star,
+  ShieldCheck,
+  Zap,
+  ArrowRight,
+  Bot,
+  Bell,
+  CreditCard,
+  BarChart3,
+  Info,
+} from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -11,7 +22,8 @@ const pricingTiers = [
     price: "$55",
     period: "/ session",
     tagline: "Pay-as-you-go mastery",
-    description: "Ideal for targeted refinement or refresher sessions. Book individual hours with instant confirmation, pay with cryptographic security, and receive progress intelligence after every session.",
+    description:
+      "Ideal for targeted refinement or refresher sessions. Book individual hours with instant confirmation, pay with cryptographic security, and receive progress intelligence after every session.",
     features: [
       "One-on-one dual-control mentorship",
       "24/7 online booking — instantaneous",
@@ -27,7 +39,8 @@ const pricingTiers = [
     price: "$250",
     period: "/ 5 sessions",
     tagline: "Optimal momentum",
-    description: "Save $25 and unlock priority scheduling. The recommended launch package for new learners. Complete booking in under sixty seconds across our ecosystem.",
+    description:
+      "Save $25 and unlock priority scheduling. The recommended launch package for new learners. Complete booking in under sixty seconds across our ecosystem.",
     features: [
       "Save $25 versus per-session rate",
       "Priority calendar access",
@@ -44,7 +57,8 @@ const pricingTiers = [
     price: "$450",
     period: "/ 10 sessions",
     tagline: "Maximum velocity",
-    description: "Our apex value. Save $100 and receive everything required to progress from novice to test-ready. Two mock examinations, complete curriculum coverage, and your private progress nexus.",
+    description:
+      "Our apex value. Save $100 and receive everything required to progress from novice to test-ready. Two mock examinations, complete curriculum coverage, and your private progress nexus.",
     features: [
       "Save $100 versus per-session rate",
       "Complete curriculum immersion",
@@ -60,12 +74,18 @@ const pricingTiers = [
 
 export default function PricingPage() {
   const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.9, 1], [0.6, 1, 1, 0.6]);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.9, 1],
+    [0.6, 1, 1, 0.6],
+  );
 
   return (
-    <main
-className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
+    <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl">
           <motion.div
@@ -78,7 +98,9 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
             Investment
           </motion.div>
 
-          <h1 className="sr-only">Driving Lesson Prices & Packages in Surrey BC</h1>
+          <h1 className="sr-only">
+            Driving Lesson Prices & Packages in Surrey BC
+          </h1>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -86,7 +108,9 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
             className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10"
           >
             Radical <br />
-            <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">clarity.</span>
+            <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">
+              clarity.
+            </span>
             <br />
             Zero surprises.
           </motion.div>
@@ -97,13 +121,18 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium"
           >
-            No concealed fees. No contractual entanglement. Book online, pay with cryptographic security, and save up to $100 with curated bundles.
+            No concealed fees. No contractual entanglement. Book online, pay
+            with cryptographic security, and save up to $100 with curated
+            bundles.
           </motion.p>
         </div>
       </section>
 
       <section ref={sectionRef} className="container">
-        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch" style={{ opacity }}>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mt-20"
+          style={{ opacity }}
+        >
           {pricingTiers.map((tier, i) => (
             <motion.div
               key={i}
@@ -132,15 +161,25 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                 >
                   <tier.icon className="w-7 h-7" />
                 </div>
-                <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-2">{tier.tagline}</div>
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">{tier.name}</h3>
-                <p className="text-sm text-white/40 font-medium leading-relaxed">{tier.description}</p>
+                <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-2">
+                  {tier.tagline}
+                </div>
+                <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">
+                  {tier.name}
+                </h3>
+                <p className="text-sm text-white/40 font-medium leading-relaxed">
+                  {tier.description}
+                </p>
               </div>
 
               <div className="mb-12">
                 <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-6xl font-black text-white tracking-tighter">{tier.price}</span>
-                  <span className="text-white/30 font-bold uppercase text-xs tracking-widest">{tier.period}</span>
+                  <span className="text-6xl font-black text-white tracking-tighter">
+                    {tier.price}
+                  </span>
+                  <span className="text-white/30 font-bold uppercase text-xs tracking-widest">
+                    {tier.period}
+                  </span>
                 </div>
                 <div className="w-12 h-1 bg-accent/20 rounded-full group-hover:w-12 transition-all duration-300" />
               </div>
@@ -154,7 +193,9 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1 + j * 0.04 }}
                   >
-                    <Check className={`w-4 h-4 ${tier.popular ? "text-accent" : "text-white/20"}`} />
+                    <Check
+                      className={`w-4 h-4 ${tier.popular ? "text-accent" : "text-white/20"}`}
+                    />
                     {feature}
                   </motion.div>
                 ))}
@@ -165,21 +206,22 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                 className={`group relative py-5 rounded-2xl flex items-center justify-center gap-3 text-sm font-black uppercase tracking-widest overflow-hidden transition-all ${tier.popular ? "bg-accent text-primary shadow-2xl shadow-accent/20" : "bg-white/5 text-white hover:bg-white/10"}`}
               >
                 <span className="relative z-10 flex items-center gap-3">
-                  {tier.cta} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  {tier.cta}{" "}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
-              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-            </Link>
+                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
+              </Link>
             </motion.div>
           ))}
         </motion.div>
       </section>
 
-      <section className="container mt-20">
+      <section className="container ">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass-card border-white/5 p-10 lg:p-14 rounded-[3rem] relative overflow-hidden"
+          className="glass-card border-white/5 p-10 lg:p-16 rounded-[3rem] relative overflow-hidden mt-20"
         >
           <div className="absolute inset-0 bg-linear-to-r from-secondary-foreground/20 via-transparent to-accent/20" />
           <div className="relative z-10">
@@ -192,10 +234,13 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                 <Info className="w-4 h-4" /> Recommended for ICBC examinations
               </motion.div>
               <h2 className="text-3xl lg:text-5xl font-black text-white uppercase tracking-tighter mb-4">
-                The Examination Package — <span className="text-accent">$350</span>
+                The Examination Package —{" "}
+                <span className="text-accent">$350</span>
               </h2>
               <p className="text-white/40 font-medium max-w-xl mx-auto">
-                5 precision sessions + dedicated mock examination + vehicle provision for your ICBC road test. Book and pay within our ecosystem.
+                5 precision sessions + dedicated mock examination + vehicle
+                provision for your ICBC road test. Book and pay within our
+                ecosystem.
               </p>
             </div>
             <div className="flex justify-center mt-8">
@@ -204,9 +249,9 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                 className="group relative px-14 py-5 bg-secondary-foreground text-white rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-secondary-foreground/20"
               >
                 <span className="relative z-10">Secure Your Package</span>
-              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-            </Link>
-          </div>
+                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
+              </Link>
+            </div>
           </div>
         </motion.div>
       </section>
@@ -215,9 +260,11 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-center"
+          className="text-center mt-20"
         >
-          <h3 className="text-lg font-black text-white uppercase tracking-tighter mb-8">Every booking includes</h3>
+          <h3 className="text-lg font-black text-white uppercase tracking-tighter mb-8">
+            Every booking includes
+          </h3>
           <div className="flex flex-wrap justify-center gap-10">
             {[
               { icon: Bot, label: "AI Concierge" },

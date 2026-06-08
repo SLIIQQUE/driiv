@@ -12,7 +12,7 @@ export function AboutCTA() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="premium-card border-white/5 p-12 lg:p-24 rounded-[4rem] relative overflow-hidden text-center"
+          className="premium-card border-white/5 p-12 lg:p-20 rounded-[4rem] relative overflow-hidden text-center"
         >
           <div className="absolute inset-0 bg-linear-to-br from-accent/10 via-transparent to-primary/10" />
           <motion.div
@@ -30,7 +30,7 @@ export function AboutCTA() {
             </p>
             <Link
               href="/contact"
-              className="group relative px-16 py-6 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
+              className="group relative px-16 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
             >
               <span className="relative z-10 flex items-center gap-3">
                 Book a Session <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

@@ -51,7 +51,7 @@ export default function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -79,7 +79,7 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.12, duration: 0.5 }}
-              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2.5rem] relative group cursor-default hover:-translate-y-1.5 hover:scale-[1.01] transition-all duration-500"
+              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2rem] relative group cursor-default hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-500"
             >
               <Quote className="absolute top-6 right-6 w-8 h-8 text-white/5 group-hover:text-accent/10 transition-colors duration-500" />
               <div className="flex items-center gap-3 mb-6">
@@ -95,7 +95,7 @@ export default function TestimonialsSection() {
                     </motion.div>
                   ))}
                 </div>
-                <span className="text-[9px] font-black uppercase tracking-widest text-accent/50 bg-accent/10 px-2 py-1 rounded-full">{t.tag}</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-accent/50 bg-accent/10 px-2 py-1 rounded-full">{t.tag}</span>
               </div>
               <p className="text-white/60 text-sm leading-relaxed mb-8 font-medium">
                 &ldquo;{t.text}&rdquo;
@@ -135,7 +135,7 @@ export default function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="mt-16 glass-card border-white/5 p-6 lg:p-10 rounded-[2.5rem]"
+          className="mt-16 glass-card border-white/5 p-8 lg:p-10 rounded-[2rem]"
         >
           <div className="flex flex-wrap justify-center gap-8 text-[11px] font-black uppercase tracking-widest text-white/30">
             <span className="flex items-center gap-2"><Bot className="w-4 h-4 text-accent" /> AI Booking</span>

@@ -143,7 +143,7 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       </section>
 
       <section ref={sectionRef} className="container">
-        <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch" style={{ opacity }}>
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mt-20" style={{ opacity }}>
           {services.map((service, i) => (
             <motion.div
               key={service.id}
@@ -211,13 +211,13 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
         </motion.div>
       </section>
 
-      <section className="container mt-20">
+      <section className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="glass-card border-white/5 p-10 lg:p-16 rounded-[3rem] relative overflow-hidden"
+          className="glass-card border-white/5 p-10 lg:p-16 rounded-[3rem] relative overflow-hidden my-20"
         >
           <div className="absolute inset-0 bg-linear-to-br from-accent/5 via-transparent to-primary/5" />
           <div className="relative z-10">

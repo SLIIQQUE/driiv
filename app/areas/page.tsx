@@ -116,7 +116,7 @@ export default function AreasPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5 }}
-              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2.5rem] group relative overflow-hidden hover:border-accent/20 hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-500 cursor-default"
+              className="glass-card border-white/5 p-8 lg:p-10 rounded-[2rem] group relative overflow-hidden hover:border-accent/20 hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-500 cursor-default"
             >
               <div className={`absolute inset-0 bg-linear-to-br ${area.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
               
@@ -148,12 +148,12 @@ export default function AreasPage() {
         </motion.div>
       </section>
 
-      <section className="container mt-20">
+      <section className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass-card border-white/5 p-10 lg:p-14 rounded-[3rem] relative overflow-hidden"
+          className="glass-card border-white/5 p-10 lg:p-16 rounded-[3rem] relative overflow-hidden mb-10"
         >
           <div
             className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full"
@@ -178,7 +178,7 @@ export default function AreasPage() {
         </motion.div>
       </section>
 
-      <section className="container mt-16">
+      <section className="container mt-20">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -198,7 +198,7 @@ export default function AreasPage() {
             <div className="flex justify-center lg:justify-end">
               <Link
                 href="/contact"
-                className="group relative px-14 py-6 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center gap-3 overflow-hidden shadow-2xl shadow-accent/20"
+                className="group relative px-14 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center gap-3 overflow-hidden shadow-2xl shadow-accent/20"
               >
                 <span className="relative z-10 flex items-center gap-3">
                   Check Availability <ArrowRight className="w-5 h-5" />
