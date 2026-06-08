@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
-import { Car, Zap, Star, FileCheck, ArrowRight, CheckCircle2, Bot, Bell, BarChart3, CreditCard } from "lucide-react";
+import { Car, Zap, Star, ArrowRight, CheckCircle2, Bot, Bell, BarChart3, CreditCard } from "lucide-react";
 import { useRef } from "react";
 
 const services = [
@@ -38,17 +38,6 @@ const services = [
     features: ["Save $100 versus per-session rate", "Complete curriculum coverage", "2 mock road tests", "Test-readiness dashboard"],
     popular: false,
     cta: "Book 10 sessions",
-  },
-  {
-    icon: FileCheck,
-    title: "Examination Package",
-    subtitle: "Test-day dominance",
-    tagline: "ICBC test preparation",
-    price: "$350",
-    description: "Five precision sessions plus a dedicated mock examination and vehicle provision for your ICBC road test. Every tool in our ecosystem orchestrated for test readiness.",
-    features: ["5 one-on-one preparation sessions", "Dedicated mock road test", "Vehicle provision for ICBC test", "Test-ready guarantee"],
-    popular: false,
-    cta: "Secure your package",
   },
 ];
 
@@ -87,7 +76,7 @@ export default function ServicesSection() {
           </p>
         </motion.div>
 
-        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch" style={{ opacity }}>
+        <motion.div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch" style={{ opacity }}>
           {services.map((service, i) => (
             <motion.div
               key={i}

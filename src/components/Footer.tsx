@@ -3,12 +3,12 @@ import { Mail, MapPin, ArrowRight, Phone, Car } from "lucide-react";
 
 const navigation = {
   services: [
-    { name: "Standard Lessons", href: "/services" },
-    { name: "Intensive Courses", href: "/services" },
-    { name: "Block Bookings", href: "/pricing" },
-    { name: "Examination Package", href: "/services" },
     { name: "Foundation Pass", href: "/services" },
+    { name: "Power Pack", href: "/services" },
+    { name: "Mastery Bundle", href: "/services" },
     { name: "Pricing & Packages", href: "/pricing" },
+    { name: "Book Now", href: "/booking" },
+    { name: "FAQ", href: "/faq" },
   ],
   quickLinks: [
     { name: "Home", href: "/" },

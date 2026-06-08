@@ -58,21 +58,6 @@ export const LESSONS: Lesson[] = [
     ],
     color: "from-accent/20 to-secondary-foreground/20",
   },
-  {
-    id: "examination",
-    name: "Examination Package",
-    description: "5 precision sessions + dedicated mock examination + vehicle provision for your ICBC road test.",
-    price: "$350",
-    period: "5 sessions + exam",
-    features: [
-      "5 one-on-one preparation sessions",
-      "Dedicated mock road test",
-      "Vehicle provision for ICBC test",
-      "Test-ready guarantee",
-      "Priority scheduling",
-    ],
-    color: "from-secondary-foreground/20 to-accent/20",
-  },
 ];
 
 export interface Booking {

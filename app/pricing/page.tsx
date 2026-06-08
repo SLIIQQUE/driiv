@@ -69,24 +69,6 @@ const pricingTiers = [
     popular: false,
     icon: Star,
   },
-  {
-    name: "Examination Package",
-    price: "$350",
-    period: "/ 5 sessions + exam",
-    tagline: "Test-day dominance",
-    description:
-      "Five precision sessions plus a dedicated mock examination and vehicle provision for your ICBC road test. Recommended for students preparing for their road test.",
-    features: [
-      "5 one-on-one preparation sessions",
-      "Dedicated mock road test",
-      "Vehicle provision for ICBC test",
-      "Test-ready guarantee",
-      "Priority scheduling",
-    ],
-    cta: "Secure your package",
-    popular: false,
-    icon: Star,
-  },
 ];
 
 export default function PricingPage() {
@@ -147,7 +129,7 @@ export default function PricingPage() {
 
       <section ref={sectionRef} className="container">
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch mt-20"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mt-20"
           style={{ opacity }}
         >
           {pricingTiers.map((tier, i) => (

@@ -6,7 +6,6 @@ import {
   Shield,
   Zap,
   Star,
-  FileCheck,
   ArrowRight,
   CheckCircle2,
   Award,
@@ -70,24 +69,6 @@ const services = [
       "Auto-pay available",
     ],
     price: "$450 / 10 sessions",
-    popular: false,
-  },
-  {
-    id: "examination",
-    icon: FileCheck,
-    title: "Examination Package",
-    subtitle: "Test-day dominance",
-    tagline: "Precision preparation for your ICBC examination",
-    description:
-      "Five precision sessions plus a dedicated mock examination and vehicle provision for your ICBC road test. Every tool in our ecosystem orchestrated to ensure you arrive test-ready.",
-    features: [
-      "5 one-on-one preparation sessions",
-      "Dedicated mock road test",
-      "Vehicle provision for ICBC test",
-      "Test-ready guarantee",
-      "Priority scheduling",
-    ],
-    price: "$350",
     popular: false,
   },
 ];
