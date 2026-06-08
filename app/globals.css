@@ -2,134 +2,36 @@
 
 /* Dark Theme (Default) - Deep Navy Blue */
 :root {
-  /* Primary Colors - Deep Navy Blue */
   --primary: #1A2B48;
   --primary-light: #2d4a7c;
-  --primary-dark: #0f1a2e;
-  
-  /* Secondary Colors - Navy variants */
-  --secondary: #2d4a7c;
-  --secondary-light: #3d5a8c;
-  --secondary-dark: #1a2b48;
-  
-  /* Accent - High-Vis Yellow */
   --accent: #FFD700;
-  --accent-light: #ffe44d;
-  --accent-dark: #ccaa00;
-  
-  /* Neutral Colors */
-  --neutral-50: #F8F9FA;
-  --neutral-100: #e9ecef;
-  --neutral-200: #dee2e6;
-  --neutral-300: #ced4da;
-  --neutral-400: #adb5bd;
-  --neutral-500: #6c757d;
-  
-  /* Background - Dark Navy */
   --background: #0a0f1a;
-  --background-alt: #0f1525;
-  --background-alt-2: #141b2e;
-  --surface: #121a2c;
-  --surface-elevated: #1a2540;
-  
-  /* Foreground */
   --foreground: #F8F9FA;
-  --foreground-muted: #9ca3af;
-  
-  /* Borders */
   --border: #1e2a42;
-  --border-light: #2a3855;
-  
-  /* Gradients */
-  --gradient-1: linear-gradient(135deg, #1A2B48 0%, #2d4a7c 100%);
-  --gradient-2: linear-gradient(135deg, #1A2B48 0%, #FFD700 100%);
-  --gradient-3: linear-gradient(135deg, #FFD700 0%, #1A2B48 100%);
-  --gradient-primary: linear-gradient(135deg, #1A2B48 0%, #2d4a7c 50%, #3d5a8c 100%);
-  --gradient-accent: linear-gradient(135deg, #FFD700 0%, #ffe44d 50%, #FFD700 100%);
-  --gradient-premium: linear-gradient(135deg, #1A2B48 0%, #FFD700 50%, #1A2B48 100%);
-  --gradient-warm: linear-gradient(135deg, #FFD700 0%, #facc15 50%, #eab308 100%);
-  --gradient-cool: linear-gradient(135deg, #1A2B48 0%, #2d4a7c 50%, #3d5a8c 100%);
-  --gradient-dark: linear-gradient(180deg, #0a0f1a 0%, #141b2e 100%);
-  --gradient-radial: radial-gradient(ellipse at center, rgba(26, 43, 72, 0.3) 0%, transparent 70%);
-  
-  /* Glows */
-  --glow-primary: 0 0 60px rgba(26, 43, 72, 0.5);
-  --glow-accent: 0 0 60px rgba(255, 215, 0, 0.4);
-  --glow-secondary: 0 0 60px rgba(45, 74, 124, 0.4);
-  
-  /* Shadows */
-  --shadow-3d: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
   --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
   --shadow-elevated: 0 20px 40px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 40px rgba(255, 215, 0, 0.2);
-  
-  /* Text Colors */
-  --text-primary: #F8F9FA;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
-  --text-gradient: linear-gradient(135deg, #FFD700 0%, #ffffff 100%);
+  --gradient-premium: linear-gradient(135deg, #FFD700 0%, #facc15 50%, #FFD700 100%);
 }
 
 /* Light Theme - Clean White/Gray with Navy */
 [data-theme="light"] {
   --primary: #1A2B48;
   --primary-light: #2d4a7c;
-  --primary-dark: #0f1a2e;
-  
-  --secondary: #2d4a7c;
-  --secondary-light: #3d5a8c;
-  --secondary-dark: #1a2b48;
-  
   --accent: #FFD700;
-  --accent-light: #ffe44d;
-  --accent-dark: #ccaa00;
-  
   --background: #F8F9FA;
-  --background-alt: #e9ecef;
-  --background-alt-2: #dee2e6;
-  --surface: #ffffff;
-  --surface-elevated: #ffffff;
-  
   --foreground: #1A2B48;
-  --foreground-muted: #4b5563;
-  
   --border: #e5e7eb;
-  --border-light: #d1d5db;
-  
-  --gradient-primary: linear-gradient(135deg, #1A2B48 0%, #2d4a7c 100%);
-  --gradient-accent: linear-gradient(135deg, #FFD700 0%, #facc15 100());
-  --gradient-premium: linear-gradient(135deg, #1A2B48 0%, #FFD700 50%, #1A2B48 100%);
-  --gradient-warm: linear-gradient(135deg, #FFD700 0%, #facc15 50%, #eab308 100%);
-  --gradient-cool: linear-gradient(135deg, #1A2B48 0%, #2d4a7c 100%);
-  --gradient-dark: linear-gradient(180deg, #F8F9FA 0%, #e9ecef 100%);
-  --gradient-radial: radial-gradient(ellipse at center, rgba(26, 43, 72, 0.1) 0%, transparent 70%);
-  
-  --glow-primary: 0 0 40px rgba(26, 43, 72, 0.2);
-  --glow-accent: 0 0 40px rgba(255, 215, 0, 0.3);
-  --glow-secondary: 0 0 40px rgba(45, 74, 124, 0.2);
-  
-  --shadow-3d: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.06);
   --shadow-elevated: 0 12px 32px rgba(0, 0, 0, 0.08);
   --shadow-glow: 0 0 30px rgba(255, 215, 0, 0.15);
-  
-  --text-primary: #1A2B48;
-  --text-secondary: #4b5563;
-  --text-muted: #6b7280;
+  --gradient-premium: linear-gradient(135deg, #1A2B48 0%, #FFD700 50%, #1A2B48 100%);
 }
 
 @theme inline {
   --color-primary: var(--primary);
   --color-primary-light: var(--primary-light);
-  --color-primary-dark: var(--primary-dark);
-  --color-secondary: var(--secondary);
   --color-accent: var(--accent);
-  --color-background: var(--background);
-  --color-background-alt: var(--background-alt);
-  --color-surface: var(--surface);
-  --color-foreground: var(--foreground);
-  --color-foreground-muted: var(--foreground-muted);
-  --color-border: var(--border);
   --font-display: var(--font-outfit), "Outfit", sans-serif;
   --font-mono: var(--font-space-mono), "Space Mono", monospace;
 }
