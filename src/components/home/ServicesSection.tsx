@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
-import { Car, Zap, Star, ArrowRight, CheckCircle2, Bot, Bell, BarChart3, CreditCard, Award } from "lucide-react";
+import { Car, Zap, Star, FileCheck, RefreshCw, Award, ArrowRight, CheckCircle2, Bot, Bell, BarChart3,   CreditCard } from "lucide-react";
 import { useRef } from "react";
 
 const services = [
@@ -39,6 +39,39 @@ const services = [
     popular: false,
     cta: "Book 10 sessions",
   },
+  {
+    icon: FileCheck,
+    title: "Examination Package",
+    subtitle: "Test-day dominance",
+    tagline: "ICBC test preparation",
+    price: "$350",
+    description: "Five precision sessions plus a dedicated mock examination and vehicle provision for your ICBC road test. Every tool in our ecosystem orchestrated for test readiness.",
+    features: ["5 one-on-one preparation sessions", "Dedicated mock road test", "Vehicle provision for ICBC test", "Test-ready guarantee"],
+    popular: false,
+    cta: "Secure your package",
+  },
+  {
+    icon: RefreshCw,
+    title: "Refresher Lesson",
+    subtitle: "Reclaim your confidence",
+    tagline: "Post-license refinement",
+    price: "$55 / session",
+    description: "Already licensed but the road feels foreign? Book individual sessions — no commitment. Highway, night, and maneuver-specific training with immediate feedback.",
+    features: ["Targeted skill reinforcement", "Flexible scheduling", "Pick specific maneuvers", "Immediate feedback & tips"],
+    popular: false,
+    cta: "Book a session",
+  },
+  {
+    icon: Award,
+    title: "Pass Plus",
+    subtitle: "Beyond the license",
+    tagline: "Advanced driver training",
+    price: "$199 / 6 sessions",
+    description: "Advanced training covering motorway, night, dual-carriageway, and all-weather driving. Highly recommended for new license holders. Can reduce insurance premiums.",
+    features: ["Motorway driving techniques", "Night & all-weather training", "Dual-carriageway & rural roads", "Can reduce insurance premiums"],
+    popular: false,
+    cta: "Enroll now",
+  },
 ];
 
 export default function ServicesSection() {
@@ -65,7 +98,7 @@ export default function ServicesSection() {
             className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8"
           >
             <Star className="w-4 h-4 text-accent" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">Three paths. One destination: mastery.</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">All programs. One destination: mastery.</span>
           </motion.div>
           <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] max-w-3xl mx-auto">
             Choose your <br />
@@ -76,7 +109,7 @@ export default function ServicesSection() {
           </p>
         </motion.div>
 
-        <motion.div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch" style={{ opacity }}>
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch" style={{ opacity }}>
           {services.map((service, i) => (
             <motion.div
               key={i}

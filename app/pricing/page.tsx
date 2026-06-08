@@ -6,6 +6,8 @@ import {
   Star,
   ShieldCheck,
   Zap,
+  RefreshCw,
+  Award,
   ArrowRight,
   Bot,
   Bell,
@@ -87,6 +89,40 @@ const pricingTiers = [
     popular: false,
     icon: Star,
   },
+  {
+    name: "Refresher Lesson",
+    price: "$55",
+    period: "/ session",
+    tagline: "Reclaim your confidence",
+    description:
+      "Already licensed but need a confidence boost? Book individual sessions with no commitment — highway, night, or maneuver-specific training. Pay per session, track your progress.",
+    features: [
+      "Targeted skill reinforcement",
+      "Flexible scheduling — no package required",
+      "Pick specific maneuvers to practice",
+      "Immediate feedback & tips",
+    ],
+    cta: "Book a session",
+    popular: false,
+    icon: RefreshCw,
+  },
+  {
+    name: "Pass Plus",
+    price: "$199",
+    period: "/ 6 sessions",
+    tagline: "Advanced driver training",
+    description:
+      "Advanced training covering motorway, night, dual-carriageway, and all-weather driving. Highly recommended for new license holders. Can reduce insurance premiums.",
+    features: [
+      "Motorway driving techniques",
+      "Night & all-weather training",
+      "Dual-carriageway & rural roads",
+      "Can reduce insurance premiums",
+    ],
+    cta: "Enroll now",
+    popular: false,
+    icon: Award,
+  },
 ];
 
 export default function PricingPage() {
@@ -147,7 +183,7 @@ export default function PricingPage() {
 
       <section ref={sectionRef} className="container">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch mt-20"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mt-20"
           style={{ opacity }}
         >
           {pricingTiers.map((tier, i) => (
