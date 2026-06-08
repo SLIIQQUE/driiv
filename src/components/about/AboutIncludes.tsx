@@ -28,11 +28,11 @@ export function AboutIncludes() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 text-center relative z-10">
             {items.map((item, i) => (
-              <motion.div key={i} className="hover:-translate-y-1 transition-transform duration-300">
+              <div key={i} className="hover:-translate-y-1 transition-transform duration-300">
                 <item.icon className="w-8 h-8 text-accent mx-auto mb-4" />
                 <div className="text-sm font-black uppercase tracking-wider">{item.label}</div>
                 <div className="text-[11px] text-white/30 font-bold">{item.sub}</div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </motion.div>

@@ -18,7 +18,7 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
-const baseUrl = "https://rydax.net";
+const baseUrl = "https://rydax.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     icon: [{ url: "/favicon.ico", sizes: "any" }],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
-  manifest: `${baseUrl}/site.webmanifest`,
+  manifest: "/site.webmanifest",
   formatDetection: {
     telephone: true,
     email: true,

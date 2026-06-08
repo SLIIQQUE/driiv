@@ -99,7 +99,7 @@ export default function FeatureStrip() {
               transition={{ delay: i * 0.1, duration: 0.5 }}
               className="glass-card border-white/5 p-6 lg:p-8 rounded-[2rem] group hover:border-accent/20 hover:-translate-y-1.5 hover:scale-[1.02] transition-all duration-500 relative overflow-hidden cursor-default"
             >
-              <motion.div
+              <div
                 className={`absolute inset-0 bg-linear-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
               />
               <div className="relative z-10">

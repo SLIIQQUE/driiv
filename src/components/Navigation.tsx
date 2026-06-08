@@ -69,7 +69,7 @@ export default function Navigation() {
       >
         <nav className="container relative" aria-label="Global">
           <div className="flex items-center justify-between">
-            <motion.div className="flex xl:flex-1">
+            <div className="flex xl:flex-1">
               <Link href="/" aria-label="Home" className="-m-1.5 p-1.5 flex items-center gap-3 group">
                 <div className="relative">
                   <div className="w-12 h-12 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
@@ -81,7 +81,7 @@ export default function Navigation() {
                   <span className="font-display font-bold text-xl tracking-tight text-gradient-premium">RYDAX</span>
                 </div>
               </Link>
-            </motion.div>
+            </div>
 
             <div className="hidden xl:flex xl:gap-x-8 items-center">
               {navigation.map((item) => {
