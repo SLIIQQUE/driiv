@@ -9,11 +9,8 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
   { name: "Pricing", href: "/pricing" },
-  { name: "Areas", href: "/areas" },
-  { name: "About", href: "/about" },
   { name: "Reviews", href: "/testimonials" },
   { name: "Book Now", href: "/booking" },
-  { name: "Contact", href: "/contact" },
 ];
 
 interface MobileMenuProps {
