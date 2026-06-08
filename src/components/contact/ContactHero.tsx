@@ -1,7 +1,11 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import { Mail, Phone, MessageSquare, Bot, Bell, CreditCard, BarChart3 } from "lucide-react";
+import {
+  Mail, Phone, MapPin, Clock, Bot, Car,
+  Award, ShieldCheck, MessageSquare,
+} from "lucide-react";
+import Link from "next/link";
 
 export function ContactHero() {
   const { scrollY } = useScroll();
@@ -27,87 +31,46 @@ export function ContactHero() {
             className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8"
           >
             <div className="w-12 h-px bg-accent" />
-            Inaugurate Your Journey
+            Get In Touch
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="glass-card border-white/10 rounded-[3rem] p-12 lg:p-20 relative overflow-hidden"
+            className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10"
           >
-             <div
-              className="absolute -top-24 -right-24 w-64 h-64 bg-accent/10 blur-[100px] rounded-full pointer-events-none"
-            />
+            We&apos;re here <br />
+            <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">to help.</span>
+          </motion.h1>
 
-            <h1 className="sr-only">Contact RyDax Driving School Surrey — Book a Lesson</h1>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10"
-            >
-              Book your first <br />
-              <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">session.</span>
-              <br />
-              In sixty seconds.
-            </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium"
+          >
+            Reach out anytime. Our team responds within hours, not days.
+          </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed mb-12 font-medium"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="flex flex-wrap gap-6 items-center mt-10"
+          >
+            <Link
+              href="/booking"
+              className="group relative px-10 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-accent/20"
             >
-              No telephone calls. No cash. No administrative friction. Book online, pay with cryptographic security, and receive automated pulses — all from your device.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-wrap gap-6 items-center justify-center lg:justify-start mb-10"
-            >
-              {[
-                { icon: Bot, label: "AI Concierge" },
-                { icon: CreditCard, label: "Online Pay" },
-                { icon: Bell, label: "Pulses" },
-                { icon: BarChart3, label: "Progress Intel" },
-              ].map((item, i) => (
-                  <div
-                  key={i}
-                  className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/40 hover:text-accent hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <item.icon className="w-4 h-4 text-accent" /> {item.label}
-                </div>
-              ))}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-wrap gap-8 items-center pt-8 border-t border-white/5"
-            >
-              <div className="flex items-center gap-3 hover:translate-x-1 transition-transform duration-300">
-                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <span className="text-white font-bold tracking-tight">(604) 123-4567</span>
-              </div>
-              <div className="flex items-center gap-3 hover:translate-x-1 transition-transform duration-300">
-                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <span className="text-white font-bold tracking-tight">hello@rydax.net</span>
-              </div>
-              <div className="hidden md:flex items-center gap-3 hover:translate-x-1 transition-transform duration-300">
-                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-accent">
-                  <MessageSquare className="w-5 h-5" />
-                </div>
-                <span className="text-white font-bold tracking-tight">Same-Day Response</span>
-              </div>
-            </motion.div>
+              <span className="relative z-10 flex items-center gap-3">
+                Book Online <Car className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
+              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
+            </Link>
+            <span className="flex items-center gap-2 text-sm text-white/40 font-bold">
+              <Bot className="w-4 h-4 text-accent" /> AI Concierge 24/7
+            </span>
           </motion.div>
         </div>
       </div>
