@@ -29,7 +29,7 @@ export function AboutCTA() {
               Book your inaugural session in under sixty seconds. AI-powered, pay online, track everything.
             </p>
             <Link
-              href="/contact"
+              href="/booking"
               className="group relative px-16 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
             >
               <span className="relative z-10 flex items-center gap-3">

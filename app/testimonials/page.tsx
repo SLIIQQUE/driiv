@@ -242,7 +242,7 @@ export default function TestimonialsPage() {
               education. Book online in under sixty seconds.
             </p>
             <Link
-              href="/contact"
+              href="/booking"
               className="group relative px-12 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
             >
               <span className="relative z-10 flex items-center gap-3">

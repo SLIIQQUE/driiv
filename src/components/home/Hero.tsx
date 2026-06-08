@@ -77,7 +77,7 @@ export default function Hero() {
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5 animate-fade-up delay-200">
               <Link
-                href="/contact"
+                href="/booking"
                 className="group relative px-10 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 overflow-hidden"
               >
                 <span className="relative z-10 flex items-center gap-3">

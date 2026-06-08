@@ -198,7 +198,7 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
                     </motion.div>
                   ))}
                   <Link
-                    href="/contact"
+                    href="/booking"
                     className="inline-flex items-center gap-2 mt-6 text-accent font-black uppercase tracking-widest text-xs hover:underline group/link"
                   >
                     <span>Enroll in {service.title}</span>

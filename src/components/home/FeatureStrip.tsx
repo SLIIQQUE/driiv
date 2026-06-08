@@ -12,6 +12,7 @@ const features = [
     tagline: "Your 24/7 co-pilot",
     description: "Ask questions, check availability, or book a lesson — all through a conversation. No holds, no voicemail, no friction. Just instant, intelligent assistance.",
     cta: "Try the assistant",
+    link: "/booking",
     gradient: "from-accent/20 via-accent/5 to-transparent",
   },
   {
@@ -20,6 +21,7 @@ const features = [
     tagline: "Seconds, not phone calls",
     description: "Real-time calendar sync reveals every open slot. Tap your time, confirm, and you're in. Reschedule in a click. Weekend, evening — whenever life allows.",
     cta: "See available slots",
+    link: "/booking",
     gradient: "from-secondary-foreground/20 via-secondary-foreground/5 to-transparent",
   },
   {
@@ -28,6 +30,7 @@ const features = [
     tagline: "Never lose a session",
     description: "SMS and email alerts pulse automatically before every lesson. Your instructor's arrival, your pickup point, your prep checklist — all delivered before you need to ask.",
     cta: "How reminders work",
+    link: "/features",
     gradient: "from-primary/20 via-primary/5 to-transparent",
   },
   {
@@ -36,6 +39,7 @@ const features = [
     tagline: "No cash. No chase.",
     description: "Encrypted online payments — card, debit, or e-transfer. Bundles unlock savings up to $100. Receipts land in your inbox instantly. Financial friction, eliminated.",
     cta: "View pricing",
+    link: "/pricing",
     gradient: "from-accent/20 via-accent/5 to-transparent",
   },
   {
@@ -112,7 +116,7 @@ export default function FeatureStrip() {
                 <h3 className="text-lg font-black text-white uppercase tracking-tighter mb-3 group-hover:text-accent transition-colors">{feature.title}</h3>
                 <p className="text-sm text-white/40 font-medium leading-relaxed mb-8">{feature.description}</p>
                 <Link
-                  href={feature.link || "/contact"}
+                  href={feature.link}
                   className="text-xs font-black uppercase tracking-widest text-accent group/link inline-flex items-center gap-2"
                 >
                   <span>{feature.cta}</span>

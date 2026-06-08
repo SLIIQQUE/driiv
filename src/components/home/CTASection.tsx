@@ -89,7 +89,7 @@ export default function CTASection() {
                 <p className="text-primary/50 text-sm font-bold mb-10">Instant confirmation. Zero phone calls. Seamless from start to finish.</p>
 
                 <Link
-                  href="/contact"
+                  href="/booking"
                   className="group relative w-full bg-primary text-accent py-5 rounded-2xl flex items-center justify-center gap-3 text-xl font-black overflow-hidden shadow-xl shadow-primary/20"
                 >
                   <span className="relative z-10 flex items-center gap-3">

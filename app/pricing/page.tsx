@@ -202,7 +202,7 @@ export default function PricingPage() {
               </div>
 
               <Link
-                href="/contact"
+                href="/booking"
                 className={`group relative py-5 rounded-2xl flex items-center justify-center gap-3 text-sm font-black uppercase tracking-widest overflow-hidden transition-all ${tier.popular ? "bg-accent text-primary shadow-2xl shadow-accent/20" : "bg-white/5 text-white hover:bg-white/10"}`}
               >
                 <span className="relative z-10 flex items-center gap-3">
@@ -245,7 +245,7 @@ export default function PricingPage() {
             </div>
             <div className="flex justify-center mt-8">
               <Link
-                href="/contact"
+                href="/booking"
                 className="group relative px-14 py-5 bg-secondary-foreground text-white rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-secondary-foreground/20"
               >
                 <span className="relative z-10">Secure Your Package</span>

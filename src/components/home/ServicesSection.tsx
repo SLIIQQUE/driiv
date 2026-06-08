@@ -127,7 +127,7 @@ export default function ServicesSection() {
               </div>
 
               <Link
-                href="/contact"
+                href="/booking"
                 className={`group relative py-5 rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 overflow-hidden transition-all ${service.popular ? "bg-accent text-primary shadow-2xl shadow-accent/20" : "bg-white/5 text-white hover:bg-white/10"}`}
               >
                 <span className="relative z-10 flex items-center gap-3">

@@ -137,7 +137,7 @@ export default function AreasPage() {
                   </div>
                 </div>
                 <Link
-                  href="/contact"
+                  href="/booking"
                   className="inline-flex items-center gap-2 mt-8 text-xs font-black uppercase tracking-widest text-accent hover:underline group/link"
                 >
                   Book in {area.city} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
@@ -197,7 +197,7 @@ export default function AreasPage() {
             </div>
             <div className="flex justify-center lg:justify-end">
               <Link
-                href="/contact"
+                href="/booking"
                 className="group relative px-14 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center gap-3 overflow-hidden shadow-2xl shadow-accent/20"
               >
                 <span className="relative z-10 flex items-center gap-3">
