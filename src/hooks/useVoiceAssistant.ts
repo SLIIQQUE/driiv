@@ -43,6 +43,29 @@ function getSpeechSynthesisAPI(): SpeechSynthesis | null {
   return window.speechSynthesis || null;
 }
 
+// Preferred TTS voices in priority order (tries each until one matches)
+const PREFERRED_VOICES = [
+  "Samantha",
+  "Google UK English Female",
+  "Google US English",
+  "Karen",
+  "Daniel",
+  "Alex",
+  "Microsoft Zira",
+  "Microsoft David",
+];
+
+function findPreferredVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
+  for (const name of PREFERRED_VOICES) {
+    const match = voices.find(
+      (v) => v.name === name || v.name.includes(name),
+    );
+    if (match) return match;
+  }
+  // Fallback: pick a voice with lang en-US if available
+  return voices.find((v) => v.lang.startsWith("en-US")) || voices.find((v) => v.lang.startsWith("en")) || null;
+}
+
 export function useVoiceAssistant() {
   const [state, setState] = useState<VoiceState>({
     isListening: false,
@@ -69,17 +92,52 @@ export function useVoiceAssistant() {
 
   // Store whether a TTS utterance is currently active
   const speakingRef = useRef(false);
+  const voicesRef = useRef<SpeechSynthesisVoice[]>([]);
+  const voicesLoadedRef = useRef(false);
+
+  // Load voices once (they load asynchronously on some browsers)
+  useEffect(() => {
+    if (!("speechSynthesis" in window)) return;
+    const synth = window.speechSynthesis;
+
+    const loadVoices = () => {
+      const voices = synth.getVoices();
+      if (voices.length > 0) {
+        voicesRef.current = voices;
+        voicesLoadedRef.current = true;
+      }
+    };
+
+    loadVoices();
+    if (synth.onvoiceschanged !== undefined) {
+      synth.addEventListener("voiceschanged", loadVoices);
+    }
+
+    return () => {
+      if (synth.onvoiceschanged !== undefined) {
+        synth.removeEventListener("voiceschanged", loadVoices);
+      }
+    };
+  }, []);
 
   const speak = useCallback((text: string) => {
     if (!("speechSynthesis" in window)) return;
 
-    // Don't interrupt if already speaking the same utterance
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
     utterance.rate = 1;
     utterance.pitch = 1;
+
+    // Try to pick a natural-sounding voice
+    if (voicesRef.current.length > 0) {
+      const preferred = findPreferredVoice(voicesRef.current);
+      if (preferred) {
+        utterance.voice = preferred;
+      }
+    }
+
     utterance.onstart = () => {
       speakingRef.current = true;
       setState((s) => ({ ...s, isSpeaking: true }));
