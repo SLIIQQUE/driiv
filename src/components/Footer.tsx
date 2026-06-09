@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform, useTime } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { Mail, MapPin, ArrowRight, Phone, Car } from "lucide-react";
 import BookNowTrigger from "@/components/BookNowTrigger";
 
@@ -41,27 +41,21 @@ function FloatingOrb({
   initialY: number;
   driftIntensity?: number;
 }) {
-  const time = useTime();
-
-  const x = useTransform(time, (t) => {
-    return initialX + Math.sin(t * 0.0003 * driftIntensity) * 80;
-  });
-
-  const y = useTransform(time, (t) => {
-    return initialY + Math.cos(t * 0.0004 * driftIntensity) * 60;
-  });
+  const duration = 20 / driftIntensity;
 
   return (
-    <motion.div
-      className="absolute rounded-full blur-[120px] pointer-events-none"
+    <div
+      className="absolute rounded-full blur-[120px] pointer-events-none animate-float-orb"
       style={{
         width: size,
         height: size,
         background: color,
-        x,
-        y,
+        left: initialX,
+        top: initialY,
+        animationDuration: `${duration}s`,
+        willChange: "transform",
       }}
-    />
+      />
   );
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import {
   Star,
   ShieldCheck,
@@ -10,8 +10,7 @@ import {
   CreditCard,
   BarChart3,
 } from "lucide-react";
-import { useRef } from "react";
-import { PageHero, PageTitle, PageDescription, PricingCard } from "@/components/ui";
+import { PageHero, PageTitle, PageDescription, PricingCard, ScrollReveal } from "@/components/ui";
 import type { PricingCardData } from "@/components/ui";
 
 const pricingTiers: PricingCardData[] = [
@@ -72,17 +71,6 @@ const pricingTiers: PricingCardData[] = [
 ];
 
 export default function PricingPage() {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.9, 1],
-    [0.6, 1, 1, 0.6],
-  );
-
   return (
     <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
@@ -109,23 +97,24 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section ref={sectionRef} className="container">
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mt-20"
-          style={{ opacity }}
-        >
+      <section className="container">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mt-20">
           {pricingTiers.map((tier, i) => (
-            <PricingCard key={i} tier={tier} index={i} />
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <PricingCard tier={tier} index={i} />
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
       </section>
 
       <section className="container mt-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="text-center mt-20"
-        >
+        <ScrollReveal className="text-center mt-20">
           <h3 className="text-lg font-black text-white uppercase tracking-tighter mb-8">
             Every booking includes
           </h3>
@@ -136,15 +125,15 @@ export default function PricingPage() {
               { icon: CreditCard, label: "Secure Pay" },
               { icon: BarChart3, label: "Progress Intel" },
             ].map((item, i) => (
-              <motion.div
+              <div
                 key={i}
                 className="flex items-center gap-2 text-sm font-bold text-white/40 hover:-translate-y-0.5 hover:text-accent transition-all duration-300"
               >
                 <item.icon className="w-5 h-5 text-accent" /> {item.label}
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </ScrollReveal>
       </section>
     </main>
   );

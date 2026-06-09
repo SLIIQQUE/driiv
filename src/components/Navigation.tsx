@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from "motion/react";
 import { Menu, Bot, Car } from "lucide-react";
 import { MobileMenu } from "@/components/MobileMenu";
 import { useBookingContext } from "@/contexts/BookingContext";
@@ -17,35 +17,39 @@ const navigation = [
 ];
 
 export default function Navigation() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const { openBooking } = useBookingContext();
   const { scrollY } = useScroll();
 
-  const headerOpacity = useTransform(scrollY, [0, 100], [0, 1]);
-  const headerBlur = useTransform(scrollY, [0, 100], [0, 20]);
+  // Motion values applied directly to style → no React re-render on scroll
+  const headerBg = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(10, 15, 26, 0)", "rgba(10, 15, 26, 0.95)"],
+  );
+  const headerBlur = useTransform(
+    scrollY,
+    [0, 100],
+    ["blur(0px)", "blur(20px)"],
+  );
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // State flips only at scroll threshold → no per-frame re-render
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolled(latest > 50);
+  });
 
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-[#0a0f1a]/95 backdrop-blur-2xl border-white/5 py-3"
-            : "bg-transparent py-6"
+        className={`fixed top-0 left-0 right-0 z-50 border transition-all duration-500 ${
+          scrolled ? "border-white/5 py-3" : "border-transparent py-6"
         }`}
         style={{
-          backgroundColor: scrolled
-            ? `rgba(10, 15, 26, ${headerOpacity.get()})`
-            : "transparent",
-          backdropFilter: `blur(${headerBlur.get()}px)`,
+          backgroundColor: headerBg,
+          backdropFilter: headerBlur,
         }}
       >
         <nav className="container relative" aria-label="Global">
@@ -146,8 +150,6 @@ export default function Navigation() {
       <AnimatePresence>
         {mobileMenuOpen && <MobileMenu open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />}
       </AnimatePresence>
-
-      <div className="noise-overlay" />
     </>
   );
 }

@@ -1,8 +1,4 @@
-"use client";
-
-import { useScroll, useTransform } from "motion/react";
-import { motion } from "motion/react";
-import { PageHero, PageTitle, PageDescription } from "@/components/ui";
+import { PageHero, PageTitle, PageDescription, ParallaxBackground } from "@/components/ui";
 import { AboutStats } from "@/components/about/AboutStats";
 import { AboutValuesSection } from "@/components/about/AboutValuesSection";
 import { AboutMilestones } from "@/components/about/AboutMilestones";
@@ -10,16 +6,10 @@ import { AboutIncludes } from "@/components/about/AboutIncludes";
 import { AboutCTA } from "@/components/about/AboutCTA";
 
 export default function AboutPage() {
-  const { scrollY } = useScroll();
-  const yParallax = useTransform(scrollY, [0, 1000], [0, 200]);
-
   return (
     <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden flex flex-col gap-10">
       <section className="mb-20 lg:mb-32 relative">
-        <motion.div
-          className="absolute -top-40 -left-40 w-[80vw] h-[80vw] bg-primary/5 rounded-full blur-[160px] pointer-events-none select-none"
-          style={{ y: yParallax }}
-        />
+        <ParallaxBackground />
 
         <div className="container">
           <div className="max-w-4xl relative z-10">
