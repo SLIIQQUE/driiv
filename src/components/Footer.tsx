@@ -1,18 +1,19 @@
 import Link from "next/link";
 import { Mail, MapPin, ArrowRight, Phone, Car } from "lucide-react";
+import BookNowTrigger from "@/components/BookNowTrigger";
 
 const navigation = {
   services: [
-    { name: "Foundation Pass", href: "/services" },
-    { name: "Power Pack", href: "/services" },
-    { name: "Mastery Bundle", href: "/services" },
+    { name: "Foundation Pass", href: "/pricing" },
+    { name: "Power Pack", href: "/pricing" },
+    { name: "Mastery Bundle", href: "/pricing" },
     { name: "Pricing & Packages", href: "/pricing" },
-    { name: "Book Now", href: "/booking" },
+    { name: "Book Now", href: "/?book=1" },
     { name: "FAQ", href: "/faq" },
   ],
   quickLinks: [
     { name: "Home", href: "/" },
-    { name: "Book Now", href: "/booking" },
+    { name: "Book Now", href: "/?book=1" },
     { name: "Features", href: "/features" },
     { name: "Areas Covered", href: "/areas" },
     { name: "Reviews", href: "/testimonials" },
@@ -71,13 +72,13 @@ export default function Footer() {
 
             <div className="flex flex-col gap-4">
               <a
-                href="tel:+2348103413970"
+                href="tel:+16041234567"
                 className="flex items-center gap-3 text-white/70 hover:text-accent transition-colors group hover-x"
               >
                 <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-accent/20 transition-colors">
                   <Phone className="w-5 h-5" />
                 </div>
-                +234 810 341 3970
+                (604) 123-4567
               </a>
               <a
                 href="mailto:hello@rydax.net"
@@ -100,18 +101,25 @@ export default function Footer() {
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-12">
             <div>
               <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-6">
-                Services
+                Programs
               </h3>
               <ul role="list" className="space-y-4">
                 {navigation.services.map((item) => (
                   <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap"
-                    >
-                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
-                      {item.name}
-                    </Link>
+                    {item.name === "Book Now" ? (
+                      <BookNowTrigger className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap w-full text-left">
+                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
+                        {item.name}
+                      </BookNowTrigger>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap"
+                      >
+                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
+                        {item.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -123,13 +131,20 @@ export default function Footer() {
               <ul role="list" className="space-y-4">
                 {navigation.quickLinks.map((item) => (
                   <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap"
-                    >
-                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
-                      {item.name}
-                    </Link>
+                    {item.name === "Book Now" ? (
+                      <BookNowTrigger className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap w-full text-left">
+                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
+                        {item.name}
+                      </BookNowTrigger>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap"
+                      >
+                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
+                        {item.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

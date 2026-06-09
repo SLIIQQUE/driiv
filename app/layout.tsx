@@ -4,6 +4,10 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import VoiceAssistantWrapper from "@/components/VoiceAssistantWrapper";
+import { BookingProvider } from "@/contexts/BookingContext";
+import BookingSidesheet from "@/components/booking/BookingSidesheet";
+import { testimonials } from "@/data/testimonials";
+import { BASE_URL } from "@/lib/config";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -18,12 +22,11 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
-const baseUrl = "https://rydax.vercel.app";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL(BASE_URL),
   alternates: {
-    canonical: baseUrl,
+    canonical: BASE_URL,
   },
   title: {
     default: "RyDax Driving School Surrey — ICBC Road Test Prep",
@@ -64,14 +67,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_CA",
-    url: baseUrl,
+    url: BASE_URL,
     siteName: "RyDax Driving School",
     title: "RyDax Driving School Surrey — ICBC Road Test Prep",
     description:
       "RyDax Driving School in Surrey BC. Expert driving lessons in Rosedale. ICBC road test prep, beginner & advanced packages. Book your first lesson today.",
     images: [
       {
-        url: `${baseUrl}/og-image.png`,
+        url: `${BASE_URL}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "RYDAX — Premier Driving School in Surrey, Langley & Rosedale",
@@ -85,7 +88,7 @@ export const metadata: Metadata = {
     title: "RyDax Driving School Surrey — ICBC Road Test Prep",
     description:
       "RyDax Driving School in Surrey BC. Expert driving lessons in Rosedale. ICBC road test prep, beginner & advanced packages. Book your first lesson today.",
-    images: [`${baseUrl}/og-image.png`],
+    images: [`${BASE_URL}/og-image.png`],
   },
   robots: {
     index: true,
@@ -116,12 +119,12 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "DrivingSchool",
-    "@id": `${baseUrl}/#drivingschool`,
+    "@id": `${BASE_URL}/#drivingschool`,
     name: "RYDAX",
     description:
       "Modern AI-powered driving school in Surrey, BC. Online booking, automated reminders, and ICBC licensed instruction.",
-    url: baseUrl,
-    telephone: "+2348103413970",
+    url: BASE_URL,
+    telephone: "+16041234567",
     address: {
       "@type": "PostalAddress",
       streetAddress: "12588 68A Ave",
@@ -165,104 +168,23 @@ export default function RootLayout({
       bestRating: 5,
       worstRating: 1,
     },
-    review: [
-      {
-        "@type": "Review",
-        author: {
-          "@type": "Person",
-          name: "Sarah Mitchell",
-        },
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: 5,
-          bestRating: 5,
-          worstRating: 1,
-        },
-        reviewBody:
-          "I booked my first session online late at night and got confirmation instantly. The automatic reminders meant I never forgot a lesson. After each session, the progress dashboard showed exactly where I was improving. Passed my Class 7 on the first try. Everything worked seamlessly.",
+    review: testimonials.map((t) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: t.author },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: t.rating,
+        bestRating: 5,
+        worstRating: 1,
       },
-      {
-        "@type": "Review",
-        author: {
-          "@type": "Person",
-          name: "James Thompson",
-        },
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: 5,
-          bestRating: 5,
-          worstRating: 1,
-        },
-        reviewBody:
-          "I had zero experience and passed my test in just a few weeks. The online booking was straightforward, and the AI chat answered all my questions instantly. Paying online, getting reminders before each lesson, and seeing my progress after every session made the whole process stress-free.",
-      },
-      {
-        "@type": "Review",
-        author: {
-          "@type": "Person",
-          name: "Emma Richardson",
-        },
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: 5,
-          bestRating: 5,
-          worstRating: 1,
-        },
-        reviewBody:
-          "I failed my road test twice with other schools. RyDax identified my weak spots and fixed them in just three sessions. Being able to book online, pay by card, and see my progress after each lesson took all the uncertainty out of the process. I finally passed with confidence.",
-      },
-      {
-        "@type": "Review",
-        author: {
-          "@type": "Person",
-          name: "David Clarke",
-        },
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: 5,
-          bestRating: 5,
-          worstRating: 1,
-        },
-        reviewBody:
-          "Everything was online — booking, payment, tracking — all from my phone. I never had to write a cheque or wait on hold. The AI assistant answered my questions at midnight. This is how driving school should work when it's designed around the student's convenience.",
-      },
-      {
-        "@type": "Review",
-        author: {
-          "@type": "Person",
-          name: "Lisa Watson",
-        },
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: 5,
-          bestRating: 5,
-          worstRating: 1,
-        },
-        reviewBody:
-          "The best part was not having to make phone calls. Everything was online — booking, payment, reminders. The progress tracking after each session was surprisingly detailed. I watched my scores improve from 60% to 95% over eight lessons and passed my test with ease.",
-      },
-      {
-        "@type": "Review",
-        author: {
-          "@type": "Person",
-          name: "Michael Brown",
-        },
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: 5,
-          bestRating: 5,
-          worstRating: 1,
-        },
-        reviewBody:
-          "I looked at a few driving schools before choosing RyDax and I'm glad I did. The online system handles everything — booking, payments, reminders — and the instruction quality is excellent. The most professional driving school I've experienced in Metro Vancouver.",
-      },
-    ],
+      reviewBody: t.body,
+    })),
   };
 
   return (
       <html lang="en-CA" data-scroll-behavior="smooth">
         <head>
-          <link rel="alternate" hrefLang="en-CA" href={baseUrl} />
+          <link rel="alternate" hrefLang="en-CA" href={BASE_URL} />
         </head>
       <body className={`${outfit.variable} ${spaceMono.variable} min-h-full flex flex-col overflow-x-hidden w-full font-sans`}>
         <script
@@ -275,15 +197,15 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "BreadcrumbList",
-              "@id": `${baseUrl}/#breadcrumb`,
+              "@id": `${BASE_URL}/#breadcrumb`,
               itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
-                { "@type": "ListItem", position: 2, name: "Services", item: `${baseUrl}/services` },
-                { "@type": "ListItem", position: 3, name: "Pricing", item: `${baseUrl}/pricing` },
-                { "@type": "ListItem", position: 4, name: "Service Areas", item: `${baseUrl}/areas` },
-                { "@type": "ListItem", position: 5, name: "About", item: `${baseUrl}/about` },
-                { "@type": "ListItem", position: 6, name: "FAQ", item: `${baseUrl}/faq` },
-                { "@type": "ListItem", position: 7, name: "Contact", item: `${baseUrl}/contact` },
+                { "@type": "ListItem", position: 1, name: "Home", item: BASE_URL },
+                { "@type": "ListItem", position: 2, name: "Pricing", item: `${BASE_URL}/pricing` },
+                { "@type": "ListItem", position: 3, name: "Service Areas", item: `${BASE_URL}/areas` },
+                { "@type": "ListItem", position: 4, name: "About", item: `${BASE_URL}/about` },
+                { "@type": "ListItem", position: 5, name: "Reviews", item: `${BASE_URL}/testimonials` },
+                { "@type": "ListItem", position: 6, name: "FAQ", item: `${BASE_URL}/faq` },
+                { "@type": "ListItem", position: 7, name: "Contact", item: `${BASE_URL}/contact` },
               ],
             }),
           }}
@@ -294,12 +216,15 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <Navigation />
-        <main id="main-content" className="flex-1 w-full overflow-x-hidden">
-          {children}
-        </main>
-        <Footer />
+        <BookingProvider>
+          <Navigation />
+          <main id="main-content" className="flex-1 w-full overflow-x-hidden">
+            {children}
+          </main>
+          <Footer />
           <VoiceAssistantWrapper />
+          <BookingSidesheet />
+        </BookingProvider>
       </body>
     </html>
   );

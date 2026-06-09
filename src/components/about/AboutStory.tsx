@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import Image from "next/image";
-import { Bot, Headphones, CreditCard, BarChart3 } from "lucide-react";
+import { Bot, Headphones, CreditCard } from "lucide-react";
 
 export function AboutStory() {
   return (

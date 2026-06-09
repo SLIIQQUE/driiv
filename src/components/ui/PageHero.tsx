@@ -5,13 +5,10 @@ import type { ReactNode } from "react";
 
 interface PageHeroProps {
   label: string;
-  title: string[];
-  highlight?: string;
-  description: string;
   className?: string;
 }
 
-export function PageHero({ label, title, highlight, description, className = "" }: PageHeroProps) {
+export function PageHero({ label, className = "" }: PageHeroProps) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -65,17 +62,16 @@ interface PageHeaderSectionProps {
   label: string;
   badge?: ReactNode;
   title: string | string[];
-  highlight?: string;
   description?: string;
   children?: ReactNode;
 }
 
-export function PageHeaderSection({ label, badge, title, highlight, description, children }: PageHeaderSectionProps) {
+export function PageHeaderSection({ label, badge, title, description, children }: PageHeaderSectionProps) {
   const titleParts = Array.isArray(title) ? title : [title];
 
   return (
     <div className="max-w-4xl relative z-10">
-      {badge || <PageHero label={label} title={titleParts} highlight={highlight} description={description || ""} />}
+      {badge || <PageHero label={label} />}
 
       <PageTitle>
         {titleParts.map((part, i) => (

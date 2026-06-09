@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import BookNowTrigger from "@/components/BookNowTrigger";
 
 export function AboutCTA() {
   return (
@@ -28,15 +28,12 @@ export function AboutCTA() {
             <p className="text-white/40 text-lg mb-12 max-w-xl mx-auto">
               Book your inaugural session in under sixty seconds. AI-powered, pay online, track everything.
             </p>
-            <Link
-              href="/booking"
-              className="group relative px-16 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
-            >
+            <BookNowTrigger className="group relative px-16 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3">
               <span className="relative z-10 flex items-center gap-3">
                 Book a Session <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
               <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-            </Link>
+            </BookNowTrigger>
           </motion.div>
         </motion.div>
       </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";

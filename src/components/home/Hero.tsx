@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Shield, Car, Clock } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { HeroCard } from "@/components/home/HeroCard";
+import BookNowTrigger from "@/components/BookNowTrigger";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -76,20 +77,17 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5 animate-fade-up delay-200">
-              <Link
-                href="/booking"
-                className="group relative px-10 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 overflow-hidden"
-              >
+              <BookNowTrigger className="group relative px-10 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 overflow-hidden w-full sm:w-auto">
                 <span className="relative z-10 flex items-center gap-3">
                   Book a Lesson <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </Link>
+              </BookNowTrigger>
               <Link
-                href="/services"
+                href="/pricing"
                 className="px-10 py-5 bg-white/5 border border-white/10 rounded-2xl font-black uppercase tracking-widest text-sm text-white flex items-center justify-center gap-3 hover:bg-white/10 transition-all"
               >
-                Explore Programs
+                View Pricing
               </Link>
             </div>
 

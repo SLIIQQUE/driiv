@@ -44,7 +44,7 @@ const faqs = [
       },
       {
         q: "Do you offer session packages?",
-        a: "Yes. The Power Pack (5 sessions, save $25) and Mastery Bundle (10 sessions, save $100) represent our optimal investments. The Examination Package ($350) includes vehicle provision for your ICBC road test.",
+        a: "Yes. The Power Pack (5 sessions, save $25) and Mastery Bundle (10 sessions, save $100) represent our optimal investments. Foundation Pass ($55/session) is available for pay-as-you-go learners.",
       },
       {
         q: "What is your cancellation policy?",
@@ -66,7 +66,7 @@ const faqs = [
       },
       {
         q: "Can I use your vehicle for my road test?",
-        a: "Yes. Our dual-control fleet is ICBC-inspected and comprehensively insured for road examinations. Included with the Examination Package.",
+        a: "Yes. Our dual-control fleet is ICBC-inspected and comprehensively insured for road examinations. Vehicle provision can be arranged with any of our programs.",
       },
     ],
   },

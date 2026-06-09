@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { Bot, Calendar, Bell, BarChart3, CreditCard, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
+import { useBookingContext } from "@/contexts/BookingContext";
 
 const features = [
   {
@@ -12,7 +13,7 @@ const features = [
     tagline: "Your 24/7 co-pilot",
     description: "Ask questions, check availability, or book a lesson — all through a conversation. No holds, no voicemail, no friction. Just instant, intelligent assistance.",
     cta: "Try the assistant",
-    link: "/booking",
+    link: "/?book=1",
     gradient: "from-accent/20 via-accent/5 to-transparent",
   },
   {
@@ -21,7 +22,7 @@ const features = [
     tagline: "Seconds, not phone calls",
     description: "Real-time calendar sync reveals every open slot. Tap your time, confirm, and you're in. Reschedule in a click. Weekend, evening — whenever life allows.",
     cta: "See available slots",
-    link: "/booking",
+    link: "/?book=1",
     gradient: "from-secondary-foreground/20 via-secondary-foreground/5 to-transparent",
   },
   {
@@ -55,6 +56,7 @@ const features = [
 
 export default function FeatureStrip() {
   const sectionRef = useRef(null);
+  const { openBooking } = useBookingContext();
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
@@ -115,17 +117,28 @@ export default function FeatureStrip() {
                 <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-1">{feature.tagline}</div>
                 <h3 className="text-lg font-black text-white uppercase tracking-tighter mb-3 group-hover:text-accent transition-colors">{feature.title}</h3>
                 <p className="text-sm text-white/40 font-medium leading-relaxed mb-8">{feature.description}</p>
-                <Link
-                  href={feature.link}
-                  className="text-xs font-black uppercase tracking-widest text-accent group/link inline-flex items-center gap-2"
-                >
-                  <span>{feature.cta}</span>
-                    <span
-                    className="inline-block group-hover:translate-x-1 transition-transform duration-300"
+                {feature.link === "/?book=1" ? (
+                  <button
+                    type="button"
+                    onClick={openBooking}
+                    className="text-xs font-black uppercase tracking-widest text-accent group/link inline-flex items-center gap-2"
                   >
-                    <ArrowRight className="w-3 h-3" />
-                  </span>
-                </Link>
+                    <span>{feature.cta}</span>
+                    <span className="inline-block group-hover:translate-x-1 transition-transform duration-300">
+                      <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </button>
+                ) : (
+                  <Link
+                    href={feature.link}
+                    className="text-xs font-black uppercase tracking-widest text-accent group/link inline-flex items-center gap-2"
+                  >
+                    <span>{feature.cta}</span>
+                    <span className="inline-block group-hover:translate-x-1 transition-transform duration-300">
+                      <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </Link>
+                )}
               </div>
             </motion.div>
           ))}

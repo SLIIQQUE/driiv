@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import {
-  MapPin,
   Shield,
   Building2,
   ArrowRight,
@@ -12,10 +11,9 @@ import {
   Bell,
   CreditCard,
   BarChart3,
-  Sparkles,
 } from "lucide-react";
-import Link from "next/link";
 import { useRef } from "react";
+import BookNowTrigger from "@/components/BookNowTrigger";
 
 const areas = [
   {
@@ -136,12 +134,9 @@ export default function AreasPage() {
                     <CheckCircle className="w-3 h-3" /> Online Booking
                   </div>
                 </div>
-                <Link
-                  href="/booking"
-                  className="inline-flex items-center gap-2 mt-8 text-xs font-black uppercase tracking-widest text-accent hover:underline group/link"
-                >
+                <BookNowTrigger className="inline-flex items-center gap-2 mt-8 text-xs font-black uppercase tracking-widest text-accent hover:underline group/link">
                   Book in {area.city} <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
-                </Link>
+                </BookNowTrigger>
               </div>
             </motion.div>
           ))}
@@ -196,15 +191,12 @@ export default function AreasPage() {
               </p>
             </div>
             <div className="flex justify-center lg:justify-end">
-              <Link
-                href="/booking"
-                className="group relative px-14 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center gap-3 overflow-hidden shadow-2xl shadow-accent/20"
-              >
+              <BookNowTrigger className="group relative px-14 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center gap-3 overflow-hidden shadow-2xl shadow-accent/20">
                 <span className="relative z-10 flex items-center gap-3">
                   Check Availability <ArrowRight className="w-5 h-5" />
                 </span>
                 <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-              </Link>
+              </BookNowTrigger>
             </div>
           </div>
         </motion.div>

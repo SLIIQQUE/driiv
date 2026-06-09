@@ -13,8 +13,8 @@ import {
   CreditCard,
   BarChart3,
 } from "lucide-react";
-import Link from "next/link";
 import { useRef } from "react";
+import BookNowTrigger from "@/components/BookNowTrigger";
 
 const testimonials = [
   {
@@ -241,15 +241,12 @@ export default function TestimonialsPage() {
               Join over 1,000 students who experienced sophisticated driver
               education. Book online in under sixty seconds.
             </p>
-            <Link
-              href="/booking"
-              className="group relative px-12 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3"
-            >
+            <BookNowTrigger className="group relative px-12 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3">
               <span className="relative z-10 flex items-center gap-3">
                 Begin Your Journey <ArrowRight className="w-5 h-5" />
               </span>
               <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-            </Link>
+            </BookNowTrigger>
           </div>
         </motion.div>
       </section>

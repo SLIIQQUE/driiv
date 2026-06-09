@@ -5,7 +5,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendBookingConfirmation(booking: Booking) {
   return resend.emails.send({
-    from: "RYDAX <kerry@bandhds.co.uk>",
+    from: "RYDAX <info@rydax.net>",
     to: [booking.email],
     subject: `Lesson Confirmed - ${booking.lessonName} - RYDAX`,
     html: `
@@ -48,17 +48,17 @@ export async function sendBookingConfirmation(booking: Booking) {
               </ul>
             </div>
             
-            <p>Kerry will call you the day before your lesson to confirm everything.</p>
+            <p>Your instructor will call you the day before your lesson to confirm everything.</p>
             
-            <p>If you need to reschedule or have any questions, just reply to this email or call 07395 566654.</p>
+            <p>If you need to reschedule or have any questions, just reply to this email or call (604) 123-4567.</p>
             
             <p>See you soon!</p>
             
-            <p>— Kerry Hare<br>RYDAX</p>
+            <p>— RYDAX Team</p>
           </div>
           <div class="footer">
-            <p>Suffolk, United Kingdom<br>
-            <a href="tel:+447395566654">07395 566654</a> | <a href="mailto:kerry@bandhds.co.uk">kerry@bandhds.co.uk</a></p>
+            <p>Surrey, British Columbia<br>
+            <a href="tel:+16041234567">(604) 123-4567</a> | <a href="mailto:info@rydax.net">info@rydax.net</a></p>
           </div>
         </body>
       </html>

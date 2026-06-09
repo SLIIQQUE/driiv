@@ -1,9 +1,9 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import Link from "next/link";
 import { Car, Zap, Star, ArrowRight, CheckCircle2, Bot, Bell, BarChart3, CreditCard } from "lucide-react";
 import { useRef } from "react";
+import BookNowTrigger from "@/components/BookNowTrigger";
 
 const services = [
   {
@@ -126,15 +126,12 @@ export default function ServicesSection() {
                 ))}
               </div>
 
-              <Link
-                href="/booking"
-                className={`group relative py-5 rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 overflow-hidden transition-all ${service.popular ? "bg-accent text-primary shadow-2xl shadow-accent/20" : "bg-white/5 text-white hover:bg-white/10"}`}
-              >
+              <BookNowTrigger className={`group relative py-5 rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 overflow-hidden transition-all w-full ${service.popular ? "bg-accent text-primary shadow-2xl shadow-accent/20" : "bg-white/5 text-white hover:bg-white/10"}`}>
                 <span className="relative z-10 flex items-center gap-3">
                   {service.cta} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-              </Link>
+              </BookNowTrigger>
             </motion.div>
           ))}
         </motion.div>

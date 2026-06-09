@@ -33,7 +33,7 @@ className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
               Our Philosophy
             </motion.div>
 
-            <h1 className="sr-only">About RyDax — Surrey's Trusted Driving School Since 2024</h1>
+            <h1 className="sr-only">About RyDax — Surrey&rsquo;s Trusted Driving School Since 2024</h1>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

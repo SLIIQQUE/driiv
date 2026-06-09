@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import { X, Bot, Car } from "lucide-react";
+import { useBookingContext } from "@/contexts/BookingContext";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "/services" },
   { name: "Pricing", href: "/pricing" },
   { name: "Reviews", href: "/testimonials" },
-  { name: "Book Now", href: "/booking" },
+  { name: "About Us", href: "/about" },
+  { name: "Book Now", href: "/?book=1" },
 ];
 
 interface MobileMenuProps {
@@ -20,6 +21,7 @@ interface MobileMenuProps {
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const pathname = usePathname();
+  const { openBooking } = useBookingContext();
 
   if (!open) return null;
 
@@ -68,6 +70,29 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             <div className="space-y-2 py-6">
               {navigation.map((item) => {
                 const isActive = pathname === item.href;
+
+                if (item.name === "Book Now") {
+                  return (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onClose();
+                          openBooking();
+                        }}
+                        className="-mx-3 block w-full text-left rounded-xl px-3 py-3 text-base font-semibold leading-7 text-white hover:bg-white/5"
+                      >
+                        {item.name}
+                      </button>
+                    </motion.div>
+                  );
+                }
+
                 return (
                   <motion.div
                     key={item.name}

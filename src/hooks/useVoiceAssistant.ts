@@ -131,13 +131,15 @@ export function useVoiceAssistant() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       stream.getTracks().forEach((track) => track.stop());
-    } catch (err: any) {
-      if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
-        setState((s) => ({
-          ...s,
-          error: "Microphone access denied. Please check your browser settings.",
-        }));
-        return;
+    } catch (err: unknown) {
+      if (err instanceof DOMException) {
+        if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+          setState((s) => ({
+            ...s,
+            error: "Microphone access denied. Please check your browser settings.",
+          }));
+          return;
+        }
       }
       setState((s) => ({
         ...s,

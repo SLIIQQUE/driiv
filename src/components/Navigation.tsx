@@ -6,49 +6,32 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { Menu, Bot, Car } from "lucide-react";
 import { MobileMenu } from "@/components/MobileMenu";
+import { useBookingContext } from "@/contexts/BookingContext";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "/services" },
   { name: "Pricing", href: "/pricing" },
   { name: "Reviews", href: "/testimonials" },
-  { name: "Book Now", href: "/booking" },
+  { name: "About Us", href: "/about" },
+  { name: "Book Now", href: "/?book=1" },
 ];
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const { openBooking } = useBookingContext();
   const { scrollY } = useScroll();
 
   const headerOpacity = useTransform(scrollY, [0, 100], [0, 1]);
   const headerBlur = useTransform(scrollY, [0, 100], [0, 20]);
-  const logoScale = useTransform(scrollY, [0, 100], [1, 0.9]);
 
   useEffect(() => {
-    setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  if (!mounted) {
-    return (
-      <header className="fixed top-0 left-0 right-0 z-50 bg-transparent py-6">
-        <nav className="container relative">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl flex items-center justify-center">
-                <Car className="w-6 h-6 text-black" />
-              </div>
-            </Link>
-          </div>
-        </nav>
-      </header>
-    );
-  }
 
   return (
     <>
@@ -84,6 +67,31 @@ export default function Navigation() {
             <div className="hidden xl:flex xl:gap-x-8 items-center">
               {navigation.map((item) => {
                 const isActive = pathname === item.href;
+
+                if (item.name === "Book Now") {
+                  return (
+                    <button
+                      key={item.name}
+                      type="button"
+                      onClick={openBooking}
+                      className="relative text-sm font-medium transition-all duration-300"
+                      onMouseEnter={() => setHoveredItem(item.name)}
+                      onMouseLeave={() => setHoveredItem(null)}
+                      style={{ color: "rgba(255,255,255,0.7)" }}
+                    >
+                      <span className="relative z-10">{item.name}</span>
+                      {hoveredItem === item.name && (
+                        <motion.div
+                          className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FFD700] to-[#ccaa00] rounded-full"
+                          layoutId="nav-underline"
+                          initial={false}
+                          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                        />
+                      )}
+                    </button>
+                  );
+                }
+
                 return (
                   <Link
                     key={item.name}

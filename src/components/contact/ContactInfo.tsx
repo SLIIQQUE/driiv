@@ -5,14 +5,14 @@ import {
   Mail, MapPin, Clock, Phone, Bot, ArrowRight,
   Car, Award, ShieldCheck, MessageSquare,
 } from "lucide-react";
-import Link from "next/link";
+import BookNowTrigger from "@/components/BookNowTrigger";
 
 const contactDetails = [
   {
     icon: Phone,
     label: "Phone",
-    value: "+234 810 341 3970",
-    href: "tel:+2348103413970",
+    value: "(604) 123-4567",
+    href: "tel:+16041234567",
     description: "Speak directly with Kerry during business hours.",
   },
   {
@@ -117,11 +117,7 @@ export function ContactInfo() {
             </motion.div>
           );
 
-          return item.href ? (
-            <a key={i} href={item.href} className="block">
-              {Content}
-            </a>
-          ) : (
+          return (
             <div key={i}>{Content}</div>
           );
         })}
@@ -213,15 +209,12 @@ export function ContactInfo() {
               </p>
             </div>
           </div>
-          <Link
-            href="/booking"
-            className="group relative px-10 py-4 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-lg shadow-accent/20 shrink-0"
-          >
+          <BookNowTrigger className="group relative px-10 py-4 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-lg shadow-accent/20 shrink-0">
             <span className="relative z-10 flex items-center gap-2">
               Book Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </span>
             <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-          </Link>
+          </BookNowTrigger>
         </div>
       </motion.div>
 

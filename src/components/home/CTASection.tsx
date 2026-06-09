@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import Link from "next/link";
-import { ArrowRight, Calendar, Bot, Shield, Award, Bell, BarChart3, CreditCard, Sparkles } from "lucide-react";
+import { ArrowRight, Calendar, Shield, Award, Bell, BarChart3, CreditCard, Sparkles } from "lucide-react";
+import BookNowTrigger from "@/components/BookNowTrigger";
 import { useRef } from "react";
 
 export default function CTASection() {
@@ -88,15 +88,12 @@ export default function CTASection() {
                 <p className="text-primary/70 font-bold mb-2">From $55/hr in Surrey, BC.</p>
                 <p className="text-primary/50 text-sm font-bold mb-10">Instant confirmation. Zero phone calls. Seamless from start to finish.</p>
 
-                <Link
-                  href="/booking"
-                  className="group relative w-full bg-primary text-accent py-5 rounded-2xl flex items-center justify-center gap-3 text-xl font-black overflow-hidden shadow-xl shadow-primary/20"
-                >
+                <BookNowTrigger className="group relative w-full bg-primary text-accent py-5 rounded-2xl flex items-center justify-center gap-3 text-xl font-black overflow-hidden shadow-xl shadow-primary/20">
                   <span className="relative z-10 flex items-center gap-3">
                     CLAIM YOUR SLOT <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
                   </span>
                   <span className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Link>
+                </BookNowTrigger>
 
                 <div className="mt-8 flex items-center gap-3 py-3 px-6 bg-primary/5 rounded-full border border-primary/10">
                   <Calendar className="w-5 h-5 text-primary/60" />

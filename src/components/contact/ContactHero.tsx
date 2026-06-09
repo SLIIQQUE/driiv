@@ -1,11 +1,8 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import {
-  Mail, Phone, MapPin, Clock, Bot, Car,
-  Award, ShieldCheck, MessageSquare,
-} from "lucide-react";
-import Link from "next/link";
+import { Bot, Car } from "lucide-react";
+import BookNowTrigger from "@/components/BookNowTrigger";
 
 export function ContactHero() {
   const { scrollY } = useScroll();
@@ -18,7 +15,7 @@ export function ContactHero() {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] bg-accent/5 rounded-full blur-[150px]"
           style={{ y }}
         />
-        <div className="absolute top-0 right-0 w-full h-full bg-[url('/grid.svg')] opacity-[0.05] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-full h-full opacity-[0.05] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
       </div>
 
@@ -59,15 +56,12 @@ export function ContactHero() {
             transition={{ delay: 0.35 }}
             className="flex flex-wrap gap-6 items-center mt-10"
           >
-            <Link
-              href="/booking"
-              className="group relative px-10 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-accent/20"
-            >
+            <BookNowTrigger className="group relative px-10 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm overflow-hidden shadow-2xl shadow-accent/20">
               <span className="relative z-10 flex items-center gap-3">
                 Book Online <Car className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
               <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-            </Link>
+            </BookNowTrigger>
             <span className="flex items-center gap-2 text-sm text-white/40 font-bold">
               <Bot className="w-4 h-4 text-accent" /> AI Concierge 24/7
             </span>

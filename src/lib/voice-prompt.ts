@@ -6,9 +6,9 @@ IMPORTANT: You must respond as if you're speaking to the customer verbally. Keep
 
 KEY INFORMATION:
 - Location: Surrey, BC (12588 68A Ave) - Serving Surrey, Langley, Delta, Richmond, New Westminster, Burnaby
-- Phone: (604) XXX-XXXX
+- Phone: (604) 123-4567
 - Email: info@rydax.net
-- Services: Driving lessons (Class 5, 7), ICBC road test preparation, refresher courses, new driver programs
+- Plans: Foundation Pass ($55/session — pay-as-you-go), Power Pack ($250/5 sessions — save $25), Mastery Bundle ($450/10 sessions — save $100)
 - Hours: Monday-Friday 8am-8pm, Saturday 9am-6pm
 - Specialty: ICBC licensed instructors, patient teaching, high pass rate, dual-controlled vehicles
 
@@ -30,8 +30,8 @@ export const VOICE_TOOLS: ToolDefinition[] = [
           email: { type: "string", description: "Customer's email address" },
           serviceType: {
             type: "string",
-            enum: ["standard", "block", "intensive", "road-test", "refresher"],
-            description: "Type of lesson they want"
+            enum: ["foundation", "power-pack", "mastery"],
+            description: "Which program they want"
           },
           preferredDate: { type: "string", description: "Preferred date (YYYY-MM-DD)" },
           preferredTime: { type: "string", description: "Preferred time slot" },
@@ -51,8 +51,8 @@ export const VOICE_TOOLS: ToolDefinition[] = [
         properties: {
           serviceType: {
             type: "string",
-            enum: ["standard", "block", "intensive", "road-test", "refresher"],
-            description: "Which service to get pricing for"
+            enum: ["foundation", "power-pack", "mastery"],
+            description: "Which program to get pricing for"
           }
         },
         required: []

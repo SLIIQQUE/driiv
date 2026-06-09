@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import type { LucideIcon } from "lucide-react";
-import { Car, Users, Shield, MapPin } from "lucide-react";
 
 interface StatCardProps {
   icon?: LucideIcon;
