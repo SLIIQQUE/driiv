@@ -1,8 +1,157 @@
 import { NextResponse } from "next/server";
+import { buildSystemPrompt, VOICE_TOOLS, BUSINESS_INFO } from "@/lib/voice-prompt";
+import type { GroqMessage } from "@/types/voice";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+}
+
+interface ToolCallResult {
+  role: "tool";
+  tool_call_id: string;
+  content: string;
+}
+
+const GROQ_API_BASE = "https://api.groq.com/openai/v1";
+
+async function callGroq(
+  messages: GroqMessage[],
+): Promise<{
+  content: string;
+  toolCalls?: Array<{
+    id: string;
+    function: { name: string; arguments: string };
+  }>;
+}> {
+  const apiKey = process.env.GROQ_API_KEY;
+  const model = process.env.GROQ_MODEL || "qwen-2.5-32b";
+
+  if (!apiKey) {
+    return {
+      content: "I'm sorry, the AI system hasn't been configured yet. Please contact support to set up my brain.",
+    };
+  }
+
+  const response = await fetch(`${GROQ_API_BASE}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      tools: VOICE_TOOLS,
+      tool_choice: "auto",
+      temperature: 0.7,
+      max_tokens: 512,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    console.error("Groq API error:", response.status, errorBody);
+    throw new Error(`Groq API returned ${response.status}`);
+  }
+
+  const data = await response.json();
+  const choice = data.choices?.[0];
+
+  if (!choice) {
+    throw new Error("No response from Groq");
+  }
+
+  const content = choice.message?.content || "";
+  const toolCalls = choice.message?.tool_calls?.map((tc: { id: string; function: { name: string; arguments: string } }) => ({
+    id: tc.id,
+    function: {
+      name: tc.function.name,
+      arguments: tc.function.arguments,
+    },
+  }));
+
+  return { content, toolCalls };
+}
+
+function executeGetPricing(): string {
+  const programs = BUSINESS_INFO.programs;
+  const lines = programs.map(
+    (p) => `- ${p.name}: ${p.price} ${p.period}${p.savings ? ` (${p.savings})` : ""} — ${p.tagline}`,
+  );
+  return `Available programs:\n${lines.join("\n")}`;
+}
+
+function executeGetServiceAreas(): string {
+  const areas = BUSINESS_INFO.serviceAreas;
+  return `Service areas: ${areas.join(", ")}. We cover these ${areas.length} areas across Greater Sydney.`;
+}
+
+async function executeBooking(args: Record<string, unknown>) {
+  const serviceType = String(args.serviceType || "foundation");
+
+  // Map service type to lesson data
+  const lessonMap: Record<string, { id: string; name: string; price: string }> = {
+    foundation: { id: "foundation", name: "Foundation Pass", price: "$55" },
+    "power-pack": { id: "power-pack", name: "Power Pack", price: "$250" },
+    mastery: { id: "mastery", name: "Mastery Bundle", price: "$450" },
+  };
+
+  const lesson = lessonMap[serviceType] || lessonMap.foundation;
+
+  const bookingPayload = {
+    customerName: String(args.name || ""),
+    phone: String(args.phone || ""),
+    email: String(args.email || ""),
+    lessonId: lesson.id,
+    lessonName: lesson.name,
+    lessonPrice: lesson.price,
+    preferredDate: String(args.preferredDate || ""),
+    preferredTime: String(args.preferredTime || ""),
+    notes: String(args.notes || ""),
+  };
+
+  // Validate required fields
+  if (!bookingPayload.customerName || !bookingPayload.phone) {
+    return {
+      success: false,
+      error: "Missing required booking information (name and phone are required).",
+    };
+  }
+
+  try {
+    // Call the internal booking API
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/book`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bookingPayload),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      return {
+        success: true,
+        bookingRef: data.booking.id.slice(0, 8).toUpperCase(),
+        data: {
+          ...data.booking,
+          id: data.booking.id.slice(0, 8).toUpperCase(),
+        },
+      };
+    }
+
+    return {
+      success: false,
+      error: data.error || "Booking could not be completed. Please try again.",
+    };
+  } catch (err) {
+    console.error("Booking execution error:", err);
+    return {
+      success: false,
+      error: "Could not complete the booking due to a system error. Please try again.",
+    };
+  }
 }
 
 export async function POST(request: Request) {
@@ -13,50 +162,110 @@ export async function POST(request: Request) {
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json(
         { error: "Missing required field: messages (non-empty array)" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    const lastMessage = messages[messages.length - 1];
-    const text = lastMessage.content.toLowerCase();
+    // Build the Groq conversation with system prompt
+    const groqMessages: GroqMessage[] = [
+      { role: "system", content: buildSystemPrompt() },
+      ...messages.map((m) => ({
+        role: m.role as "user" | "assistant",
+        content: m.content,
+      })),
+    ];
 
-    let responseText = "";
-    const toolCalls: Array<{ function: { name: string; arguments: string } }> = [];
+    let bookingResult = null;
 
-    if (text.includes("book") || text.includes("schedule") || text.includes("lesson")) {
-      responseText =
-        "I can help you book a session! I'll need your full name, phone number, and email address. Would you like to book a single session or a package?";
-    } else if (text.includes("price") || text.includes("cost") || text.includes("package")) {
-      responseText =
-        "Our programs start at $55 per session. The Power Pack (5 sessions) is $250, and the Mastery Bundle (10 sessions) is $450. Would you like details on any specific program?";
-    } else if (text.includes("foundation") || text.includes("beginner") || text.includes("single")) {
-      responseText =
-        "The Foundation Pass is perfect for beginners and pay-as-you-go learners. One-on-one dual-control sessions at $55/hour. Book online with instant confirmation. No commitment required.";
-    } else if (text.includes("power") || text.includes("pack")) {
-      responseText =
-        "The Power Pack is 5 sessions for $250 — save $25 versus the per-session rate. Includes priority scheduling, a mock assessment, and full progress dashboard.";
-    } else if (text.includes("mastery") || text.includes("bundle")) {
-      responseText =
-        "The Mastery Bundle is 10 sessions for $450 — save $100 versus the per-session rate. Includes complete curriculum coverage, 2 mock road tests, and auto-pay.";
-    } else if (text.includes("icbc") || text.includes("test") || text.includes("exam") || text.includes("pass") || text.includes("rate")) {
-      responseText =
-        "95% of our students pass their ICBC road test on the first attempt. Our instructors prepare you thoroughly with mock examinations and test-ready progress tracking.";
-    } else if (text.includes("hello") || text.includes("hi ") || text.includes("hey") || text.includes("help")) {
-      responseText =
-        "Hello! I'm the RYDAX AI concierge. I can help you book lessons, explain our programs, check pricing, or answer any questions about our driving school. What would you like to know?";
-    } else {
-      responseText =
-        "I'm here to help! You can ask me about our programs, pricing, service areas, booking, or anything about RyDax Driving School. What would you like to know?";
+    // First LLM call
+    const { content, toolCalls } = await callGroq(groqMessages);
+
+    // If no tool calls, return the response directly
+    if (!toolCalls || toolCalls.length === 0) {
+      return NextResponse.json({
+        content,
+        toolCalls: [],
+        booking: null,
+      });
     }
 
+    // Handle tool calls: execute each and collect results
+    const toolResults: ToolCallResult[] = [];
+
+    for (const toolCall of toolCalls) {
+      if (toolCall.function.name === "book_lesson") {
+        try {
+          const args = JSON.parse(toolCall.function.arguments);
+          bookingResult = await executeBooking(args);
+          toolResults.push({
+            role: "tool",
+            tool_call_id: toolCall.id,
+            content: JSON.stringify(bookingResult),
+          });
+        } catch (parseErr) {
+          console.error("Failed to parse book_lesson args:", parseErr);
+          const errResult = { success: false, error: "Could not process the booking information. Please try again." };
+          bookingResult = errResult;
+          toolResults.push({
+            role: "tool",
+            tool_call_id: toolCall.id,
+            content: JSON.stringify(errResult),
+          });
+        }
+      }
+
+      if (toolCall.function.name === "get_pricing") {
+        const pricingInfo = executeGetPricing();
+        toolResults.push({
+          role: "tool",
+          tool_call_id: toolCall.id,
+          content: pricingInfo,
+        });
+      }
+
+      if (toolCall.function.name === "get_service_areas") {
+        const areasInfo = executeGetServiceAreas();
+        toolResults.push({
+          role: "tool",
+          tool_call_id: toolCall.id,
+          content: areasInfo,
+        });
+      }
+    }
+
+    // Second LLM call with tool results to generate natural language response
+    const groqMessagesWithTools: GroqMessage[] = [
+      ...groqMessages,
+      {
+        role: "assistant",
+        content: content || null,
+        tool_calls: toolCalls.map((tc) => ({
+          id: tc.id,
+          type: "function" as const,
+          function: tc.function,
+        })),
+      },
+      ...toolResults,
+    ];
+
+    const secondResponse = await callGroq(groqMessagesWithTools);
+
     return NextResponse.json({
-      content: responseText,
-      toolCalls,
+      content: secondResponse.content,
+      toolCalls: toolCalls.map((tc) => ({
+        function: tc.function,
+      })),
+      booking: bookingResult,
     });
-  } catch {
+  } catch (error) {
+    console.error("Voice API error:", error);
     return NextResponse.json(
-      { error: "Invalid request body" },
-      { status: 400 }
+      {
+        content: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment.",
+        toolCalls: [],
+        booking: null,
+      },
+      { status: 200 }, // Return 200 with graceful message so UI doesn't break
     );
   }
 }

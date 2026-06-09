@@ -1,8 +1,47 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
-import type { VoiceMessage, VoiceState } from "@/types/voice";
+import { useState, useCallback, useRef, useEffect } from "react";
+import type { VoiceMessage, VoiceState, VoiceAPIResponse } from "@/types/voice";
 import type { SpeechRecognition, SpeechRecognitionEvent, SpeechRecognitionErrorEvent } from "@/types/speech-recognition";
+
+const SUGGESTED_REPLIES_MAP: Record<string, string[]> = {
+  greeting: ["Tell me about your programs", "How do I book?", "What areas do you serve?"],
+  pricing: ["Tell me about Foundation Pass", "What's the Power Pack?", "Book a lesson"],
+  booking: ["Foundation Pass", "Power Pack", "Mastery Bundle"],
+  contact: ["What's your phone number?", "Where are you located?", "What are your hours?"],
+  default: ["View Pricing", "Book a Lesson", "Service Areas"],
+};
+
+function getSuggestedReplies(content: string): string[] {
+  const lower = content.toLowerCase();
+  if (lower.includes("program") || lower.includes("package") || lower.includes("pricing") || lower.includes("cost") || lower.includes("$")) {
+    return SUGGESTED_REPLIES_MAP.pricing;
+  }
+  if (lower.includes("book") || lower.includes("schedule") || lower.includes("lesson") || lower.includes("name") || lower.includes("phone") || lower.includes("email") || lower.includes("date") || lower.includes("time")) {
+    return SUGGESTED_REPLIES_MAP.booking;
+  }
+  if (lower.includes("hello") || lower.includes("hi ") || lower.includes("hey") || lower.includes("welcome") || lower.includes("help")) {
+    return SUGGESTED_REPLIES_MAP.greeting;
+  }
+  if (lower.includes("area") || lower.includes("location") || lower.includes("phone") || lower.includes("hour") || lower.includes("contact")) {
+    return SUGGESTED_REPLIES_MAP.contact;
+  }
+  return SUGGESTED_REPLIES_MAP.default;
+}
+
+function getSpeechRecognitionAPI(): (new () => SpeechRecognition) | null {
+  if (typeof window === "undefined") return null;
+  return (
+    (window as unknown as { SpeechRecognition?: new () => SpeechRecognition }).SpeechRecognition ||
+    (window as unknown as { webkitSpeechRecognition?: new () => SpeechRecognition }).webkitSpeechRecognition ||
+    null
+  );
+}
+
+function getSpeechSynthesisAPI(): SpeechSynthesis | null {
+  if (typeof window === "undefined") return null;
+  return window.speechSynthesis || null;
+}
 
 export function useVoiceAssistant() {
   const [state, setState] = useState<VoiceState>({
@@ -11,48 +50,57 @@ export function useVoiceAssistant() {
     isLoading: false,
     messages: [],
     error: null,
+    bookingInProgress: false,
+    suggestedReplies: [],
   });
 
   const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const synthRef = useRef<SpeechSynthesis | null>(null);
   const messagesRef = useRef<VoiceMessage[]>([]);
 
-  const speak = useCallback((text: string) => {
-    if (!("speechSynthesis" in window)) {
-      setState((s) => ({ ...s, error: "Text-to-speech not supported in this browser" }));
-      return;
-    }
+  // Detect voice support once on mount
+  const [voiceSupport] = useState(() => {
+    const sr = getSpeechRecognitionAPI();
+    const ss = getSpeechSynthesisAPI();
+    return {
+      speechRecognition: sr !== null,
+      speechSynthesis: ss !== null,
+    };
+  });
 
-    const synth = window.speechSynthesis;
-    synth.cancel();
+  // Store whether a TTS utterance is currently active
+  const speakingRef = useRef(false);
+
+  const speak = useCallback((text: string) => {
+    if (!("speechSynthesis" in window)) return;
+
+    // Don't interrupt if already speaking the same utterance
+    window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-GB";
+    utterance.lang = "en-US";
     utterance.rate = 1;
     utterance.pitch = 1;
-    utterance.onstart = () => setState((s) => ({ ...s, isSpeaking: true }));
-    utterance.onend = () => setState((s) => ({ ...s, isSpeaking: false }));
-    utterance.onerror = () => setState((s) => ({ ...s, isSpeaking: false }));
-    synth.speak(utterance);
-    synthRef.current = synth;
+    utterance.onstart = () => {
+      speakingRef.current = true;
+      setState((s) => ({ ...s, isSpeaking: true }));
+    };
+    utterance.onend = () => {
+      speakingRef.current = false;
+      setState((s) => ({ ...s, isSpeaking: false }));
+    };
+    utterance.onerror = () => {
+      speakingRef.current = false;
+      setState((s) => ({ ...s, isSpeaking: false }));
+    };
+    window.speechSynthesis.speak(utterance);
   }, []);
 
   const stopSpeaking = useCallback(() => {
-    if (synthRef.current) {
-      synthRef.current.cancel();
-      setState((s) => ({ ...s, isSpeaking: false }));
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
     }
-  }, []);
-
-  const handleBooking = useCallback(async (bookingData: Record<string, unknown>) => {
-    try {
-      const response = await fetch("/api/book", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bookingData),
-      });
-      if (!response.ok) throw new Error("Booking failed");
-    } catch { /* Silently fail */ }
+    speakingRef.current = false;
+    setState((s) => ({ ...s, isSpeaking: false }));
   }, []);
 
   const sendMessage = useCallback(async (text: string) => {
@@ -66,7 +114,13 @@ export function useVoiceAssistant() {
     };
 
     messagesRef.current = [...messagesRef.current, userMessage];
-    setState((s) => ({ ...s, messages: [...messagesRef.current], isLoading: true, error: null }));
+    setState((s) => ({
+      ...s,
+      messages: [...messagesRef.current],
+      isLoading: true,
+      error: null,
+      suggestedReplies: [],
+    }));
 
     try {
       const payload = messagesRef.current.map(({ role, content }) => ({ role, content }));
@@ -76,106 +130,139 @@ export function useVoiceAssistant() {
         body: JSON.stringify({ messages: payload }),
       });
 
-      if (!response.ok) throw new Error(`API request failed: ${response.status}`);
-
-      const data = await response.json();
-
-      if (Array.isArray(data.toolCalls) && data.toolCalls.length > 0) {
-        for (const toolCall of data.toolCalls) {
-          if (toolCall?.function?.name === "book_lesson") {
-            try {
-              const args = JSON.parse(toolCall.function.arguments);
-              await handleBooking(args);
-            } catch { /* Ignore parse errors */ }
-          }
-        }
-      }
+      const data: VoiceAPIResponse = await response.json();
 
       const assistantMessage: VoiceMessage = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content: data.content || "I can help you with that!",
         timestamp: Date.now(),
+        booking: data.booking
+          ? {
+              name: data.booking.data?.customerName as string,
+              phone: data.booking.data?.phone as string,
+              email: data.booking.data?.email as string,
+              preferredDate: data.booking.data?.preferredDate as string,
+              preferredTime: data.booking.data?.preferredTime as string,
+              lessonName: data.booking.data?.lessonName as string,
+              lessonPrice: data.booking.data?.lessonPrice as string,
+            }
+          : undefined,
+        toolCallResult: data.booking || undefined,
       };
 
       messagesRef.current = [...messagesRef.current, assistantMessage];
-      setState((s) => ({ ...s, messages: [...messagesRef.current], isLoading: false }));
 
-      if (data.content) speak(data.content);
-    } catch {
-      setState((s) => ({ ...s, isLoading: false, error: "Failed to get response" }));
-    }
-  }, [handleBooking, speak]);
+      const suggestedReplies = getSuggestedReplies(data.content);
 
-  const startListening = useCallback(async () => {
-    if (typeof window !== "undefined" && !window.isSecureContext) {
       setState((s) => ({
         ...s,
-        error: "Microphone access requires a secure context (HTTPS or localhost).",
+        messages: [...messagesRef.current],
+        isLoading: false,
+        bookingInProgress: !!data.booking?.success || false,
+        suggestedReplies,
       }));
-      return;
+    } catch {
+      setState((s) => ({
+        ...s,
+        isLoading: false,
+        error: "Failed to get response. Please check your connection.",
+      }));
     }
+  }, []);
 
-    const SpeechRecognitionAPI = typeof window !== "undefined"
-      ? window.SpeechRecognition || window.webkitSpeechRecognition
-      : null;
+  const sendQuickAction = useCallback((action: string) => {
+    const actionMap: Record<string, string> = {
+      "Book a Lesson": "I'd like to book a driving lesson",
+      "View Pricing": "What are your prices and programs?",
+      "Pricing": "Tell me about your programs and pricing",
+      "Service Areas": "What areas do you serve?",
+      "Contact": "How can I contact you?",
+      "Foundation Pass": "Tell me about the Foundation Pass",
+      "Power Pack": "Tell me about the Power Pack",
+      "Mastery Bundle": "Tell me about the Mastery Bundle",
+      "Book Now": "I'd like to book a lesson",
+      "What are your hours?": "What are your operating hours?",
+      "Where are you located?": "What is your address?",
+      "What's your phone number?": "What's your phone number?",
+      "How do I book?": "How do I book a driving lesson?",
+      "Tell me about your programs": "What programs do you offer?",
+      "What areas do you serve?": "What service areas do you cover?",
+      "Book a session": "I'd like to book a session",
+    };
+    sendMessage(actionMap[action] || action);
+  }, [sendMessage]);
+
+  const startListening = useCallback(async () => {
+    const SpeechRecognitionAPI = getSpeechRecognitionAPI();
 
     if (!SpeechRecognitionAPI) {
       setState((s) => ({
         ...s,
-        error: "Speech recognition not supported. Please use Chrome, Edge, or Safari.",
+        error: "Speech recognition requires Chrome, Edge, or Safari.",
       }));
       return;
     }
 
+    // Request mic permission once. Don't stop tracks until recognition ends.
+    let stream: MediaStream | null = null;
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach((track) => track.stop());
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (err: unknown) {
       if (err instanceof DOMException) {
         if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
           setState((s) => ({
             ...s,
-            error: "Microphone access denied. Please check your browser settings.",
+            error: "Microphone access denied. Check your browser settings.",
           }));
           return;
         }
       }
       setState((s) => ({
         ...s,
-        error: "Could not access microphone. Please check your system settings.",
+        error: "Could not access microphone. Check your system settings.",
       }));
       return;
     }
 
-    if (recognitionRef.current) recognitionRef.current.stop();
+    // Stop any existing recognition
+    if (recognitionRef.current) {
+      try { recognitionRef.current.stop(); } catch { /* ignore */ }
+    }
 
     const recognition = new SpeechRecognitionAPI() as unknown as SpeechRecognition;
     recognition.continuous = false;
     recognition.interimResults = true;
-    recognition.lang = "en-GB";
+    recognition.lang = "en-US";
 
-    recognition.onstart = () => setState((s) => ({ ...s, isListening: true, error: null }));
+    recognition.onstart = () => {
+      setState((s) => ({ ...s, isListening: true, error: null }));
+    };
 
     recognition.onresult = async (event: SpeechRecognitionEvent) => {
-      const transcript = Array.from({ length: event.results.length })
-        .map((_, i) => event.results[i][0].transcript)
-        .join("");
+      let transcript = "";
+      for (let i = 0; i < event.results.length; i++) {
+        const result = event.results[i];
+        if (result[0]?.transcript) {
+          transcript += result[0].transcript;
+        }
+      }
 
       const isFinal = event.results[event.results.length - 1]?.isFinal;
 
       if (isFinal && transcript.trim()) {
         await sendMessage(transcript);
       } else if (isFinal && !transcript.trim()) {
-        setState((s) => ({ ...s, isListening: false, error: "No speech detected. Please try again." }));
+        setState((s) => ({ ...s, isListening: false, error: "No speech detected. Try again." }));
       }
     };
 
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       const errorMap: Record<string, string> = {
-        "not-allowed": "Microphone access denied. Please ensure your site is running on localhost or HTTPS.",
-        "no-speech": "No speech detected. Please try again.",
-        "network": "A network error occurred. Please check your connection.",
+        "not-allowed": "Microphone access denied.",
+        "no-speech": "No speech detected. Try again.",
+        network: "A network error occurred.",
+        aborted: "Listening was cancelled.",
       };
       setState((s) => ({
         ...s,
@@ -184,19 +271,31 @@ export function useVoiceAssistant() {
       }));
     };
 
-    recognition.onend = () => setState((s) => ({ ...s, isListening: false }));
+    recognition.onend = () => {
+      setState((s) => ({ ...s, isListening: false }));
+      // Release the mic stream after recognition ends
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+        stream = null;
+      }
+    };
 
     try {
       recognition.start();
       recognitionRef.current = recognition;
     } catch (err) {
-      console.error(err);
+      console.error("recognition.start() failed:", err);
+      setState((s) => ({ ...s, isListening: false, error: "Could not start listening." }));
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+        stream = null;
+      }
     }
   }, [sendMessage]);
 
   const toggleListening = useCallback(() => {
     if (state.isListening && recognitionRef.current) {
-      recognitionRef.current.stop();
+      try { recognitionRef.current.stop(); } catch { /* ignore */ }
     } else {
       startListening();
     }
@@ -204,14 +303,33 @@ export function useVoiceAssistant() {
 
   const clearMessages = useCallback(() => {
     messagesRef.current = [];
-    setState((s) => ({ ...s, messages: [], error: null }));
+    setState((s) => ({
+      ...s,
+      messages: [],
+      error: null,
+      bookingInProgress: false,
+      suggestedReplies: [],
+    }));
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        try { recognitionRef.current.stop(); } catch { /* ignore */ }
+      }
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
   }, []);
 
   return {
     state,
-    startListening,
+    voiceSupport,
     toggleListening,
     sendMessage,
+    sendQuickAction,
     speak,
     stopSpeaking,
     clearMessages,
