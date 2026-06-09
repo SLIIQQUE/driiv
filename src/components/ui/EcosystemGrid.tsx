@@ -19,8 +19,9 @@ interface EcosystemGridProps {
 }
 
 export function EcosystemGrid({ features = defaultFeatures, columns = 4 }: EcosystemGridProps) {
+  const cols = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-4";
   return (
-    <div className={`grid grid-cols-2 md:grid-cols-${columns} gap-10 text-center relative z-10`}>
+    <div className={`grid grid-cols-2 ${cols} gap-10 text-center relative z-10`}>
       {features.map((item, i) => (
         <div key={i} className="hover:-translate-y-1 transition-transform duration-300">
           <item.icon className="w-8 h-8 text-accent mx-auto mb-4" />

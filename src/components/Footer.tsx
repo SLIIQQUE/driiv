@@ -1,16 +1,12 @@
+"use client";
+
+import { useRef } from "react";
 import Link from "next/link";
+import { motion, useScroll, useTransform, useTime } from "motion/react";
 import { Mail, MapPin, ArrowRight, Phone, Car } from "lucide-react";
 import BookNowTrigger from "@/components/BookNowTrigger";
 
 const navigation = {
-  services: [
-    { name: "Foundation Pass", href: "/pricing" },
-    { name: "Power Pack", href: "/pricing" },
-    { name: "Mastery Bundle", href: "/pricing" },
-    { name: "Pricing & Packages", href: "/pricing" },
-    { name: "Book Now", href: "/?book=1" },
-    { name: "FAQ", href: "/faq" },
-  ],
   quickLinks: [
     { name: "Home", href: "/" },
     { name: "Book Now", href: "/?book=1" },
@@ -27,32 +23,118 @@ const navigation = {
   ],
 };
 
-export default function Footer() {
+const contactItems = [
+  { icon: Phone, href: "tel:+16041234567", label: "(604) 123-4567" },
+  { icon: Mail, href: "mailto:hello@rydax.net", label: "hello@rydax.net" },
+];
+
+function FloatingOrb({
+  color,
+  size,
+  initialX,
+  initialY,
+  driftIntensity = 1,
+}: {
+  color: string;
+  size: number;
+  initialX: number;
+  initialY: number;
+  driftIntensity?: number;
+}) {
+  const time = useTime();
+
+  const x = useTransform(time, (t) => {
+    return initialX + Math.sin(t * 0.0003 * driftIntensity) * 80;
+  });
+
+  const y = useTransform(time, (t) => {
+    return initialY + Math.cos(t * 0.0004 * driftIntensity) * 60;
+  });
+
   return (
-    <footer className="relative bg-[#030305] text-white overflow-hidden pt-20 lg:pt-32 pb-8">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span
-            className="font-display text-[15vw] lg:text-[20vw] font-bold text-white opacity-[0.02] leading-none tracking-tighter lg:whitespace-nowrap"
-            style={{
-              transform: "scale(1.2)",
-              WebkitTextStroke: "1px rgba(255, 215, 0, 0.1)",
-            }}
-          >
-            RYDAX
-          </span>
-        </div>
+    <motion.div
+      className="absolute rounded-full blur-[120px] pointer-events-none"
+      style={{
+        width: size,
+        height: size,
+        background: color,
+        x,
+        y,
+      }}
+    />
+  );
+}
+
+export default function Footer() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const watermarkParallax = useTransform(scrollYProgress, [0, 1], [60, -60]);
+  const orbsOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.2, 0.6, 0.6, 0.2]);
+
+  return (
+    <footer
+      ref={sectionRef}
+      className="relative bg-[#030305] text-white overflow-hidden pt-20 lg:pt-32 pb-6"
+    >
+      {/* Floating orbs */}
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: orbsOpacity }}>
+        <FloatingOrb
+          color="linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05))"
+          size={500}
+          initialX={-100}
+          initialY={100}
+          driftIntensity={0.8}
+        />
+        <FloatingOrb
+          color="linear-gradient(135deg, rgba(120,80,255,0.1), rgba(120,80,255,0.03))"
+          size={400}
+          initialX={800}
+          initialY={-50}
+          driftIntensity={1.2}
+        />
+        <FloatingOrb
+          color="linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,180,0,0.02))"
+          size={350}
+          initialX={400}
+          initialY={300}
+          driftIntensity={1.0}
+        />
+      </motion.div>
+
+      {/* Dot grid texture */}
+      <div className="absolute inset-0 grid-pattern opacity-[0.015] pointer-events-none" />
+
+      {/* Animated top border shimmer */}
+      <div className="absolute top-0 left-0 right-0 h-px overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/30 to-transparent animate-[border-shimmer_3s_ease-in-out_infinite]" />
       </div>
 
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[150px] opacity-30" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary-light/10 rounded-full blur-[150px] opacity-30" />
-        <div className="absolute inset-0 grid-pattern opacity-20" />
-      </div>
+      {/* RYDAX watermark */}
+      <motion.div
+        className="absolute inset-0 overflow-hidden pointer-events-none flex items-center justify-center"
+        style={{ y: watermarkParallax }}
+      >
+        <span
+          className="font-display text-[18vw] lg:text-[22vw] font-bold leading-none tracking-tighter bg-gradient-to-r from-white/0 via-accent/15 via-30% to-white/0 bg-[length:200%_100%] bg-clip-text text-transparent animate-[watermark-shine_8s_ease-in-out_infinite]"
+        >
+          RYDAX
+        </span>
+      </motion.div>
 
       <div className="container relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-16 border-b border-white/10">
-          <div className="lg:col-span-4">
+        {/* Main content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-12 border-b border-white/5">
+          {/* Left — Brand */}
+          <motion.div
+            className="lg:col-span-6"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+          >
             <Link href="/" className="flex items-center gap-3 mb-6 group">
               <div className="relative">
                 <div className="w-14 h-14 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
@@ -66,109 +148,106 @@ export default function Footer() {
                 </span>
               </div>
             </Link>
-            <p className="text-sm leading-7 text-white/60 max-w-md mb-8">
+            <p className="text-sm leading-7 text-white/50 max-w-md mb-8">
               Surrey&apos;s most advanced driving school. AI-powered booking, automated reminders, and ICBC licensed instruction. Learn to drive with confidence.
             </p>
 
-            <div className="flex flex-col gap-4">
-              <a
-                href="tel:+16041234567"
-                className="flex items-center gap-3 text-white/70 hover:text-accent transition-colors group hover-x"
-              >
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                  <Phone className="w-5 h-5" />
+            <div className="flex flex-col gap-3">
+              {contactItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="flex items-center gap-3 text-white/50 hover:text-accent transition-colors group"
+                >
+                  <div className="w-9 h-9 bg-white/[0.03] border border-white/5 rounded-lg flex items-center justify-center group-hover:bg-accent/10 group-hover:border-accent/20 transition-all duration-300">
+                    <item.icon className="w-4 h-4" />
+                  </div>
+                  <span className="text-sm font-medium">{item.label}</span>
+                </a>
+              ))}
+              <div className="flex items-center gap-3 text-white/50">
+                <div className="w-9 h-9 bg-white/[0.03] border border-white/5 rounded-lg flex items-center justify-center">
+                  <MapPin className="w-4 h-4" />
                 </div>
-                (604) 123-4567
-              </a>
-              <a
-                href="mailto:hello@rydax.net"
-                className="flex items-center gap-3 text-white/70 hover:text-accent transition-colors group hover-x"
-              >
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                  <Mail className="w-5 h-5" />
-                </div>
-                hello@rydax.net
-              </a>
-              <div className="flex items-center gap-3 text-white/70 hover-x">
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                12588 68A Ave, Surrey, BC V3W 1M2
+                <span className="text-sm font-medium">12588 68A Ave, Surrey, BC V3W 1M2</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-12">
-            <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-6">
-                Programs
-              </h3>
-              <ul role="list" className="space-y-4">
-                {navigation.services.map((item) => (
-                  <li key={item.name}>
-                    {item.name === "Book Now" ? (
-                      <BookNowTrigger className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap w-full text-left">
-                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
-                        {item.name}
-                      </BookNowTrigger>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap"
-                      >
-                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
-                        {item.name}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-6">
-                Quick Links
-              </h3>
-              <ul role="list" className="space-y-4">
-                {navigation.quickLinks.map((item) => (
-                  <li key={item.name}>
-                    {item.name === "Book Now" ? (
-                      <BookNowTrigger className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap w-full text-left">
-                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
-                        {item.name}
-                      </BookNowTrigger>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap"
-                      >
-                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
-                        {item.name}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-6">
-                Company
-              </h3>
-              <ul role="list" className="space-y-4">
-                {navigation.company.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-white/50 hover:text-accent transition-colors flex items-center gap-2 group text-nowrap"
-                    >
-                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-accent" />
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Right — Nav columns */}
+          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
+            {(["quickLinks", "company"] as const).map((section, sectionIdx) => (
+              <motion.div
+                key={section}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  type: "spring",
+                  damping: 25,
+                  stiffness: 200,
+                  delay: 0.1 + sectionIdx * 0.15,
+                }}
+              >
+                <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.25em] mb-6">
+                  {section === "quickLinks" ? "Quick Links" : "Company"}
+                </h3>
+                <ul role="list" className="space-y-3">
+                  {navigation[section].map((item) => (
+                    <li key={item.name}>
+                      {item.name === "Book Now" ? (
+                        <BookNowTrigger className="text-sm text-white/40 hover:text-accent transition-colors flex items-center gap-2 group w-full text-left">
+                          <span className="w-5 h-5 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent/40 group-hover:bg-accent/10 transition-all duration-300">
+                            <ArrowRight className="w-2.5 h-2.5 text-accent/0 group-hover:text-accent transition-all duration-300" />
+                          </span>
+                          {item.name}
+                        </BookNowTrigger>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className="text-sm text-white/40 hover:text-accent transition-colors flex items-center gap-2 group"
+                        >
+                          <span className="w-5 h-5 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent/40 group-hover:bg-accent/10 transition-all duration-300">
+                            <ArrowRight className="w-2.5 h-2.5 text-accent/0 group-hover:text-accent transition-all duration-300" />
+                          </span>
+                          {item.name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
           </div>
         </div>
+
+        {/* Copyright bar */}
+        <motion.div
+          className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+        >
+          <p className="text-xs text-white/20 font-medium">
+            &copy; {new Date().getFullYear()} RYDAX. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6">
+            {[
+              { name: "Privacy", href: "/privacy" },
+              { name: "Terms", href: "/terms" },
+              { name: "Contact", href: "/contact" },
+            ].map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="text-xs text-white/20 hover:text-accent/60 transition-colors"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </footer>
   );

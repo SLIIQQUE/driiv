@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 
 export function TestimonialShowcase() {
   return (
-    <section className="container mb-40 lg:mb-64">
+    <section className="container mb-20 lg:mb-32">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -25,17 +25,30 @@ export function TestimonialShowcase() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
               <p className="text-xl text-white/60 italic leading-relaxed mb-6">
-                &ldquo;The orchestration is the true differentiator. Booked, paid, tracked — all from a single device. Never wrote a cheque, never waited on hold.&rdquo;
+                &ldquo;The orchestration is the true differentiator. Booked,
+                paid, tracked — all from a single device. Never wrote a cheque,
+                never waited on hold.&rdquo;
               </p>
-              <div className="font-black text-white text-sm">— David Clarke</div>
-              <div className="text-[10px] font-black uppercase tracking-widest text-white/20">Richmond, BC</div>
+              <div className="font-black text-white text-sm">
+                — David Clarke
+              </div>
+              <div className="text-[10px] font-black uppercase tracking-widest text-white/20">
+                Richmond, BC
+              </div>
             </div>
             <div>
               <p className="text-xl text-white/60 italic leading-relaxed mb-6">
-                &ldquo;I booked at 11 PM and received confirmation instantly. Never missed a session thanks to the pulses. Progress intelligence revealed compounding improvement every lesson. Pure modern driver education.&rdquo;
+                &ldquo;I booked at 11 PM and received confirmation instantly.
+                Never missed a session thanks to the pulses. Progress
+                intelligence revealed compounding improvement every lesson. Pure
+                modern driver education.&rdquo;
               </p>
-              <div className="font-black text-white text-sm">— Sarah Mitchell</div>
-              <div className="text-[10px] font-black uppercase tracking-widest text-white/20">Surrey, BC</div>
+              <div className="font-black text-white text-sm">
+                — Sarah Mitchell
+              </div>
+              <div className="text-[10px] font-black uppercase tracking-widest text-white/20">
+                Surrey, BC
+              </div>
             </div>
           </div>
         </motion.div>

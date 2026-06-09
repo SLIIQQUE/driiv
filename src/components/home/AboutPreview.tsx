@@ -9,6 +9,7 @@ import {
   Quote,
 } from "lucide-react";
 import { useRef } from "react";
+import { Badge, StatCard } from "@/components/ui";
 
 export default function AboutPreview() {
   const sectionRef = useRef(null);
@@ -25,15 +26,9 @@ export default function AboutPreview() {
             viewport={{ once: true, margin: "0px" }}
             transition={{ duration: 0.8 }}
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8"
-            >
-              <Quote className="w-4 h-4 text-accent" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">The RYDAX difference</span>
-            </motion.div>
+            <Badge icon={<Quote className="w-4 h-4" />} className="mb-8">
+              The RYDAX difference
+            </Badge>
             <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] mb-8">
               Metro Vancouver&apos;s <br />
               <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-8">most sophisticated</span>
@@ -85,23 +80,14 @@ export default function AboutPreview() {
                   { value: "5+", label: "Seasons Of Excellence" },
                   { value: "6", label: "Cities Covered" },
                 ].map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 + i * 0.1 }}
-              className="hover:scale-105 transition-transform duration-300"
-            >
-                    <motion.div
-                      className="text-5xl font-black text-white mb-2"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.5 + i * 0.1 }}
-                    >
-                      {stat.value}
-                    </motion.div>
-                    <div className="text-[11px] font-black uppercase tracking-widest text-accent">{stat.label}</div>
-                  </motion.div>
+                  <StatCard
+                    key={i}
+                    value={stat.value}
+                    label={stat.label}
+                    delay={0.5 + i * 0.1}
+                    valueClassName="text-5xl mb-2"
+                    labelClassName="text-[11px] text-accent"
+                  />
                 ))}
               </div>
               <div className="border-t border-white/5 pt-8">

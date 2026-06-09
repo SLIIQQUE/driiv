@@ -7,14 +7,9 @@ import {
   MapPin,
   Award,
   CheckCircle,
-  ArrowRight,
-  Bot,
-  Bell,
-  CreditCard,
-  BarChart3,
 } from "lucide-react";
 import { useRef } from "react";
-import BookNowTrigger from "@/components/BookNowTrigger";
+import { PageHero, PageTitle, PageDescription, EcosystemGrid, CTASection } from "@/components/ui";
 
 const testimonials = [
   {
@@ -73,41 +68,23 @@ export default function TestimonialsPage() {
     <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8"
-          >
-            <div className="w-12 h-px bg-accent" />
-            Social Proof
-          </motion.div>
+          <PageHero label="Social Proof" />
 
           <h1 className="sr-only">
             Student Reviews — RyDax Driving School Surrey BC
           </h1>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10"
-          >
+          <PageTitle>
             Over a thousand <br />
             <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">
               success narratives.
             </span>
-          </motion.div>
+          </PageTitle>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium my-10"
-          >
+          <PageDescription className="my-10">
             Our students consistently highlight the seamless orchestration. AI
             booking, online payments, automated reminders, and progress
             intelligence — all converging so you can concentrate on the road.
-          </motion.p>
+          </PageDescription>
         </div>
       </section>
 
@@ -199,57 +176,22 @@ export default function TestimonialsPage() {
               Every student experiences
             </h3>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
-            {[
-              { icon: Bot, label: "AI Concierge", sub: "24/7" },
-              { icon: Bell, label: "Reminders", sub: "Automated" },
-              { icon: CreditCard, label: "Online Pay", sub: "Cashless" },
-              { icon: BarChart3, label: "Progress Intel", sub: "After each" },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="hover:-translate-y-1 transition-transform duration-300"
-              >
-                <item.icon className="w-6 h-6 text-accent mx-auto mb-3" />
-                <div className="text-sm font-black uppercase tracking-wider text-white/40">
-                  {item.label}
-                </div>
-                <div className="text-[10px] text-white/20 font-bold uppercase tracking-wider">
-                  {item.sub}
-                </div>
-              </div>
-            ))}
-          </div>
+          <EcosystemGrid />
         </motion.div>
       </section>
 
-      <section className="container mt-20">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="premium-card p-12 lg:p-20 text-center relative overflow-hidden bg-accent/5"
-        >
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-8">
-              Author Your{" "}
-              <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">
-                Success Narrative.
-              </span>
-            </h2>
-            <p className="text-xl text-white/40 max-w-2xl mx-auto mb-12 font-medium">
-              Join over 1,000 students who experienced sophisticated driver
-              education. Book online in under sixty seconds.
-            </p>
-            <BookNowTrigger className="group relative px-12 py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest overflow-hidden shadow-2xl shadow-accent/20 inline-flex items-center gap-3">
-              <span className="relative z-10 flex items-center gap-3">
-                Begin Your Journey <ArrowRight className="w-5 h-5" />
-              </span>
-              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-            </BookNowTrigger>
-          </div>
-        </motion.div>
-      </section>
+      <CTASection
+        title={
+          <>
+            Author Your{" "}
+            <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">
+              Success Narrative.
+            </span>
+          </>
+        }
+        description="Join over 1,000 students who experienced sophisticated driver education. Book online in under sixty seconds."
+        buttonText="Begin Your Journey"
+      />
     </main>
   );
 }

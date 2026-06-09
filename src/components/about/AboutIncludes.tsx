@@ -1,18 +1,11 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Bot, CreditCard, Bell, BarChart3 } from "lucide-react";
-
-const items = [
-  { icon: Bot, label: "AI Concierge", sub: "24/7, instantaneous" },
-  { icon: CreditCard, label: "Online Pay", sub: "Cashless" },
-  { icon: Bell, label: "Reminders", sub: "Never miss" },
-  { icon: BarChart3, label: "Progress Intel", sub: "After every session" },
-];
+import { EcosystemGrid } from "@/components/ui";
 
 export function AboutIncludes() {
   return (
-    <section className="mb-40 lg:mb-64">
+    <section>
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -20,21 +13,13 @@ export function AboutIncludes() {
           viewport={{ once: true }}
           className="glass-card border-white/5 p-10 lg:p-16 rounded-[3rem] relative overflow-hidden"
         >
-          <div
-            className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full"
-          />
+          <div className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 blur-[80px] rounded-full" />
           <div className="text-center mb-10 relative z-10">
-            <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">Every student receives</h3>
+            <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">
+              Every student receives
+            </h3>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 text-center relative z-10">
-            {items.map((item, i) => (
-              <div key={i} className="hover:-translate-y-1 transition-transform duration-300">
-                <item.icon className="w-8 h-8 text-accent mx-auto mb-4" />
-                <div className="text-sm font-black uppercase tracking-wider">{item.label}</div>
-                <div className="text-[11px] text-white/30 font-bold">{item.sub}</div>
-              </div>
-            ))}
-          </div>
+          <EcosystemGrid />
         </motion.div>
       </div>
     </section>

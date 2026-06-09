@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { ArrowRight, Calendar, Shield, Award, Bell, BarChart3, CreditCard, Sparkles } from "lucide-react";
 import BookNowTrigger from "@/components/BookNowTrigger";
 import { useRef } from "react";
+import { Badge } from "@/components/ui";
 
 export default function CTASection() {
   const sectionRef = useRef(null);
@@ -31,15 +32,9 @@ export default function CTASection() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-6"
-              >
-                <Sparkles className="w-4 h-4 text-accent" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">Your journey begins with a single click</span>
-              </motion.div>
+              <Badge icon={<Sparkles className="w-4 h-4" />} className="mb-6">
+                Your journey begins with a single click
+              </Badge>
               <h2 className="text-4xl lg:text-6xl font-black text-white leading-[0.95] tracking-tighter mb-8">
                 Your inaugural session is{" "}
                 <span className="text-accent underline decoration-accent/30 decoration-8 underline-offset-8">moments away.</span>

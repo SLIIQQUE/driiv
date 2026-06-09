@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { Target, Zap, Heart, Award, Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui";
 
 const values = [
   { icon: Target, label: "Safety Obsession", description: "Every session builds defensive reflexes engineered to last." },
@@ -12,7 +13,7 @@ const values = [
 
 export function AboutValuesSection() {
   return (
-    <section className="mb-40 lg:mb-64">
+    <section className="mb-20 lg:mb-32">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -20,14 +21,9 @@ export function AboutValuesSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8"
-          >
-            <Sparkles className="w-4 h-4 text-accent" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">Our principles</span>
-          </motion.div>
+          <Badge icon={<Sparkles className="w-4 h-4" />} className="mb-8">
+            Our principles
+          </Badge>
           <h2 className="text-4xl lg:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95]">
             Our North Stars
           </h2>

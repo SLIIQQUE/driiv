@@ -1,66 +1,103 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui";
+import { Sparkles, Rocket, Users, Bot, MapPin, Orbit } from "lucide-react";
 
 const milestones = [
-  { year: "2019", event: "RYDAX founded in Surrey", detail: "A single dual-control vehicle and a vision: prove that driver education can be as sophisticated as the vehicles on the road." },
-  { year: "2021", event: "500 Students Certified", detail: "93% first-attempt pass rate achieved through pure instructional excellence — still operating on paper logs." },
-  { year: "2023", event: "AI Concierge Launched", detail: "Students could finally book, reschedule, and inquire 24/7 without a single phone call. The friction started to dissolve." },
-  { year: "2024", event: "1,000+ Students Served", detail: "Expansion to six cities. Automated reminders, encrypted payments, and progress intelligence became standard equipment." },
-  { year: "2025", event: "Ecosystem Complete", detail: "AI booking, secure pay, auto-reminders, and progress intelligence — all orchestrated seamlessly. One click from inquiry to license." },
+  {
+    year: "2019",
+    event: "RYDAX Founded",
+    detail:
+      "A single dual-control vehicle and a vision: prove that driver education can be as sophisticated as the vehicles on the road.",
+    icon: Rocket,
+  },
+  {
+    year: "2021",
+    event: "500 Students Certified",
+    detail:
+      "93% first-attempt pass rate achieved through pure instructional excellence — still operating on paper logs.",
+    icon: Users,
+  },
+  {
+    year: "2023",
+    event: "AI Concierge Launched",
+    detail:
+      "Students could finally book, reschedule, and inquire 24/7 without a single phone call. The friction started to dissolve.",
+    icon: Bot,
+  },
+  {
+    year: "2024",
+    event: "1,000+ Students Served",
+    detail:
+      "Expansion to six cities. Automated reminders, encrypted payments, and progress intelligence became standard equipment.",
+    icon: MapPin,
+  },
+  {
+    year: "2025",
+    event: "Ecosystem Complete",
+    detail:
+      "AI booking, secure pay, auto-reminders, and progress intelligence — all orchestrated seamlessly. One click from inquiry to license.",
+    icon: Orbit,
+  },
 ];
 
 export function AboutMilestones() {
   return (
-    <section className="mb-40 lg:mb-64">
+    <section>
       <div className="container">
         <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8"
-          >
-            <Sparkles className="w-4 h-4 text-accent" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">Our trajectory</span>
-          </motion.div>
-          <h2 className="text-4xl lg:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95]">
-            The Evolution
+          <Badge icon={<Sparkles className="w-4 h-4 text-accent" />}>
+            Our trajectory
+          </Badge>
+          <h2 className="text-4xl lg:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] mt-10">
+            The <span className="text-secondary-foreground">Evolution</span>
           </h2>
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          {milestones.map((m, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.5 }}
-              className="flex gap-8 pb-16 last:pb-0 relative"
-            >
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-16 h-16 rounded-2xl bg-accent text-primary flex items-center justify-center font-black z-10 shadow-2xl shadow-accent/10 text-sm hover:scale-110 hover:rotate-6 transition-transform duration-300"
+        <div className="relative">
+          {/* Connecting line (desktop) */}
+          <div className="hidden lg:block absolute top-9 left-[10%] right-[10%] h-px bg-linear-to-r from-accent/40 via-accent/20 to-accent/40" />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6">
+            {milestones.map((m, i) => {
+              const Icon = m.icon;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="relative flex flex-col items-center text-center group"
                 >
-                  {m.year.slice(2)}
-                </div>
-                {i < milestones.length - 1 && (
-                  <motion.div
-                    className="w-px flex-1 bg-linear-to-b from-accent/30 to-transparent mt-4"
-                    initial={{ scaleY: 0 }}
-                    whileInView={{ scaleY: 1 }}
-                    transition={{ duration: 0.5 }}
-                  />
-                )}
-              </div>
-              <div className="pt-4">
-                <div className="text-xs font-black uppercase tracking-widest text-accent mb-2">{m.year}</div>
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-3">{m.event}</h3>
-                <p className="text-white/40 font-medium">{m.detail}</p>
-              </div>
-            </motion.div>
-          ))}
+                  {/* Year circle */}
+                  <div className="relative mb-6">
+                    <div className="w-16 h-16 rounded-full bg-accent text-primary flex items-center justify-center font-black text-lg z-10 relative shadow-2xl shadow-accent/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                      {m.year.slice(2)}
+                    </div>
+                    <div className="absolute inset-0 rounded-full bg-accent blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-300" />
+                  </div>
+
+                  {/* Card body */}
+                  <div className="glass-card border-white/5 p-6 rounded-2xl w-full flex-1 flex flex-col items-start text-left hover:border-accent/20 hover:-translate-y-1 transition-all duration-300">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Icon className="w-4 h-4 text-accent shrink-0" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-accent/60">
+                        {m.year}
+                      </span>
+                    </div>
+                    <h3 className="text-sm font-black text-white uppercase tracking-tighter mb-2 leading-tight">
+                      {m.event}
+                    </h3>
+                    <p className="text-xs text-white/40 font-medium leading-relaxed">
+                      {m.detail}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

@@ -2,20 +2,19 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import {
-  Check,
   Star,
   ShieldCheck,
   Zap,
-  ArrowRight,
   Bot,
   Bell,
   CreditCard,
   BarChart3,
 } from "lucide-react";
 import { useRef } from "react";
-import BookNowTrigger from "@/components/BookNowTrigger";
+import { PageHero, PageTitle, PageDescription, PricingCard } from "@/components/ui";
+import type { PricingCardData } from "@/components/ui";
 
-const pricingTiers = [
+const pricingTiers: PricingCardData[] = [
   {
     name: "Foundation Pass",
     price: "$55",
@@ -50,6 +49,7 @@ const pricingTiers = [
     cta: "Book 5 sessions",
     popular: true,
     icon: Zap,
+    popularLabel: "Optimal Value",
   },
   {
     name: "Mastery Bundle",
@@ -87,43 +87,25 @@ export default function PricingPage() {
     <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8"
-          >
-            <div className="w-12 h-px bg-accent" />
-            Investment
-          </motion.div>
+          <PageHero label="Investment" />
 
           <h1 className="sr-only">
             Driving Lesson Prices & Packages in Surrey BC
           </h1>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10"
-          >
+          <PageTitle>
             Radical <br />
             <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">
               clarity.
             </span>
             <br />
             Zero surprises.
-          </motion.div>
+          </PageTitle>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium"
-          >
+          <PageDescription>
             No concealed fees. No contractual entanglement. Book online, pay
             with cryptographic security, and save up to $100 with curated
             bundles.
-          </motion.p>
+          </PageDescription>
         </div>
       </section>
 
@@ -133,81 +115,7 @@ export default function PricingPage() {
           style={{ opacity }}
         >
           {pricingTiers.map((tier, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className={`premium-card p-10 flex flex-col group relative overflow-hidden cursor-default hover:-translate-y-2 hover:scale-[1.01] transition-all duration-500 ${tier.popular ? "border-accent/30 bg-accent/[0.02]" : "bg-white/2"}`}
-            >
-              {tier.popular && (
-                <motion.div
-                  initial={{ x: 60, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                  className="absolute top-8 right-8"
-                >
-                  <span className="px-4 py-1.5 bg-accent text-primary text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-accent/20">
-                    Optimal Value
-                  </span>
-                </motion.div>
-              )}
-
-              <div className="mb-12">
-                <div
-                  className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-10 ${tier.popular ? "bg-accent text-primary" : "bg-white/5 text-white/40"} hover:scale-110 hover:rotate-6 transition-transform duration-300`}
-                >
-                  <tier.icon className="w-7 h-7" />
-                </div>
-                <div className="text-[10px] font-black uppercase tracking-[0.25em] text-accent/60 mb-2">
-                  {tier.tagline}
-                </div>
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">
-                  {tier.name}
-                </h3>
-                <p className="text-sm text-white/40 font-medium leading-relaxed">
-                  {tier.description}
-                </p>
-              </div>
-
-              <div className="mb-12">
-                <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-6xl font-black text-white tracking-tighter">
-                    {tier.price}
-                  </span>
-                  <span className="text-white/30 font-bold uppercase text-xs tracking-widest">
-                    {tier.period}
-                  </span>
-                </div>
-                <div className="w-12 h-1 bg-accent/20 rounded-full group-hover:w-12 transition-all duration-300" />
-              </div>
-
-              <div className="space-y-4 mb-12 flex-1">
-                {tier.features.map((feature, j) => (
-                  <motion.div
-                    key={j}
-                    className="flex items-center gap-3 text-sm font-bold text-white/60"
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 + j * 0.04 }}
-                  >
-                    <Check
-                      className={`w-4 h-4 ${tier.popular ? "text-accent" : "text-white/20"}`}
-                    />
-                    {feature}
-                  </motion.div>
-                ))}
-              </div>
-
-              <BookNowTrigger className={`group relative py-5 rounded-2xl flex items-center justify-center gap-3 text-sm font-black uppercase tracking-widest overflow-hidden transition-all w-full ${tier.popular ? "bg-accent text-primary shadow-2xl shadow-accent/20" : "bg-white/5 text-white hover:bg-white/10"}`}>
-                <span className="relative z-10 flex items-center gap-3">
-                  {tier.cta}{" "}
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-              </BookNowTrigger>
-            </motion.div>
+            <PricingCard key={i} tier={tier} index={i} />
           ))}
         </motion.div>
       </section>

@@ -5,6 +5,7 @@ import { Bot, Calendar, Bell, BarChart3, CreditCard, ArrowRight } from "lucide-r
 import Link from "next/link";
 import { useRef } from "react";
 import { useBookingContext } from "@/contexts/BookingContext";
+import { Badge } from "@/components/ui";
 
 const features = [
   {
@@ -76,15 +77,9 @@ export default function FeatureStrip() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-3 bg-accent/5 border border-accent/10 rounded-full px-6 py-2 mb-8"
-          >
-            <Bot className="w-4 h-4 text-accent" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">The seamless ecosystem</span>
-          </motion.div>
+          <Badge icon={<Bot className="w-4 h-4" />} className="mb-8">
+            The seamless ecosystem
+          </Badge>
           <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] max-w-3xl mx-auto">
             Everything synced.{" "}
             <br />

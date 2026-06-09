@@ -7,13 +7,10 @@ import {
   ArrowRight,
   Car,
   CheckCircle,
-  Bot,
-  Bell,
-  CreditCard,
-  BarChart3,
 } from "lucide-react";
 import { useRef } from "react";
 import BookNowTrigger from "@/components/BookNowTrigger";
+import { PageHero, PageTitle, PageDescription, EcosystemGrid } from "@/components/ui";
 
 const areas = [
   {
@@ -63,35 +60,18 @@ export default function AreasPage() {
     <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden">
       <section className="container mb-40 lg:mb-64 relative">
         <div className="max-w-4xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8"
-          >
-            <div className="w-12 h-px bg-accent" />
-            Coverage
-          </motion.div>
+          <PageHero label="Coverage" />
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="mb-10"
-          >
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10">
-              Our Driving Lesson Service Areas in BC
-            </h1>
-          </motion.div>
+          <h1 className="sr-only">
+            Our Driving Lesson Service Areas in BC
+          </h1>
+          <PageTitle className="mb-10">
+            Our Driving Lesson Service Areas in BC
+          </PageTitle>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium"
-          >
+          <PageDescription>
             Pickup and drop-off included across Metro Vancouver. Book online, pay securely, receive automated pulses — wherever you&apos;re located.
-          </motion.p>
+          </PageDescription>
         </div>
       </section>
 
@@ -156,20 +136,7 @@ export default function AreasPage() {
           <div className="text-center mb-8 relative z-10">
             <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-2">Every service area includes</h3>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
-            {[
-              { icon: Bot, label: "AI Concierge", sub: "24/7" },
-              { icon: CreditCard, label: "Online Pay", sub: "Cashless" },
-              { icon: Bell, label: "Reminders", sub: "Automated" },
-              { icon: BarChart3, label: "Progress Intel", sub: "After each" },
-            ].map((item, i) => (
-              <div key={i} className="hover:-translate-y-1 transition-transform duration-300">
-                <item.icon className="w-6 h-6 text-accent mx-auto mb-3" />
-                <div className="text-sm font-black uppercase tracking-wider text-white/40">{item.label}</div>
-                <div className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{item.sub}</div>
-              </div>
-            ))}
-          </div>
+          <EcosystemGrid />
         </motion.div>
       </section>
 

@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { Bot, Car } from "lucide-react";
 import BookNowTrigger from "@/components/BookNowTrigger";
+import { PageHero, PageTitle, PageDescription } from "@/components/ui";
 
 export function ContactHero() {
   const { scrollY } = useScroll();
@@ -21,34 +22,16 @@ export function ContactHero() {
 
       <div className="container relative z-10">
         <div className="max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8"
-          >
-            <div className="w-12 h-px bg-accent" />
-            Get In Touch
-          </motion.div>
+          <PageHero label="Get In Touch" />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10"
-          >
+          <PageTitle>
             We&apos;re here <br />
             <span className="text-accent underline decoration-accent/20 decoration-8 underline-offset-12">to help.</span>
-          </motion.h1>
+          </PageTitle>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium"
-          >
+          <PageDescription>
             Reach out anytime. Our team responds within hours, not days.
-          </motion.p>
+          </PageDescription>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

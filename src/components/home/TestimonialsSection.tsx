@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { Star, Quote, ArrowRight, Bot, Bell, BarChart3, CreditCard } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
+import { Badge } from "@/components/ui";
 
 const testimonials = [
   {
@@ -53,15 +54,9 @@ export default function TestimonialsSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-accent/20 bg-accent/10 rounded-full mb-8"
-          >
-            <Quote className="w-4 h-4 text-accent" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-accent/70">The proof is in the progress</span>
-          </motion.div>
+          <Badge icon={<Quote className="w-4 h-4" />} className="mb-8">
+            The proof is in the progress
+          </Badge>
           <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] max-w-3xl mx-auto">
             Over a thousand <br />
             <span className="text-accent">success stories.</span>
