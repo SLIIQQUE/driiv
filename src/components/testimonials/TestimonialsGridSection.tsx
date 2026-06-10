@@ -80,7 +80,7 @@ export function TestimonialsGridSection() {
         </div>
       </ScrollReveal>
 
-      <section ref={sectionRef} className="container">
+      <section ref={sectionRef}>
         <motion.div
           className="columns-1 md:columns-2 lg:columns-3 gap-8 mt-20"
           style={{ y }}
