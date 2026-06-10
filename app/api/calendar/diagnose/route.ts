@@ -93,7 +93,7 @@ export async function GET() {
           },
         });
 
-        results.createEvent = {
+        const createResult: Record<string, unknown> = {
           status: "OK",
           eventId: testEvent.data.id,
           htmlLink: testEvent.data.htmlLink,
@@ -105,8 +105,9 @@ export async function GET() {
             calendarId: calId,
             eventId: testEvent.data.id,
           });
-          results.createEvent.cleanedUp = true;
+          createResult.cleanedUp = true;
         }
+        results.createEvent = createResult;
       } catch (writeError) {
         results.createEvent = {
           status: "FAILED",
