@@ -47,3 +47,23 @@ export function getCalendarDays(month: Date): (number | null)[] {
   while (days.length % 7 !== 0) days.push(null);
   return days;
 }
+
+/** Format a Date as YYYY-MM-DD for API calls */
+export function formatDateParam(d: Date): string {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+/** Fetch busy slots from Google Calendar for a given date string (YYYY-MM-DD) */
+export async function getBusySlotsForDate(dateStr: string): Promise<string[]> {
+  try {
+    const res = await fetch(`/api/calendar/availability?date=${dateStr}`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.busySlots || [];
+  } catch {
+    return []; // Fail open — show all slots if check fails
+  }
+}

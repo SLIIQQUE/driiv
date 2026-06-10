@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
-import { MONTHS } from "@/lib/booking-utils";
+import { ChevronLeft, ChevronRight, Loader2, Sparkles } from "lucide-react";
+import { MONTHS, getBusySlotsForDate, formatDateParam } from "@/lib/booking-utils";
 import CalendarGrid from "./CalendarGrid";
 import TimeSlotGrid from "./TimeSlotGrid";
 
@@ -20,6 +21,32 @@ export default function StepDateTime({
   selectedDate, selectedTime, calendarMonth,
   onDateClick, onTimeSelect, onPrevMonth, onNextMonth,
 }: Props) {
+  const [busySlots, setBusySlots] = useState<string[]>([]);
+  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+
+  useEffect(() => {
+    if (!selectedDate) {
+      setBusySlots([]);
+      return;
+    }
+
+    const dateStr = formatDateParam(selectedDate);
+    let cancelled = false;
+
+    setIsCheckingAvailability(true);
+
+    getBusySlotsForDate(dateStr).then((slots) => {
+      if (!cancelled) {
+        setBusySlots(slots);
+        setIsCheckingAvailability(false);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedDate]);
+
   return (
     <motion.div
       key="datetime"
@@ -74,10 +101,10 @@ export default function StepDateTime({
           selectedDate={selectedDate}
           selectedTime={selectedTime}
           onTimeSelect={onTimeSelect}
+          busySlots={busySlots}
+          isCheckingAvailability={isCheckingAvailability}
         />
       </div>
-
-
     </motion.div>
   );
 }
