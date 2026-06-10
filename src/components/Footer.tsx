@@ -141,7 +141,7 @@ export default function Footer() {
             </p>
 
             <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
-              <Car className="w-3 h-3 text-accent/60" /> ICBC Licensed &bull; Fully Insured
+              <Car className="w-3 h-3 text-accent/60" /> ICBC Licensed {'\u2022'} Fully Insured
             </div>
           </motion.div>
 
@@ -201,7 +201,7 @@ export default function Footer() {
           transition={{ delay: 0.5, duration: 0.8 }}
         >
           <p className="text-xs text-white/20 font-medium">
-            &copy; {new Date().getFullYear()} RYDAX. All rights reserved.
+            {'\u00A9'} {new Date().getFullYear()} RYDAX. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             {[

@@ -58,7 +58,7 @@ export function AreasGridSection() {
         delay={0}
         className="flex flex-wrap gap-6 items-center justify-center lg:justify-start opacity-40 mb-16"
       >
-        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><Car className="w-4 h-4 text-accent" /> Pickup &amp; Drop-off</div>
+        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><Car className="w-4 h-4 text-accent" /> Pickup {'\u0026'} Drop-off</div>
         <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><Shield className="w-4 h-4 text-accent" /> ICBC Licensed</div>
         <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest"><Building2 className="w-4 h-4 text-accent" /> All Neighbourhoods</div>
       </ScrollReveal>
