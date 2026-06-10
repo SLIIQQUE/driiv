@@ -3,10 +3,6 @@
 import { useState, useEffect, useImperativeHandle, forwardRef, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
-  Mic,
-  MicOff,
-  Volume2,
-  VolumeX,
   X,
   Bot,
   Send,
@@ -27,7 +23,6 @@ const QUICK_ACTIONS = [
   { label: "Book a Lesson", icon: BookOpen },
   { label: "Pricing", icon: Sparkles },
   { label: "Service Areas", icon: Calendar },
-  { label: "Contact", icon: User },
 ];
 
 function TypingIndicator() {
@@ -127,7 +122,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { state, voiceSupport, toggleListening, sendMessage, sendQuickAction, speak, stopSpeaking, clearMessages } =
+  const { state, sendMessage, sendQuickAction, clearMessages } =
     useVoiceAssistant();
 
   useImperativeHandle(ref, () => ({
@@ -146,23 +141,6 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
     }
   }, [isOpen]);
 
-  // TTS for new AI messages — only speaks once per message
-  const lastSpokenRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (state.messages.length > 0) {
-      const lastMessage = state.messages[state.messages.length - 1];
-      if (
-        lastMessage.role === "assistant" &&
-        isOpen &&
-        !lastMessage.toolCallResult &&
-        lastMessage.id !== lastSpokenRef.current
-      ) {
-        lastSpokenRef.current = lastMessage.id;
-        speak(lastMessage.content);
-      }
-    }
-  }, [state.messages, isOpen, speak]);
-
   const handleSend = async () => {
     if (!message.trim() || state.isLoading) return;
     const currentMessage = message;
@@ -176,13 +154,11 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
 
   const getStatusText = () => {
     if (state.isLoading) return "Thinking...";
-    if (state.isSpeaking) return "Speaking...";
-    if (state.isListening) return "Listening...";
     return "Online";
   };
 
   const getStatusColor = () => {
-    if (state.isLoading || state.isSpeaking || state.isListening) return "bg-accent";
+    if (state.isLoading) return "bg-accent";
     return "bg-emerald-400";
   };
 
@@ -384,31 +360,6 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                   disabled={state.isLoading}
                 />
                 <button
-                  onClick={toggleListening}
-                  disabled={state.isLoading || !voiceSupport.speechRecognition}
-                  className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
-                    state.isListening
-                      ? "bg-accent/20 text-accent"
-                      : !voiceSupport.speechRecognition
-                        ? "bg-white/5 text-white/10 cursor-not-allowed"
-                        : "bg-white/5 text-white/40 hover:bg-white/10"
-                  } disabled:opacity-30`}
-                  aria-label={state.isListening ? "Stop listening" : "Start voice input"}
-                  title={
-                    !voiceSupport.speechRecognition
-                      ? "Voice input not supported in this browser"
-                      : state.isListening
-                        ? "Stop listening"
-                        : "Voice input"
-                  }
-                >
-                  {state.isListening ? (
-                    <MicOff className="w-4 h-4" />
-                  ) : (
-                    <Mic className="w-4 h-4" />
-                  )}
-                </button>
-                <button
                   onClick={handleSend}
                   disabled={!message.trim() || state.isLoading}
                   className="w-9 h-9 bg-accent rounded-xl flex items-center justify-center disabled:opacity-30 transition-opacity hover:bg-accent/90"
@@ -419,21 +370,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
               </div>
 
               {/* Bottom controls */}
-              <div className="flex items-center justify-between mt-2 px-1">
-                <button
-                  onClick={() => (state.isSpeaking ? stopSpeaking() : null)}
-                  disabled={!voiceSupport.speechSynthesis || (!state.isSpeaking && state.messages.length === 0)}
-                  className="text-[10px] text-white/20 hover:text-white/50 transition-colors disabled:opacity-20 flex items-center gap-1"
-                  aria-label={state.isSpeaking ? "Stop speaking" : "Read aloud"}
-                  title={!voiceSupport.speechSynthesis ? "Text-to-speech not supported" : ""}
-                >
-                  {state.isSpeaking ? (
-                    <VolumeX className="w-3 h-3" />
-                  ) : (
-                    <Volume2 className="w-3 h-3" />
-                  )}
-                  {state.isSpeaking ? "Mute" : "Audio"}
-                </button>
+              <div className="flex items-center justify-end mt-2 px-1">
                 <button
                   onClick={clearMessages}
                   className="text-[10px] text-white/20 hover:text-white/50 transition-colors"

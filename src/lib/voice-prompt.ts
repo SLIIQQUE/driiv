@@ -3,10 +3,6 @@ import type { ToolDefinition } from "@/types/voice";
 export const BUSINESS_INFO = {
   name: "RYDAX",
   tagline: "Sophisticated driver education. No compromises.",
-  location: "12588 68A Ave, Surrey, BC V3W 1M2",
-  phone: "(604) 123-4567",
-  email: "hello@rydax.net",
-  hours: "Monday–Friday 8am–8pm, Saturday 9am–6pm",
   serviceAreas: [
     "Surrey (South Surrey, Guildford, Newton, Fleetwood, Whalley)",
     "Delta (North Delta, Ladner, Tsawwassen)",
@@ -80,10 +76,6 @@ You are warm, knowledgeable, and genuinely helpful. You speak like a confident p
 
 BUSINESS DETAILS
 Name: ${BUSINESS_INFO.name}
-Location: ${BUSINESS_INFO.location}
-Phone: ${BUSINESS_INFO.phone}
-Email: ${BUSINESS_INFO.email}
-Hours: ${BUSINESS_INFO.hours}
 Pass Rate: ${BUSINESS_INFO.passRate} first-attempt ICBC road test pass rate
 Service Areas: ${BUSINESS_INFO.serviceAreas.join("; ")}
 
@@ -113,7 +105,7 @@ TONE GUIDELINES
 Be encouraging but never pushy. If someone sounds nervous about driving, reassure them. That is completely normal and RYDAX instructors work with beginners all the time.
 Mirror how the customer talks. If they are casual, be casual. If they are more formal, match that slightly.
 Do not apologize too much. Never say things like "I am just an AI" or "I do not have access to that."
-If you really do not know something, say so clearly and offer to connect them with the team at ${BUSINESS_INFO.phone} or ${BUSINESS_INFO.email}.
+If you really do not know something, say so clearly and let them know you can book a session or help with any questions.
 
 FUNCTION CALLS
 When calling book_lesson, include every piece of information the customer has provided: name, phone, email, program, preferred date and time, and any notes. Do not call the function until you have at minimum their name, phone number, and program choice.`;

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
-import { Mail, MapPin, ArrowRight, Phone, Car } from "lucide-react";
+import { ArrowRight, Car } from "lucide-react";
 import BookNowTrigger from "@/components/BookNowTrigger";
 
 const navigation = {
@@ -17,16 +17,10 @@ const navigation = {
   ],
   company: [
     { name: "About Us", href: "/about" },
-    { name: "Contact", href: "/contact" },
     { name: "Privacy Policy", href: "/privacy" },
     { name: "Terms of Service", href: "/terms" },
   ],
 };
-
-const contactItems = [
-  { icon: Phone, href: "tel:+16041234567", label: "(604) 123-4567" },
-  { icon: Mail, href: "mailto:hello@rydax.net", label: "hello@rydax.net" },
-];
 
 function FloatingOrb({
   color,
@@ -146,25 +140,8 @@ export default function Footer() {
               Surrey&apos;s most advanced driving school. AI-powered booking, automated reminders, and ICBC licensed instruction. Learn to drive with confidence.
             </p>
 
-            <div className="flex flex-col gap-3">
-              {contactItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="flex items-center gap-3 text-white/50 hover:text-accent transition-colors group"
-                >
-                  <div className="w-9 h-9 bg-white/[0.03] border border-white/5 rounded-lg flex items-center justify-center group-hover:bg-accent/10 group-hover:border-accent/20 transition-all duration-300">
-                    <item.icon className="w-4 h-4" />
-                  </div>
-                  <span className="text-sm font-medium">{item.label}</span>
-                </a>
-              ))}
-              <div className="flex items-center gap-3 text-white/50">
-                <div className="w-9 h-9 bg-white/[0.03] border border-white/5 rounded-lg flex items-center justify-center">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <span className="text-sm font-medium">12588 68A Ave, Surrey, BC V3W 1M2</span>
-              </div>
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
+              <Car className="w-3 h-3 text-accent/60" /> ICBC Licensed &bull; Fully Insured
             </div>
           </motion.div>
 
@@ -230,7 +207,6 @@ export default function Footer() {
             {[
               { name: "Privacy", href: "/privacy" },
               { name: "Terms", href: "/terms" },
-              { name: "Contact", href: "/contact" },
             ].map((link) => (
               <Link
                 key={link.name}

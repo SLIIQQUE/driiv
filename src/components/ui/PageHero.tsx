@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
 interface PageHeroProps {
@@ -10,15 +7,10 @@ interface PageHeroProps {
 
 export function PageHero({ label, className = "" }: PageHeroProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8 ${className}`}
-    >
+    <div className={`flex items-center gap-3 text-accent font-bold uppercase tracking-[0.3em] text-xs mb-8 animate-fade-left ${className}`}>
       <div className="w-12 h-px bg-accent" />
       {label}
-    </motion.div>
+    </div>
   );
 }
 
@@ -29,14 +21,12 @@ interface PageTitleProps {
 
 export function PageTitle({ children, className = "" }: PageTitleProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.1 }}
-      className={`text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10 ${className}`}
+    <div
+      className={`text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.85] tracking-tighter mb-10 animate-fade-up ${className}`}
+      style={{ animationDelay: "0.1s" }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -47,14 +37,12 @@ interface PageDescriptionProps {
 
 export function PageDescription({ children, className = "" }: PageDescriptionProps) {
   return (
-    <motion.p
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.2 }}
-      className={`text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium ${className}`}
+    <p
+      className={`text-xl md:text-2xl text-white/50 max-w-2xl leading-relaxed font-medium animate-fade-up ${className}`}
+      style={{ animationDelay: "0.2s" }}
     >
       {children}
-    </motion.p>
+    </p>
   );
 }
 

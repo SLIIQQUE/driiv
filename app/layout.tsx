@@ -4,8 +4,8 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import VoiceAssistantWrapper from "@/components/VoiceAssistantWrapper";
+import BookingSidesheetWrapper from "@/components/booking/BookingSidesheetWrapper";
 import { BookingProvider } from "@/contexts/BookingContext";
-import BookingSidesheet from "@/components/booking/BookingSidesheet";
 import { testimonials } from "@/data/testimonials";
 import { BASE_URL } from "@/lib/config";
 
@@ -60,10 +60,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   manifest: "/site.webmanifest",
-  formatDetection: {
-    telephone: true,
-    email: true,
-  },
+
   openGraph: {
     type: "website",
     locale: "en_CA",
@@ -105,9 +102,6 @@ export const metadata: Metadata = {
     "msapplication-TileColor": "#1A2B48",
     "msapplication-config": "/browserconfig.xml",
     "revisit-after": "7 days",
-    "geo.position": "49.1272748;-122.8740839",
-    "geo.placename": "Surrey",
-    "geo.region": "CA-BC",
   },
 };
 
@@ -124,20 +118,6 @@ export default function RootLayout({
     description:
       "Modern AI-powered driving school in Surrey, BC. Online booking, automated reminders, and ICBC licensed instruction.",
     url: BASE_URL,
-    telephone: "+16041234567",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "12588 68A Ave",
-      addressLocality: "Surrey",
-      addressRegion: "BC",
-      postalCode: "V3W 1M2",
-      addressCountry: "CA",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: 49.1272748,
-      longitude: -122.8740839,
-    },
     areaServed: [
       { "@type": "Place", name: "Surrey" },
       { "@type": "Place", name: "Langley" },
@@ -147,20 +127,6 @@ export default function RootLayout({
       { "@type": "Place", name: "Burnaby" },
     ],
     priceRange: "$$",
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "08:00",
-        closes: "20:00",
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: "Saturday",
-        opens: "09:00",
-        closes: "18:00",
-      },
-    ],
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: 4.9,
@@ -205,7 +171,6 @@ export default function RootLayout({
                 { "@type": "ListItem", position: 4, name: "About", item: `${BASE_URL}/about` },
                 { "@type": "ListItem", position: 5, name: "Reviews", item: `${BASE_URL}/testimonials` },
                 { "@type": "ListItem", position: 6, name: "FAQ", item: `${BASE_URL}/faq` },
-                { "@type": "ListItem", position: 7, name: "Contact", item: `${BASE_URL}/contact` },
               ],
             }),
           }}
@@ -223,7 +188,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <VoiceAssistantWrapper />
-          <BookingSidesheet />
+          <BookingSidesheetWrapper />
         </BookingProvider>
       </body>
     </html>

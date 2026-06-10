@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "motion/react";
 import type { LucideIcon } from "lucide-react";
 
 interface StatCardProps {
@@ -14,23 +11,19 @@ interface StatCardProps {
 
 export function StatCard({ icon: Icon, value, label, delay = 0, valueClassName, labelClassName }: StatCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: delay }}
-      className="hover:scale-105 transition-transform duration-300"
+    <div
+      className="animate-fade-up hover:scale-105 transition-transform duration-300"
+      style={{ animationDelay: `${delay}s` }}
     >
       {Icon && <Icon className="w-8 h-8 text-accent mx-auto mb-4" />}
-      <motion.div
-        className={`text-4xl font-black text-white tracking-tighter mb-1 ${valueClassName ?? ""}`}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: delay }}
+      <div
+        className={`text-4xl font-black text-white tracking-tighter mb-1 animate-fade-in ${valueClassName ?? ""}`}
+        style={{ animationDelay: `${delay}s` }}
       >
         {value}
-      </motion.div>
+      </div>
       <div className={`text-[10px] font-black uppercase tracking-widest text-white/30 ${labelClassName ?? ""}`}>{label}</div>
-    </motion.div>
+    </div>
   );
 }
 

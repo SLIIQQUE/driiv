@@ -6,10 +6,8 @@ import {
   Share2,
   Scale,
   Trash2,
-  ArrowRight,
   HelpCircle,
 } from "lucide-react";
-import Link from "next/link";
 
 const privacySections = [
   {
@@ -154,14 +152,8 @@ export default function PrivacyPage() {
               </h3>
               <p className="text-sm text-white/40 mb-8 leading-relaxed">
                 For all security related inquiries or data requests, please
-                contact our administrative head directly.
+                refer to our administrative team.
               </p>
-              <Link
-                href="mailto:privacy@rydax.net"
-                className="inline-flex items-center gap-3 text-accent font-black uppercase tracking-widest text-xs hover:underline"
-              >
-                EMAIL PRIVACY DEPT <ArrowRight className="w-4 h-4" />
-              </Link>
             </div>
           </div>
         </div>

@@ -47,7 +47,7 @@ export default function AreasPage() {
                 Your Area Not Listed?
               </h2>
               <p className="text-white/40 text-lg font-medium leading-relaxed">
-                We&apos;re expanding rapidly. Contact us to verify availability — and if we can&apos;t reach you, we&apos;ll recommend the nearest pickup point.
+                We&apos;re expanding rapidly. Check availability to see if we cover your location — if we can&apos;t reach you, we&apos;ll recommend the nearest pickup point.
               </p>
             </div>
             <div className="flex justify-center lg:justify-end">

@@ -10,8 +10,6 @@ export interface VoiceMessage {
 }
 
 export interface VoiceState {
-  isListening: boolean;
-  isSpeaking: boolean;
   isLoading: boolean;
   messages: VoiceMessage[];
   error: string | null;

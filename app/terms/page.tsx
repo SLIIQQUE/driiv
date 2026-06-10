@@ -5,12 +5,7 @@ import {
   CreditCard,
   ShieldAlert,
   AlertCircle,
-  ArrowRight,
-  Phone,
-  MessageSquare,
 } from "lucide-react";
-import Link from "next/link";
-
 const termPillars = [
   {
     icon: FileText,
@@ -175,43 +170,7 @@ export default function TermsPage() {
                 </div>
               </div>
 
-              <Link
-                href="/contact"
-                className="w-full py-5 bg-white/5 hover:bg-white/10 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest text-xs transition-all"
-              >
-                LEGAL CLARIFICATION <ArrowRight className="w-4 h-4" />
-              </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="mt-20"></div>
-
-      <section className="container mt-40">
-        <div className="glass-card border-white/5 p-12 lg:p-16 rounded-[4rem] flex flex-col lg:flex-row items-center justify-between gap-12 bg-linear-to-br from-accent/5 to-transparent">
-          <div>
-            <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">
-              Need Further Clarity?
-            </h2>
-            <p className="text-white/40 font-medium">
-              Our administrative head is available for any legal or policy
-              questions.
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-5">
-            <Link
-              href="/contact"
-              className="px-8 py-5 bg-accent text-primary rounded-2xl flex items-center gap-3 font-black uppercase tracking-widest text-xs"
-            >
-              <MessageSquare className="w-4 h-4" /> MESSAGE US
-            </Link>
-            <Link
-              href="tel:+1604XXXXXXX"
-              className="px-8 py-5 border border-white/10 text-white rounded-2xl flex items-center gap-3 font-black uppercase tracking-widest text-xs"
-            >
-              <Phone className="w-4 h-4" /> CALL OFFICE
-            </Link>
           </div>
         </div>
       </section>

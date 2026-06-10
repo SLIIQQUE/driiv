@@ -1,5 +1,3 @@
-"use client";
-
 import { Car, Shield, CheckCircle } from "lucide-react";
 
 export function HeroCard() {

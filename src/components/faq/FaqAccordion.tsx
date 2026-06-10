@@ -13,8 +13,6 @@ import {
   Bell,
   BarChart3,
 } from "lucide-react";
-import Link from "next/link";
-
 const faqs = [
   {
     category: "Booking & Scheduling",
@@ -150,18 +148,19 @@ export default function FaqAccordion() {
           <div className="glass-card border-white/5 p-8 lg:p-12 rounded-[2rem]">
             <MessageCircle className="w-12 h-12 text-accent mb-8" />
             <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-4">Still Have Questions?</h3>
-            <p className="text-white/40 text-sm font-medium mb-8">Our AI concierge operates 24/7. Or send us a message.</p>
+            <p className="text-white/40 text-sm font-medium mb-8">Our AI concierge operates 24/7. Just ask and we&apos;ll help.</p>
             <div className="space-y-4">
-              <Link
-                href="/contact"
-                className="group relative w-full py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-2 overflow-hidden shadow-2xl shadow-accent/20"
+              <div
+                onClick={() =>
+                  document.querySelector<HTMLButtonElement>("[data-voice-button]")?.click()
+                }
+                className="group relative w-full py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-2 overflow-hidden shadow-2xl shadow-accent/20 cursor-pointer"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  <MessageCircle className="w-4 h-4" /> Contact Us
+                  <Bot className="w-4 h-4" /> Ask AI Concierge
                 </span>
                 <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-              </Link>
-              <div className="text-center text-[10px] font-black uppercase tracking-widest text-white/20">Or call: (604) 123-4567</div>
+              </div>
             </div>
           </div>
 
