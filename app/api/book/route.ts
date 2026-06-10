@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { createBookingEvent } from "@/lib/google-calendar";
 
 const BOOKINGS_FILE = path.join(process.cwd(), "data", "bookings.json");
 
@@ -58,6 +59,15 @@ export async function POST(request: Request) {
     fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(existing, null, 2));
 
     console.log("Booking saved:", booking.id);
+
+    // Create Google Calendar event (fire-and-forget — never block booking)
+    createBookingEvent(booking).catch((err) => {
+      console.error("Calendar event creation failed for booking", booking.id, ":", err);
+      if (err instanceof Error) {
+        console.error("Error message:", err.message);
+        console.error("Error stack:", err.stack);
+      }
+    });
 
     return NextResponse.json({
       success: true,
