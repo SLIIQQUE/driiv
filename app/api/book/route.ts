@@ -60,19 +60,22 @@ export async function POST(request: Request) {
 
     console.log("Booking saved:", booking.id);
 
-    // Create Google Calendar event (fire-and-forget — never block booking)
-    createBookingEvent(booking).catch((err) => {
-      console.error("Calendar event creation failed for booking", booking.id, ":", err);
-      if (err instanceof Error) {
-        console.error("Error message:", err.message);
-        console.error("Error stack:", err.stack);
-      }
-    });
+    // Create Google Calendar event (never blocks the booking response)
+    const calendarResult = await createBookingEvent(booking);
+    if (!calendarResult.success) {
+      console.error(
+        "Calendar event failed for booking",
+        booking.id,
+        "—",
+        calendarResult.error,
+      );
+    }
 
     return NextResponse.json({
       success: true,
       booking,
       message: "Booking confirmed! We'll see you on the road.",
+      calendar: calendarResult.success ? "synced" : "failed",
     });
   } catch (error) {
     console.error("Booking error:", error);

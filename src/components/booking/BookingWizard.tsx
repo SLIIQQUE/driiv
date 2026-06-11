@@ -19,7 +19,7 @@ export default function BookingWizard() {
     calendarMonth, prevMonth, nextMonth, handleDateClick,
     name, setName, email, setEmail, phone, setPhone,
     notes, setNotes,
-    error, success, bookingRef,
+    error, success, bookingRef, reset,
     lesson, stepProgress,
   } = useBooking();
 
@@ -34,6 +34,7 @@ export default function BookingWizard() {
         email={email}
         phone={phone}
         notes={notes}
+        onBookAnother={reset}
       />
     );
   }

@@ -5,7 +5,6 @@ import { Check, ShieldCheck, CalendarDays, Clock, Mail, Bell, Car, User, Phone, 
 import Link from "next/link";
 import { formatDate } from "@/lib/booking-utils";
 import type { Lesson } from "@/types/booking";
-import { useBookingContext } from "@/contexts/BookingContext";
 
 interface Props {
   bookingRef: string;
@@ -16,13 +15,17 @@ interface Props {
   email: string;
   phone: string;
   notes: string;
+  /** Called when "Return Home" is clicked (e.g. to close the sidesheet) */
+  onReturnHome?: () => void;
+  /** Called when "Book Another" is clicked (e.g. to reset booking state) */
+  onBookAnother?: () => void;
 }
 
 export default function BookingSuccess({
   bookingRef, lesson, selectedDate, selectedTime,
   name, email, phone, notes,
+  onReturnHome, onBookAnother,
 }: Props) {
-  const { openBooking } = useBookingContext();
   return (
     <div className="relative">
       <motion.div
@@ -192,6 +195,7 @@ export default function BookingSuccess({
         <div className="flex flex-col gap-2.5 mt-6">
           <Link
             href="/"
+            onClick={onReturnHome}
             className="group relative w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-accent text-primary rounded-xl font-black uppercase tracking-widest text-xs overflow-hidden shadow-lg shadow-accent/15"
           >
             <span className="relative z-10 flex items-center gap-2">
@@ -201,7 +205,7 @@ export default function BookingSuccess({
           </Link>
           <button
             type="button"
-            onClick={openBooking}
+            onClick={onBookAnother}
             className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white/5 text-white rounded-xl font-black uppercase tracking-widest text-xs overflow-hidden hover:bg-white/10 transition-all border border-white/5 hover:border-white/10"
           >
             Book Another

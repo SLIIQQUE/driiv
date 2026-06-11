@@ -195,5 +195,47 @@
     "notes": "Hello world",
     "status": "pending",
     "createdAt": "2026-06-10T11:05:18.246Z"
+  },
+  {
+    "id": "ef1b0256-1afc-4a7b-9dbd-f06564c45229",
+    "customerName": "Gabriel Njoabozia",
+    "phone": "08103413970",
+    "email": "emmylex2000@gmail.com",
+    "lessonId": "foundation",
+    "lessonName": "Foundation Pass",
+    "lessonPrice": "$55",
+    "preferredDate": "June 15, 2026",
+    "preferredTime": "09:00",
+    "notes": "",
+    "status": "pending",
+    "createdAt": "2026-06-11T11:49:20.705Z"
+  },
+  {
+    "id": "c2cfeb33-cc71-4c7c-a642-5afca95b1fdb",
+    "customerName": "Gabriel Njoabozia",
+    "phone": "08103413289",
+    "email": "sliiqque.space@gmail.com",
+    "lessonId": "foundation",
+    "lessonName": "Foundation Pass",
+    "lessonPrice": "$55",
+    "preferredDate": "June 15, 2026",
+    "preferredTime": "12:00",
+    "notes": "",
+    "status": "pending",
+    "createdAt": "2026-06-11T12:25:36.509Z"
+  },
+  {
+    "id": "3eac7191-1195-4edd-8a80-75c7dd8e7bf2",
+    "customerName": "Gabriel Njoabozia",
+    "phone": "08103413970",
+    "email": "sliiqque.space@gmail.com",
+    "lessonId": "foundation",
+    "lessonName": "Foundation Pass",
+    "lessonPrice": "$55",
+    "preferredDate": "2026-06-15",
+    "preferredTime": "12:00",
+    "notes": "This is a booking for driving lesson on 15th of June 2026",
+    "status": "pending",
+    "createdAt": "2026-06-11T12:36:30.593Z"
   }
 ]

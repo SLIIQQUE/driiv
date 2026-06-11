@@ -83,6 +83,8 @@ export default function BookingSidesheet() {
               email={booking.email}
               phone={booking.phone}
               notes={booking.notes}
+              onReturnHome={closeBooking}
+              onBookAnother={() => booking.reset()}
             />
           ) : (
             <AnimatePresence mode="wait">

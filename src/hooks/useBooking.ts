@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { LESSONS } from "@/types/booking";
-import { formatDate } from "@/lib/booking-utils";
+import { formatDateParam } from "@/lib/booking-utils";
 import type { Step } from "@/lib/booking-utils";
 
 export function useBooking() {
@@ -88,7 +88,7 @@ export function useBooking() {
           lessonId: lesson.id,
           lessonName: lesson.name,
           lessonPrice: lesson.price,
-          preferredDate: formatDate(selectedDate),
+          preferredDate: formatDateParam(selectedDate),
           preferredTime: selectedTime,
           notes,
         }),

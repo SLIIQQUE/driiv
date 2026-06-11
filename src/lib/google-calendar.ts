@@ -105,25 +105,80 @@ export async function getBusySlots(date: string): Promise<string[]> {
 }
 
 /**
+ * Parse a preferredDate value into a YYYY-MM-DD string.
+ * Handles both "2026-06-15" (ISO) and "June 15, 2026" (display) formats.
+ */
+function parseDateToISO(dateValue: string): string {
+  // Already in YYYY-MM-DD format
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+    return dateValue;
+  }
+  // Try parsing with Date constructor (handles "June 15, 2026" etc.)
+  const d = new Date(dateValue);
+  if (!isNaN(d.getTime())) {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+  // Fallback — return as-is and let the API call fail with a clear error
+  console.warn(`[Calendar] Unable to parse preferredDate: "${dateValue}" — using raw value`);
+  return dateValue;
+}
+
+/**
+ * Parse a preferredTime value into "HH:MM" format.
+ * Handles "10:00", "10:00 AM", "10:00AM", etc.
+ */
+function parseTimeToHHMM(timeValue: string): string {
+  // Strip AM/PM and trim
+  const cleaned = timeValue.replace(/\s*(AM|PM|am|pm)\s*/g, "").trim();
+  // If already HH:MM, return as-is
+  if (/^\d{1,2}:\d{2}$/.test(cleaned)) {
+    const [h, m] = cleaned.split(":");
+    return `${String(Number(h)).padStart(2, "0")}:${m}`;
+  }
+  // Fallback
+  console.warn(`[Calendar] Unable to parse preferredTime: "${timeValue}" — using raw value`);
+  return timeValue;
+}
+
+/**
  * Create a 1-hour Google Calendar event for a confirmed booking.
  *
- * This is a fire-and-forget operation: errors are logged but never thrown,
- * ensuring the booking response is never blocked by the calendar API.
+ * Returns the result so callers can decide how to surface errors,
+ * but never throws — the booking is never blocked by a calendar failure.
  *
  * @param booking - The booking details used to populate the event.
+ * @returns `{ success: true }` or `{ success: false, error: string }`
  */
-export async function createBookingEvent(booking: BookingEvent): Promise<void> {
+export async function createBookingEvent(
+  booking: BookingEvent,
+): Promise<{ success: true } | { success: false; error: string }> {
   try {
     const auth = createAuth();
     const calendar = google.calendar({ version: "v3", auth });
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
 
-    // Build start and end date-time strings in Africa/Lagos
-    const startDateTime = `${booking.preferredDate}T${booking.preferredTime}:00+01:00`;
+    // Safely parse date/time to handle both ISO and display formats
+    const isoDate = parseDateToISO(booking.preferredDate);
+    const hhmm = parseTimeToHHMM(booking.preferredTime);
 
-    const [hours, minutes] = booking.preferredTime.split(":").map(Number);
+    // Build start and end date-time strings in Africa/Lagos
+    const startDateTime = `${isoDate}T${hhmm}:00+01:00`;
+
+    // Validate the datetime string before sending
+    if (isNaN(new Date(startDateTime).getTime())) {
+      throw new Error(`Invalid datetime constructed: "${startDateTime}" from date="${booking.preferredDate}" time="${booking.preferredTime}"`);
+    }
+
+    const [hours, minutes] = hhmm.split(":").map(Number);
     const endHour = hours + 1;
-    const endDateTime = `${booking.preferredDate}T${String(endHour).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00+01:00`;
+    const endDateTime = `${isoDate}T${String(endHour).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00+01:00`;
+
+    if (isNaN(new Date(endDateTime).getTime())) {
+      throw new Error(`Invalid end datetime constructed: "${endDateTime}"`);
+    }
 
     const description = [
       `Booking ID: ${booking.id}`,
@@ -134,7 +189,7 @@ export async function createBookingEvent(booking: BookingEvent): Promise<void> {
       ...(booking.notes ? [`Notes: ${booking.notes}`] : []),
     ].join("\n");
 
-    await calendar.events.insert({
+    const response = await calendar.events.insert({
       calendarId,
       requestBody: {
         summary: `🚗 Driving Lesson — ${booking.customerName}`,
@@ -151,8 +206,17 @@ export async function createBookingEvent(booking: BookingEvent): Promise<void> {
       },
     });
 
-    console.log("Google Calendar event created for booking:", booking.id);
+    console.log(
+      "Google Calendar event created for booking:",
+      booking.id,
+      "→",
+      response.data.htmlLink || response.data.id,
+    );
+
+    return { success: true };
   } catch (error) {
-    console.error("Failed to create Google Calendar event:", error);
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("FAILED to create Google Calendar event for booking", booking.id, ":", message);
+    return { success: false, error: message };
   }
 }
