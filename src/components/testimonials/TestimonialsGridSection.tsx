@@ -3,60 +3,11 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Quote, Star, MapPin, Award, CheckCircle } from "lucide-react";
-import { EcosystemGrid, ScrollReveal } from "@/components/ui";
+import { ScrollReveal } from "@/components/ui";
+import { TESTIMONIALS } from "@/data/testimonials";
 
-interface Testimonial {
-  name: string;
-  location: string;
-  rating: number;
-  text: string;
-  tag: string;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    name: "Sarah Mitchell",
-    location: "Surrey, BC",
-    rating: 5,
-    text: "I booked my inaugural session at 11 PM on a Tuesday and received confirmation before I could put my phone down. The automated pulses meant I never once lost a session. After every lesson, the digital dashboard revealed my progress with surgical clarity. Passed my Class 7 on the first attempt. From first click to license — entirely frictionless.",
-    tag: "First-Try Pass",
-  },
-  {
-    name: "James Thompson",
-    location: "Surrey, BC",
-    rating: 5,
-    text: "Zero experience to licensed in fourteen days. The AI concierge answered every question before I committed. I paid online, received reminders before each rendezvous, and the progress metrics revealed compounding skill gains session by session. No paperwork. No phone calls. Pure modern mastery.",
-    tag: "Accelerator Graduate",
-  },
-  {
-    name: "Emma Richardson",
-    location: "Delta, BC",
-    rating: 5,
-    text: "After failing twice with conventional schools, DRIIV diagnosed and corrected my deficiencies in three sessions. The ability to book online, pay by card, and review my progress intelligence after each session eliminated every ounce of guesswork. The entire ecosystem operates in perfect orchestration.",
-    tag: "Test Mastery",
-  },
-  {
-    name: "David Clarke",
-    location: "Richmond, BC",
-    rating: 5,
-    text: "The orchestration is what distinguishes this experience. Booked, paid, tracked — all from a single device. Never wrote a cheque, never waited on hold. The AI answered my inquiries at midnight. This is what driver education should feel like when technology is engineered around the student.",
-    tag: "Seamless Experience",
-  },
-  {
-    name: "Lisa Watson",
-    location: "Burnaby, BC",
-    rating: 5,
-    text: "What convinced me was the elimination of phone calls. Everything exists online — booking, payment, reminders. The progress intelligence after each session is extraordinary. I watched my scores compound from 60% to 95% over eight sessions. Passed with a near-perfect evaluation.",
-    tag: "Class 5 Pass",
-  },
-  {
-    name: "Michael Brown",
-    location: "New Westminster, BC",
-    rating: 5,
-    text: "The search ends here. The technology orchestrates everything effortlessly — AI booking, encrypted payments, automated reminders, progress intelligence. And the instruction itself is world-class. The most sophisticated driving academy in Metro Vancouver, unequivocally.",
-    tag: "Gold Standard",
-  },
-];
+type Testimonial = (typeof TESTIMONIALS)[number];
+const testimonials: Testimonial[] = TESTIMONIALS;
 
 export function TestimonialsGridSection() {
   const sectionRef = useRef<HTMLElement>(null);

@@ -1,11 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { motion } from "motion/react";
-import { ChevronLeft, ChevronRight, Loader2, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { MONTHS, getBusySlotsForDate, formatDateParam } from "@/lib/booking-utils";
 import CalendarGrid from "./CalendarGrid";
 import TimeSlotGrid from "./TimeSlotGrid";
+
+interface SlotState {
+  busySlots: string[];
+  isChecking: boolean;
+}
+
+type SlotAction =
+  | { type: "checking" }
+  | { type: "loaded"; slots: string[] }
+  | { type: "clear" };
+
+function slotReducer(state: SlotState, action: SlotAction): SlotState {
+  switch (action.type) {
+    case "checking":
+      return { busySlots: [], isChecking: true };
+    case "loaded":
+      return { busySlots: action.slots, isChecking: false };
+    case "clear":
+      return { busySlots: [], isChecking: false };
+  }
+}
 
 interface Props {
   selectedDate: Date | null;
@@ -21,24 +42,22 @@ export default function StepDateTime({
   selectedDate, selectedTime, calendarMonth,
   onDateClick, onTimeSelect, onPrevMonth, onNextMonth,
 }: Props) {
-  const [busySlots, setBusySlots] = useState<string[]>([]);
-  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+  const [slotState, dispatch] = useReducer(slotReducer, {
+    busySlots: [],
+    isChecking: false,
+  });
 
   useEffect(() => {
-    if (!selectedDate) {
-      setBusySlots([]);
-      return;
-    }
+    if (!selectedDate) return;
 
     const dateStr = formatDateParam(selectedDate);
     let cancelled = false;
 
-    setIsCheckingAvailability(true);
+    dispatch({ type: "checking" });
 
     getBusySlotsForDate(dateStr).then((slots) => {
       if (!cancelled) {
-        setBusySlots(slots);
-        setIsCheckingAvailability(false);
+        dispatch({ type: "loaded", slots });
       }
     });
 
@@ -103,8 +122,8 @@ export default function StepDateTime({
           selectedDate={selectedDate}
           selectedTime={selectedTime}
           onTimeSelect={onTimeSelect}
-          busySlots={busySlots}
-          isCheckingAvailability={isCheckingAvailability}
+          busySlots={slotState.busySlots}
+          isCheckingAvailability={slotState.isChecking}
         />
       </div>
     </motion.div>

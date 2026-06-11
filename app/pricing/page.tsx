@@ -12,63 +12,33 @@ import {
 } from "lucide-react";
 import { PageHero, PageTitle, PageDescription, PricingCard, ScrollReveal } from "@/components/ui";
 import type { PricingCardData } from "@/components/ui";
+import { PROGRAMS } from "@/data/programs";
+import type { LucideIcon } from "lucide-react";
 
-const pricingTiers: PricingCardData[] = [
-  {
-    name: "Foundation Pass",
-    price: "$55",
-    period: "/ session",
-    tagline: "Pay-as-you-go mastery",
-    description:
-      "Ideal for targeted refinement or refresher sessions. Book individual hours with instant confirmation, pay with cryptographic security, and receive progress intelligence after every session.",
-    features: [
-      "One-on-one dual-control mentorship",
-      "24/7 online booking — instantaneous",
-      "Automated SMS & email pulses",
-      "Digital progress report after each session",
-    ],
-    cta: "Book a session",
-    popular: false,
-    icon: ShieldCheck,
-  },
-  {
-    name: "Power Pack",
-    price: "$250",
-    period: "/ 5 sessions",
-    tagline: "Optimal momentum",
-    description:
-      "Save $25 and unlock priority scheduling. The recommended launch package for new learners. Complete booking in under sixty seconds across our ecosystem.",
-    features: [
-      "Save $25 versus per-session rate",
-      "Priority calendar access",
-      "AI concierge support — 24/7",
-      "Mock assessment included",
-      "Full progress nexus dashboard",
-    ],
-    cta: "Book 5 sessions",
-    popular: true,
-    icon: Zap,
-    popularLabel: "Optimal Value",
-  },
-  {
-    name: "Mastery Bundle",
-    price: "$450",
-    period: "/ 10 sessions",
-    tagline: "Maximum velocity",
-    description:
-      "Our apex value. Save $100 and receive everything required to progress from novice to test-ready. Two mock examinations, complete curriculum coverage, and your private progress nexus.",
-    features: [
-      "Save $100 versus per-session rate",
-      "Complete curriculum immersion",
-      "2 mock road tests with surgical scoring",
-      "Test-readiness dashboard",
-      "Auto-pay available — configure once",
-    ],
-    cta: "Book 10 sessions",
-    popular: false,
-    icon: Star,
-  },
-];
+const programIcons: Record<string, LucideIcon> = {
+  foundation: ShieldCheck,
+  "power-pack": Zap,
+  mastery: Star,
+};
+
+const programCta: Record<string, string> = {
+  foundation: "Book a session",
+  "power-pack": "Book 5 sessions",
+  mastery: "Book 10 sessions",
+};
+
+const pricingTiers: PricingCardData[] = PROGRAMS.map((p) => ({
+  name: p.name,
+  price: p.price,
+  period: `/ ${p.period}`,
+  tagline: p.tagline,
+  description: p.description,
+  features: p.features,
+  cta: programCta[p.id],
+  popular: p.popular ?? false,
+  popularLabel: p.id === "power-pack" ? "Optimal Value" : undefined,
+  icon: programIcons[p.id],
+}));
 
 export default function PricingPage() {
   return (

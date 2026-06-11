@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import VoiceAssistantWrapper from "@/components/VoiceAssistantWrapper";
 import BookingSidesheetWrapper from "@/components/booking/BookingSidesheetWrapper";
 import { BookingProvider } from "@/contexts/BookingContext";
-import { testimonials } from "@/data/testimonials";
+import { TESTIMONIALS } from "@/data/testimonials";
 import { BASE_URL } from "@/lib/config";
 
 const outfit = Outfit({
@@ -134,21 +134,21 @@ export default function RootLayout({
       bestRating: 5,
       worstRating: 1,
     },
-    review: testimonials.map((t) => ({
+    review: TESTIMONIALS.map((t) => ({
       "@type": "Review",
-      author: { "@type": "Person", name: t.author },
+      author: { "@type": "Person", name: t.name },
       reviewRating: {
         "@type": "Rating",
         ratingValue: t.rating,
         bestRating: 5,
         worstRating: 1,
       },
-      reviewBody: t.body,
+      reviewBody: t.text,
     })),
   };
 
   return (
-      <html lang="en-CA" data-scroll-behavior="smooth">
+      <html lang="en-CA">
         <head>
           <link rel="alternate" hrefLang="en-CA" href={BASE_URL} />
         </head>

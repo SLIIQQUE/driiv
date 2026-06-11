@@ -5,21 +5,11 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 import { ArrowRight, Car } from "lucide-react";
 import BookNowTrigger from "@/components/BookNowTrigger";
+import { FOOTER_QUICK_LINKS, FOOTER_COMPANY_LINKS } from "@/data/navigation";
 
 const navigation = {
-  quickLinks: [
-    { name: "Home", href: "/" },
-    { name: "Book Now", href: "/?book=1" },
-    { name: "Features", href: "/features" },
-    { name: "Areas Covered", href: "/areas" },
-    { name: "Reviews", href: "/testimonials" },
-    { name: "FAQ", href: "/faq" },
-  ],
-  company: [
-    { name: "About Us", href: "/about" },
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms of Service", href: "/terms" },
-  ],
+  quickLinks: FOOTER_QUICK_LINKS,
+  company: FOOTER_COMPANY_LINKS,
 };
 
 function FloatingOrb({

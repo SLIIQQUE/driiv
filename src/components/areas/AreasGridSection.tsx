@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Shield, Building2, ArrowRight, Car, CheckCircle } from "lucide-react";
 import BookNowTrigger from "@/components/BookNowTrigger";
-import { EcosystemGrid, ScrollReveal } from "@/components/ui";
+import { ScrollReveal } from "@/components/ui";
 
 interface Area {
   city: string;

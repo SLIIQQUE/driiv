@@ -1,4 +1,5 @@
 import type { ToolDefinition } from "@/types/voice";
+import { PROGRAMS } from "@/data/programs";
 
 export const BUSINESS_INFO = {
   name: "DRIIV",
@@ -10,57 +11,7 @@ export const BUSINESS_INFO = {
     "Burnaby (Metrotown, Brentwood, Lougheed, SFU)",
     "New Westminster (Queensborough, Sapperton)",
   ],
-  programs: [
-    {
-      id: "foundation",
-      name: "Foundation Pass",
-      price: "$55",
-      period: "per session",
-      tagline: "Pay-as-you-go mastery",
-      description:
-        "One-on-one dual-control mentorship. Book individual hours with instant confirmation, automated reminders, and progress intelligence after every session.",
-      features: [
-        "One-on-one dual-control mentorship",
-        "24/7 online booking — instantaneous",
-        "Automated SMS & email pulses",
-        "Digital progress report after each session",
-      ],
-    },
-    {
-      id: "power-pack",
-      name: "Power Pack",
-      price: "$250",
-      period: "5 sessions",
-      tagline: "Optimal momentum",
-      savings: "Save $25",
-      description:
-        "Priority scheduling, AI concierge support, mock assessment included, full progress nexus dashboard.",
-      features: [
-        "Save $25 versus per-session rate",
-        "Priority calendar access",
-        "AI concierge support — 24/7",
-        "Mock assessment included",
-        "Full progress nexus dashboard",
-      ],
-    },
-    {
-      id: "mastery",
-      name: "Mastery Bundle",
-      price: "$450",
-      period: "10 sessions",
-      tagline: "Maximum velocity",
-      savings: "Save $100",
-      description:
-        "Complete curriculum coverage, 2 mock road tests, test-readiness dashboard, auto-pay available.",
-      features: [
-        "Save $100 versus per-session rate",
-        "Complete curriculum immersion",
-        "2 mock road tests with surgical scoring",
-        "Test-readiness dashboard",
-        "Auto-pay available — configure once",
-      ],
-    },
-  ],
+  programs: PROGRAMS,
   passRate: "95%",
   founded: "2024",
   bookingUrl: "https://driiv.net",

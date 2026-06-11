@@ -5,14 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import { X, Bot, Car } from "lucide-react";
 import { useBookingContext } from "@/contexts/BookingContext";
-
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Pricing", href: "/pricing" },
-  { name: "Reviews", href: "/testimonials" },
-  { name: "About Us", href: "/about" },
-  { name: "Book Now", href: "/?book=1" },
-];
+import { NAV_ITEMS, BOOK_ITEM } from "@/data/navigation";
 
 interface MobileMenuProps {
   open: boolean;
@@ -68,30 +61,8 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
         <div className="flow-root">
           <div className="-my-6 divide-y divide-white/10">
             <div className="space-y-2 py-6">
-              {navigation.map((item) => {
+              {NAV_ITEMS.map((item) => {
                 const isActive = pathname === item.href;
-
-                if (item.name === "Book Now") {
-                  return (
-                    <motion.div
-                      key={item.name}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 }}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => {
-                          onClose();
-                          openBooking();
-                        }}
-                        className="-mx-3 block w-full text-left rounded-xl px-3 py-3 text-base font-semibold leading-7 text-white hover:bg-white/5"
-                      >
-                        {item.name}
-                      </button>
-                    </motion.div>
-                  );
-                }
 
                 return (
                   <motion.div
@@ -114,6 +85,23 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                   </motion.div>
                 );
               })}
+              <motion.div
+                key={BOOK_ITEM.name}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    openBooking();
+                  }}
+                  className="-mx-3 block w-full text-left rounded-xl px-3 py-3 text-base font-semibold leading-7 text-white hover:bg-white/5"
+                >
+                  {BOOK_ITEM.name}
+                </button>
+              </motion.div>
             </div>
             <div className="py-6">
               <motion.button

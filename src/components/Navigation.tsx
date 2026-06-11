@@ -7,14 +7,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent }
 import { Menu, Bot, Car } from "lucide-react";
 import { MobileMenu } from "@/components/MobileMenu";
 import { useBookingContext } from "@/contexts/BookingContext";
-
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Pricing", href: "/pricing" },
-  { name: "Reviews", href: "/testimonials" },
-  { name: "About Us", href: "/about" },
-  { name: "Book Now", href: "/?book=1" },
-];
+import { NAV_ITEMS, BOOK_ITEM } from "@/data/navigation";
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -69,32 +62,8 @@ export default function Navigation() {
             </div>
 
             <div className="hidden xl:flex xl:gap-x-8 items-center">
-              {navigation.map((item) => {
+              {NAV_ITEMS.map((item) => {
                 const isActive = pathname === item.href;
-
-                if (item.name === "Book Now") {
-                  return (
-                    <button
-                      key={item.name}
-                      type="button"
-                      onClick={openBooking}
-                      className="relative text-sm font-medium transition-all duration-300"
-                      onMouseEnter={() => setHoveredItem(item.name)}
-                      onMouseLeave={() => setHoveredItem(null)}
-                      style={{ color: "rgba(255,255,255,0.7)" }}
-                    >
-                      <span className="relative z-10">{item.name}</span>
-                      {hoveredItem === item.name && (
-                        <motion.div
-                          className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FFD700] to-[#ccaa00] rounded-full"
-                          layoutId="nav-underline"
-                          initial={false}
-                          transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                        />
-                      )}
-                    </button>
-                  );
-                }
 
                 return (
                   <Link
@@ -117,6 +86,25 @@ export default function Navigation() {
                   </Link>
                 );
               })}
+              <button
+                key={BOOK_ITEM.name}
+                type="button"
+                onClick={openBooking}
+                className="relative text-sm font-medium transition-all duration-300"
+                onMouseEnter={() => setHoveredItem(BOOK_ITEM.name)}
+                onMouseLeave={() => setHoveredItem(null)}
+                style={{ color: "rgba(255,255,255,0.7)" }}
+              >
+                <span className="relative z-10">{BOOK_ITEM.name}</span>
+                {hoveredItem === BOOK_ITEM.name && (
+                  <motion.div
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FFD700] to-[#ccaa00] rounded-full"
+                    layoutId="nav-underline"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  />
+                )}
+              </button>
             </div>
 
             <div className="hidden xl:flex xl:flex-1 xl:justify-end items-center gap-4">

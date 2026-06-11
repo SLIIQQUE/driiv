@@ -5,37 +5,9 @@ import { Star, Quote, ArrowRight, Bot, Bell, BarChart3, CreditCard } from "lucid
 import Link from "next/link";
 import { useRef } from "react";
 import { Badge } from "@/components/ui";
+import { TESTIMONIALS } from "@/data/testimonials";
 
-const testimonials = [
-  {
-    name: "Sarah Mitchell",
-    location: "Surrey",
-    text: "I booked my inaugural lesson at 11 PM on a Tuesday and received confirmation before I put my phone down. The automated pulses meant I never once lost a session. After every lesson, the digital dashboard revealed my progress with surgical clarity. Passed my Class 7 on the first attempt. From first click to license — entirely frictionless.",
-    rating: 5,
-    tag: "Class 7, First Try",
-  },
-  {
-    name: "James Thompson",
-    location: "Langley",
-    text: "Zero experience to licensed in fourteen days. The AI concierge answered every question before I committed. I paid online, received reminders before each rendezvous, and the progress metrics showed me compounding skill gains session by session. No paperwork. No phone calls. Pure modern mastery.",
-    rating: 5,
-    tag: "Intensive Graduate",
-  },
-  {
-    name: "Emma Richardson",
-    location: "Delta",
-    text: "After failing twice with conventional schools, DRIIV diagnosed and corrected my deficiencies in three sessions. The ability to book online, pay by card, and review my progress intelligence after each lesson eliminated every ounce of guesswork. The system works in perfect orchestration.",
-    rating: 5,
-    tag: "Test Mastery",
-  },
-  {
-    name: "David Clarke",
-    location: "Richmond",
-    text: "The orchestration is what sets this apart. Booked, paid, tracked — all from a single device. Never wrote a cheque, never waited on hold. The AI answered my inquiries at midnight. This is what driving education should feel like when technology is engineered around the student.",
-    rating: 5,
-    tag: "Seamless Experience",
-  },
-];
+const testimonials = TESTIMONIALS.slice(0, 4);
 
 export default function TestimonialsSection() {
   const sectionRef = useRef(null);
