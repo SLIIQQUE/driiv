@@ -1,10 +1,19 @@
 import { NextResponse } from "next/server";
+import { getVancouverOffset } from "@/lib/google-calendar";
 
 /**
  * Diagnostic endpoint to test Google Calendar connection.
  * Hit this to see exactly what's wrong with the integration.
  */
 export async function GET() {
+  // Only allow in development
+  if (process.env.NODE_ENV !== "development") {
+    return NextResponse.json(
+      { error: "Diagnostics are only available in development mode" },
+      { status: 404 },
+    );
+  }
+
   const results: Record<string, unknown> = {
     env: {},
     auth: null,
@@ -57,13 +66,14 @@ export async function GET() {
 
       const now = new Date();
       const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      const vancouverOffset = getVancouverOffset(today);
 
       const freebusyRes = await calendar.freebusy.query({
         requestBody: {
-          timeMin: `${today}T00:00:00+01:00`,
-          timeMax: `${today}T23:59:59+01:00`,
+          timeMin: `${today}T00:00:00${vancouverOffset}`,
+          timeMax: `${today}T23:59:59${vancouverOffset}`,
           items: [{ id: calId }],
-          timeZone: "Africa/Lagos",
+          timeZone: "America/Vancouver",
         },
       });
 
@@ -77,21 +87,21 @@ export async function GET() {
 
       // 4. Test event creation
       try {
-        const testEvent = await calendar.events.insert({
-          calendarId: calId,
-          requestBody: {
-            summary: "🔧 DRIIV Diagnostic Test — delete me",
-            description: "This is a diagnostic test event. Please delete.",
-            start: {
-              dateTime: `${today}T23:00:00+01:00`,
-              timeZone: "Africa/Lagos",
+          const testEvent = await calendar.events.insert({
+            calendarId: calId,
+            requestBody: {
+              summary: "🔧 DRIIV Diagnostic Test — delete me",
+              description: "This is a diagnostic test event. Please delete.",
+              start: {
+                dateTime: `${today}T23:00:00${vancouverOffset}`,
+                timeZone: "America/Vancouver",
+              },
+              end: {
+                dateTime: `${today}T23:01:00${vancouverOffset}`,
+                timeZone: "America/Vancouver",
+              },
             },
-            end: {
-              dateTime: `${today}T23:01:00+01:00`,
-              timeZone: "Africa/Lagos",
-            },
-          },
-        });
+          });
 
         const createResult: Record<string, unknown> = {
           status: "OK",

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { buildSystemPrompt, VOICE_TOOLS, BUSINESS_INFO } from "@/lib/voice-prompt";
 import type { GroqMessage } from "@/types/voice";
+import { saveBooking } from "@/lib/bookings";
+import { createBookingEvent } from "@/lib/google-calendar";
 
 interface Message {
   role: "user" | "assistant";
@@ -84,7 +86,7 @@ function executeGetPricing(): string {
 
 function executeGetServiceAreas(): string {
   const areas = BUSINESS_INFO.serviceAreas;
-  return `Service areas: ${areas.join(", ")}. We cover these ${areas.length} areas across Greater Sydney.`;
+  return `Service areas: ${areas.join(", ")}. We cover these ${areas.length} areas across Metro Vancouver.`;
 }
 
 async function executeBooking(args: Record<string, unknown>) {
@@ -120,30 +122,35 @@ async function executeBooking(args: Record<string, unknown>) {
   }
 
   try {
-    // Call the internal booking API
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/book`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(bookingPayload),
+    const booking = {
+      id: crypto.randomUUID(),
+      customerName: bookingPayload.customerName,
+      phone: bookingPayload.phone,
+      email: bookingPayload.email,
+      lessonId: bookingPayload.lessonId,
+      lessonName: bookingPayload.lessonName,
+      lessonPrice: bookingPayload.lessonPrice,
+      preferredDate: bookingPayload.preferredDate,
+      preferredTime: bookingPayload.preferredTime,
+      notes: bookingPayload.notes,
+      status: "pending" as const,
+      createdAt: new Date().toISOString(),
+    };
+
+    await saveBooking(booking);
+
+    // Fire-and-forget calendar event creation
+    createBookingEvent(booking).catch((err) => {
+      console.error("Calendar event failed for voice booking", booking.id, ":", err);
     });
 
-    const data = await response.json();
-
-    if (response.ok && data.success) {
-      return {
-        success: true,
-        bookingRef: data.booking.id.slice(0, 8).toUpperCase(),
-        data: {
-          ...data.booking,
-          id: data.booking.id.slice(0, 8).toUpperCase(),
-        },
-      };
-    }
-
     return {
-      success: false,
-      error: data.error || "Booking could not be completed. Please try again.",
+      success: true,
+      bookingRef: booking.id.slice(0, 8).toUpperCase(),
+      data: {
+        ...booking,
+        id: booking.id.slice(0, 8).toUpperCase(),
+      },
     };
   } catch (err) {
     console.error("Booking execution error:", err);

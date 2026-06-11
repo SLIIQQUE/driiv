@@ -42,14 +42,34 @@ function createAuth() {
 }
 
 /**
- * Convert an RFC 3339 timestamp to the hour in Africa/Lagos (UTC+1).
+ * Convert an RFC 3339 timestamp to the hour in America/Vancouver.
  *
- * Africa/Lagos does not observe DST, so the offset is always +1 hour.
- * Example: "2026-06-10T08:00:00Z" → 9 (9 AM Lagos time)
+ * Vancouver observes DST (PDT UTC-7 / PST UTC-8), so the offset
+ * depends on the date.
+ * Example: "2026-06-10T16:00:00Z" → 9 (9 AM Vancouver PDT)
  */
-function getLagosHour(isoString: string): number {
+function getVancouverHour(isoString: string): number {
   const date = new Date(isoString);
-  return (date.getUTCHours() + 1) % 24;
+  return parseInt(
+    date.toLocaleString("en-CA", {
+      timeZone: "America/Vancouver",
+      hour: "numeric",
+      hour12: false,
+    }),
+    10,
+  );
+}
+
+/**
+ * Determine the Vancouver timezone offset string for a given date.
+ * Returns "-07:00" for PDT (roughly Mar-Oct) and "-08:00" for PST (roughly Nov-Feb).
+ */
+export function getVancouverOffset(dateStr: string): string {
+  const date = new Date(dateStr + "T12:00:00");
+  const month = date.getMonth();
+  // DST in BC: 2nd Sunday Mar → 1st Sunday Nov
+  // Simplified: months 2-9 (Mar-Oct) = PDT (-7), months 0-1,10-11 (Nov-Feb) = PST (-8)
+  return month >= 2 && month <= 9 ? "-07:00" : "-08:00";
 }
 
 /**
@@ -70,15 +90,16 @@ export async function getBusySlots(date: string): Promise<string[]> {
     const calendar = google.calendar({ version: "v3", auth });
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
 
-    const timeMin = `${date}T00:00:00+01:00`;
-    const timeMax = `${date}T23:59:59+01:00`;
+    const offset = getVancouverOffset(date);
+    const timeMin = `${date}T00:00:00${offset}`;
+    const timeMax = `${date}T23:59:59${offset}`;
 
     const response = await calendar.freebusy.query({
       requestBody: {
         timeMin,
         timeMax,
         items: [{ id: calendarId }],
-        timeZone: "Africa/Lagos",
+        timeZone: "America/Vancouver",
       },
     });
 
@@ -88,8 +109,8 @@ export async function getBusySlots(date: string): Promise<string[]> {
     for (const period of busyPeriods) {
       if (!period.start || !period.end) continue;
 
-      const startHour = getLagosHour(period.start);
-      const endHour = getLagosHour(period.end);
+      const startHour = getVancouverHour(period.start);
+      const endHour = getVancouverHour(period.end);
 
       // Mark every hour from start to end (exclusive) as busy
       for (let hour = startHour; hour < endHour; hour++) {
@@ -164,8 +185,9 @@ export async function createBookingEvent(
     const isoDate = parseDateToISO(booking.preferredDate);
     const hhmm = parseTimeToHHMM(booking.preferredTime);
 
-    // Build start and end date-time strings in Africa/Lagos
-    const startDateTime = `${isoDate}T${hhmm}:00+01:00`;
+    // Build start and end date-time strings in America/Vancouver
+    const offset = getVancouverOffset(isoDate);
+    const startDateTime = `${isoDate}T${hhmm}:00${offset}`;
 
     // Validate the datetime string before sending
     if (isNaN(new Date(startDateTime).getTime())) {
@@ -174,7 +196,7 @@ export async function createBookingEvent(
 
     const [hours, minutes] = hhmm.split(":").map(Number);
     const endHour = hours + 1;
-    const endDateTime = `${isoDate}T${String(endHour).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00+01:00`;
+    const endDateTime = `${isoDate}T${String(endHour).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00${offset}`;
 
     if (isNaN(new Date(endDateTime).getTime())) {
       throw new Error(`Invalid end datetime constructed: "${endDateTime}"`);
@@ -197,11 +219,11 @@ export async function createBookingEvent(
         colorId: "11",
         start: {
           dateTime: startDateTime,
-          timeZone: "Africa/Lagos",
+          timeZone: "America/Vancouver",
         },
         end: {
           dateTime: endDateTime,
-          timeZone: "Africa/Lagos",
+          timeZone: "America/Vancouver",
         },
       },
     });
