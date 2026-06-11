@@ -29,7 +29,7 @@ function TypingIndicator() {
   return (
     <div className="flex items-center gap-3">
       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center shrink-0">
-        <Bot className="w-4 h-4 text-black" />
+        <Bot className="w-4 h-4 text-black" aria-hidden="true" />
       </div>
       <div className="bg-white/5 border border-white/10 rounded-2xl rounded-bl-md px-4 py-3">
         <div className="flex gap-1">
@@ -78,7 +78,7 @@ function BookingConfirmationCard({
     >
       <div className="flex items-center gap-2 mb-3">
         <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center">
-          <CheckCircle className="w-4 h-4 text-accent" />
+          <CheckCircle className="w-4 h-4 text-accent" aria-hidden="true" />
         </div>
         <div>
           <p className="text-sm font-bold text-white tracking-tight">Booking Confirmed</p>
@@ -90,25 +90,25 @@ function BookingConfirmationCard({
       <div className="space-y-1.5 text-xs text-white/60">
         {name && (
           <div className="flex items-center gap-2">
-            <User className="w-3 h-3 text-accent/60" />
+            <User className="w-3 h-3 text-accent/60" aria-hidden="true" />
             <span>{name}</span>
           </div>
         )}
         {lessonName && (
           <div className="flex items-center gap-2">
-            <BookOpen className="w-3 h-3 text-accent/60" />
+            <BookOpen className="w-3 h-3 text-accent/60" aria-hidden="true" />
             <span>{lessonName}{lessonPrice ? ` — ${lessonPrice}` : ""}</span>
           </div>
         )}
         {preferredDate && (
           <div className="flex items-center gap-2">
-            <Calendar className="w-3 h-3 text-accent/60" />
+            <Calendar className="w-3 h-3 text-accent/60" aria-hidden="true" />
             <span>{preferredDate}</span>
           </div>
         )}
         {preferredTime && (
           <div className="flex items-center gap-2">
-            <Clock className="w-3 h-3 text-accent/60" />
+            <Clock className="w-3 h-3 text-accent/60" aria-hidden="true" />
             <span>{preferredTime}</span>
           </div>
         )}
@@ -174,7 +174,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
         className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-accent via-accent to-primary shadow-2xl shadow-accent/30 rounded-full flex items-center justify-center touch-manipulation hover:shadow-accent/40 hover:scale-105 transition-all duration-300"
         aria-label="Open AI Assistant"
       >
-        <Bot className="w-7 h-7 text-black" />
+        <Bot className="w-7 h-7 text-black" aria-hidden="true" />
         {/* Subtle pulse ring */}
         <span className="absolute inset-0 rounded-full ring-2 ring-accent/30 animate-ping opacity-25" />
       </motion.button>
@@ -195,7 +195,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-accent to-primary rounded-xl flex items-center justify-center shadow-lg shadow-accent/20">
-                    <Bot className="w-5 h-5 text-black" />
+                    <Bot className="w-5 h-5 text-black" aria-hidden="true" />
                   </div>
                   <div>
                     <h3 className="font-bold text-white text-sm tracking-tight">DRIIV AI</h3>
@@ -212,7 +212,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                   className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-all"
                   aria-label="Close chat"
                 >
-                  <X className="w-4 h-4 text-white/60" />
+                  <X className="w-4 h-4 text-white/60" aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -235,7 +235,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                   }}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-accent/10 border border-white/10 hover:border-accent/20 rounded-full text-[10px] font-bold text-white/60 hover:text-accent uppercase tracking-wider whitespace-nowrap transition-all duration-200"
                 >
-                  <action.icon className="w-3 h-3" />
+                  <action.icon className="w-3 h-3" aria-hidden="true" />
                   {action.label}
                 </motion.button>
               ))}
@@ -250,7 +250,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                   className="text-center py-8"
                 >
                   <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-accent/20 to-primary/20 border border-accent/10 flex items-center justify-center">
-                    <Bot className="w-8 h-8 text-accent/70" />
+                    <Bot className="w-8 h-8 text-accent/70" aria-hidden="true" />
                   </div>
                   <p className="text-sm font-bold text-white/80 tracking-tight mb-1">
                     How can I help you?
@@ -277,7 +277,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                   ) : (
                     <div className="flex items-start gap-3">
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center shrink-0 mt-0.5">
-                        <Bot className="w-4 h-4 text-black" />
+                        <Bot className="w-4 h-4 text-black" aria-hidden="true" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="bg-white/5 border border-white/10 rounded-2xl rounded-bl-md p-3.5 text-sm text-white/80 leading-relaxed">
@@ -356,6 +356,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                     }
                   }}
                   placeholder="Type a message..."
+                  aria-label="Type a message"
                   className="flex-1 bg-transparent py-2.5 text-sm text-white placeholder-white/20 focus:outline-none"
                   disabled={state.isLoading}
                 />
@@ -365,7 +366,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                   className="w-9 h-9 bg-accent rounded-xl flex items-center justify-center disabled:opacity-30 transition-opacity hover:bg-accent/90"
                   aria-label="Send message"
                 >
-                  <Send className="w-4 h-4 text-primary" />
+                  <Send className="w-4 h-4 text-primary" aria-hidden="true" />
                 </button>
               </div>
 
