@@ -130,6 +130,7 @@ export default function StepDateTime({
           onTimeSelect={onTimeSelect}
           busySlots={slotState.busySlots}
           isCheckingAvailability={slotState.isChecking}
+          hasCalendarError={!!slotState.error}
         />
 
         {slotState.error && (

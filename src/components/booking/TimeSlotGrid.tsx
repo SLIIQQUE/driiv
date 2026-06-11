@@ -10,11 +10,12 @@ interface Props {
   onTimeSelect: (time: string) => void;
   busySlots?: string[];
   isCheckingAvailability?: boolean;
+  hasCalendarError?: boolean;
 }
 
 export default function TimeSlotGrid({
   selectedDate, selectedTime, onTimeSelect,
-  busySlots = [], isCheckingAvailability = false,
+  busySlots = [], isCheckingAvailability = false, hasCalendarError = false,
 }: Props) {
   const availableSlots = selectedDate ? getAvailableSlots(selectedDate) : [];
 
@@ -37,6 +38,12 @@ export default function TimeSlotGrid({
         <div className="flex flex-col items-center justify-center py-10 text-white/20">
           <CalendarDays className="w-10 h-10 mb-3" />
           <p className="text-xs font-bold">Select a date first</p>
+        </div>
+      ) : hasCalendarError ? (
+        <div className="flex flex-col items-center justify-center py-10 text-red-400/60">
+          <XCircle className="w-8 h-8 mb-3" />
+          <p className="text-xs font-bold text-center">Calendar temporarily unavailable</p>
+          <p className="text-[10px] text-red-400/40 mt-1">Please try again later or contact us.</p>
         </div>
       ) : isCheckingAvailability ? (
         <div className="flex flex-col items-center justify-center py-10 text-white/20">

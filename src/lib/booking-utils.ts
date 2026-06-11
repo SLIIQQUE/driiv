@@ -66,10 +66,12 @@ export async function getBusySlotsForDate(dateStr: string): Promise<CalendarAvai
   try {
     const res = await fetch(`/api/calendar/availability?date=${dateStr}`);
     if (!res.ok) {
-      return {
-        busySlots: [],
-        error: "Could not check calendar availability. Please try again later.",
-      };
+      let serverError = "Could not check calendar availability. Please try again later.";
+      try {
+        const body = await res.json();
+        if (body?.error) serverError = body.error;
+      } catch { /* ignore parse failure — use fallback message */ }
+      return { busySlots: [], error: serverError };
     }
     const data = await res.json();
     return { busySlots: data.busySlots || [], error: null };
