@@ -46,18 +46,18 @@ const features = [
   },
   {
     icon: CreditCard,
-    title: "Encrypted Payments",
-    tagline: "Cashless. Frictionless.",
+    title: "Flexible Payments",
+    tagline: "Simple. Transparent.",
     description:
-      "All transactions process through our encrypted portal. Card, debit, or e-transfer — your preference. Automated receipts delivered instantaneously. Bundles unlock savings up to $100.",
+      "Select the package that works for you and settle directly with your instructor. Bundles unlock savings up to $100. No subscriptions, no surprise fees.",
     highlights: [
-      "Encrypted transaction processing",
-      "Credit card, debit & e-transfer accepted",
-      "Instantaneous digital receipts",
+      "Pay your instructor directly — no portal required",
+      "Credit card, debit, cash & e-transfer accepted",
       "Bundle discounts up to $100",
+      "Receipt provided after each session",
     ],
-    stat: "100%",
-    statLabel: "Digital transactions",
+    stat: "$0",
+    statLabel: "Hidden fees — ever",
   },
   {
     icon: Bell,
@@ -117,7 +117,7 @@ export function FeatureCards() {
           Everything <span className="text-accent">orchestrated.</span>
         </h2>
         <p className="text-white/40 text-lg max-w-xl mx-auto mt-4 font-medium">
-          Each component converges seamlessly. Book → Pay → Pulse → Track. Zero
+          Each component converges seamlessly. Book → Track → Remind → Progress. Zero
           gaps, zero friction.
         </p>
       </div>

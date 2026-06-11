@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useBookingContext } from "@/contexts/BookingContext";
 import { useBooking } from "@/hooks/useBooking";
@@ -24,25 +24,64 @@ export default function BookingSidesheet() {
     [closeBooking],
   );
 
-  // Handle Escape key
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "Escape") closeBooking();
-    },
-    [closeBooking],
-  );
+  const panelRef = useRef<HTMLDivElement>(null);
 
-  // Reset booking state when sidesheet closes
+  // Reset booking state when sidesheet closes + scroll lock
   useEffect(() => {
-    if (!isOpen) booking.reset();
+    if (!isOpen) {
+      booking.reset();
+      document.body.style.overflow = "";
+      return;
+    }
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Focus the panel when it opens
+  useEffect(() => {
+    if (isOpen && panelRef.current) {
+      panelRef.current.focus();
+    }
+  }, [isOpen]);
+
+  const handlePanelKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      closeBooking();
+      return;
+    }
+
+    // Simple focus trap
+    if (e.key === "Tab") {
+      const panel = panelRef.current;
+      if (!panel) return;
+
+      const focusableElements = panel.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      } else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    }
+  }, [closeBooking]);
 
   if (!isOpen) return null;
 
   return (
     <div
       className="fixed inset-0 z-50 flex justify-end"
-      onKeyDown={handleKeyDown}
     >
       {/* Backdrop */}
       <motion.div
@@ -56,6 +95,8 @@ export default function BookingSidesheet() {
 
       {/* Panel */}
       <motion.div
+        ref={panelRef}
+        tabIndex={-1}
         className="relative w-full md:w-[60vw] lg:w-[35vw] h-full bg-[#0a0f1a] border-l border-white/5 shadow-2xl flex flex-col"
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
@@ -64,6 +105,7 @@ export default function BookingSidesheet() {
         role="dialog"
         aria-modal="true"
         aria-label="Book a driving lesson"
+        onKeyDown={handlePanelKeyDown}
       >
         <SidesheetHeader
           step={booking.step}

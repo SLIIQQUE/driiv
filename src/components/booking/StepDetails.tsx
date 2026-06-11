@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { useState } from "react";
 import { User, Mail, Phone, MessageSquare, ShieldCheck, CalendarDays, Clock } from "lucide-react";
 import { formatDate } from "@/lib/booking-utils";
 import type { Lesson } from "@/types/booking";
@@ -24,6 +25,36 @@ export default function StepDetails({
   name, email, phone, notes,
   onChangeName, onChangeEmail, onChangePhone, onChangeNotes,
 }: Props) {
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const PHONE_CLEAN = phone.replace(/[\s\-\(\)\+]/g, "");
+  const PHONE_REGEX = /^\d{7,15}$/;
+
+  const getNameError = (): string => {
+    if (!touched.name) return "";
+    if (!name.trim()) return "Full name is required";
+    return "";
+  };
+
+  const getEmailError = (): string => {
+    if (!touched.email) return "";
+    if (!email.trim()) return "Email is required";
+    if (!EMAIL_REGEX.test(email)) return "Please enter a valid email";
+    return "";
+  };
+
+  const getPhoneError = (): string => {
+    if (!touched.phone) return "";
+    if (!phone.trim()) return "Phone number is required";
+    if (!PHONE_REGEX.test(PHONE_CLEAN)) return "Please enter a valid phone number";
+    return "";
+  };
+
   return (
     <motion.div
       key="details"
@@ -110,11 +141,17 @@ export default function StepDetails({
                   <input
                     id="booking-name"
                     type="text" value={name} onChange={(e) => onChangeName(e.target.value)}
+                    onBlur={() => handleBlur("name")}
                     placeholder="Your legal name"
                     autoComplete="name"
                     className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
                   />
                 </div>
+                {getNameError() && (
+                  <p className="text-red-400 text-[10px] mt-1.5 ml-3 font-medium" role="alert">
+                    {getNameError()}
+                  </p>
+                )}
               </div>
               <div className="group space-y-1.5">
                 <label htmlFor="booking-email" className="text-xs uppercase tracking-[0.3em] font-black text-white/30 ml-3 group-focus-within:text-accent transition-colors">
@@ -125,11 +162,19 @@ export default function StepDetails({
                   <input
                     id="booking-email"
                     type="email" value={email} onChange={(e) => onChangeEmail(e.target.value)}
+                    onBlur={() => handleBlur("email")}
                     placeholder="you@email.com"
                     autoComplete="email"
+                    aria-invalid={!!getEmailError()}
+                    aria-describedby={getEmailError() ? "email-error" : undefined}
                     className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
                   />
                 </div>
+                {getEmailError() && (
+                  <p id="email-error" className="text-red-400 text-[10px] mt-1.5 ml-3 font-medium" role="alert">
+                    {getEmailError()}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -139,16 +184,22 @@ export default function StepDetails({
               </label>
               <div className="relative">
                 <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20 group-focus-within:text-accent transition-colors" aria-hidden="true" />
-                <input
-                  id="booking-phone"
-                  type="tel" value={phone} onChange={(e) => onChangePhone(e.target.value)}
-                  placeholder="+1 (604) 000-0000"
-                  autoComplete="tel"
-                  inputMode="tel"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
-                />
+                  <input
+                    id="booking-phone"
+                    type="tel" value={phone} onChange={(e) => onChangePhone(e.target.value)}
+                    onBlur={() => handleBlur("phone")}
+                    placeholder="+1 (604) 000-0000"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
+                  />
+                </div>
+                {getPhoneError() && (
+                  <p className="text-red-400 text-[10px] mt-1.5 ml-3 font-medium" role="alert">
+                    {getPhoneError()}
+                  </p>
+                )}
               </div>
-            </div>
           </div>
 
           <div className="w-full h-px bg-white/5" />

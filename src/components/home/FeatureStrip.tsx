@@ -37,9 +37,9 @@ const features = [
   },
   {
     icon: CreditCard,
-    title: "Effortless Payments",
-    tagline: "No cash. No chase.",
-    description: "Encrypted online payments — card, debit, or e-transfer. Bundles unlock savings up to $100. Receipts land in your inbox instantly. Financial friction, eliminated.",
+    title: "Simple Payments",
+    tagline: "Pay as you go",
+    description: "Choose the package that fits your budget. Pay your instructor directly at the start of each lesson. No subscriptions, no hidden fees, no surprises.",
     cta: "View pricing",
     link: "/pricing",
     gradient: "from-accent/20 via-accent/5 to-transparent",
@@ -86,7 +86,7 @@ export default function FeatureStrip() {
             <span className="text-accent">Nothing to manage.</span>
           </h2>
           <p className="text-white/40 text-lg max-w-xl mx-auto mt-6 font-medium">
-            Book, pay, track, and get reminded — all orchestrated behind the scenes while you focus on mastering the road.
+            Book, track, and get reminded — all orchestrated behind the scenes while you focus on mastering the road.
           </p>
         </motion.div>
 

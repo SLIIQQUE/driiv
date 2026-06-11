@@ -12,9 +12,9 @@ export default function TestimonialsPage() {
             Student Reviews — DRIIV Driving School Surrey BC
           </h1>
           <PageTitle>
-            Over a thousand <br />
+            6 real{" "}
             <span className="text-secondary-foreground underline decoration-secondary-foreground/20 decoration-8 underline-offset-12">
-              success narratives.
+              success stories.
             </span>
           </PageTitle>
 
@@ -49,7 +49,7 @@ export default function TestimonialsPage() {
             </span>
           </>
         }
-        description="Join over 1,000 students who experienced sophisticated driver education. Book online in under sixty seconds."
+        description="Join our growing community of confident, test-ready drivers."
         buttonText="Begin Your Journey"
       />
     </main>
