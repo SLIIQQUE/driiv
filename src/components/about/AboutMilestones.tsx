@@ -7,7 +7,7 @@ import { Sparkles, Rocket, Users, Bot, MapPin, Orbit } from "lucide-react";
 const milestones = [
   {
     year: "2019",
-    event: "RYDAX Founded",
+    event: "DRIIV Founded",
     detail:
       "A single dual-control vehicle and a vision: prove that driver education can be as sophisticated as the vehicles on the road.",
     icon: Rocket,

@@ -5,9 +5,9 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendBookingConfirmation(booking: Booking) {
   return resend.emails.send({
-    from: "RYDAX <noreply@rydax.net>",
+    from: "DRIIV <noreply@driiv.net>",
     to: [booking.email],
-    subject: `Lesson Confirmed - ${booking.lessonName} - RYDAX`,
+    subject: `Lesson Confirmed - ${booking.lessonName} - DRIIV`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -31,12 +31,12 @@ export async function sendBookingConfirmation(booking: Booking) {
         </head>
         <body>
           <div class="header">
-            <div class="logo">RYDAX</div>
+            <div class="logo">DRIIV</div>
           </div>
           <div class="content">
             <h2>Your lesson is confirmed!</h2>
             <p>Hi ${booking.customerName},</p>
-            <p>Thank you for booking with RYDAX. Your lesson has been confirmed - here's a summary:</p>
+            <p>Thank you for booking with DRIIV. Your lesson has been confirmed - here's a summary:</p>
             
             <div class="details">
               <h3>Booking Details</h3>
@@ -54,10 +54,10 @@ export async function sendBookingConfirmation(booking: Booking) {
             
             <p>See you soon!</p>
             
-            <p>— RYDAX Team</p>
+            <p>— DRIIV Team</p>
           </div>
           <div class="footer">
-            <p>RYDAX Driving School</p>
+            <p>DRIIV Driving School</p>
           </div>
         </body>
       </html>

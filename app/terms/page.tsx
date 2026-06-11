@@ -91,7 +91,7 @@ export default function TermsPage() {
                   </h2>
                 </div>
                 <p className="text-xl text-white/60 leading-relaxed max-w-3xl">
-                  By booking a lesson with RYDAX, you enter into
+                  By booking a lesson with DRIIV, you enter into
                   a binding agreement with us under the following terms. This
                   agreement is governed by the laws of British Columbia, Canada.
                 </p>
@@ -154,7 +154,7 @@ export default function TermsPage() {
                 Critical Clause
               </h3>
               <p className="text-sm text-white/40 leading-relaxed mb-10 font-medium">
-                RYDAX does not guarantee a first-time pass. While
+                DRIIV does not guarantee a first-time pass. While
                 our pass rate is 95%, ICBC decisions remain at the sole
                 discretion of the testing officer.
               </p>

@@ -32,7 +32,7 @@ export function AboutStats() {
           </h2>
           <div className="space-y-6 text-white/40 font-medium leading-relaxed text-lg">
             <p>
-              Before RYDAX, booking a session meant calling during business
+              Before DRIIV, booking a session meant calling during business
               hours, leaving a voicemail, and waiting. Payment was cash or
               cheque. Progress was abstract. Reminders didn&apos;t exist.
             </p>

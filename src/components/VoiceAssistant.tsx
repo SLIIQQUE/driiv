@@ -198,7 +198,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                     <Bot className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-sm tracking-tight">RYDAX AI</h3>
+                    <h3 className="font-bold text-white text-sm tracking-tight">DRIIV AI</h3>
                     <div className="flex items-center gap-1.5 mt-0.5">
                       <span className={`w-1.5 h-1.5 rounded-full ${getStatusColor()}`} />
                       <span className="text-[10px] font-medium text-white/40 uppercase tracking-wider">
@@ -256,7 +256,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
                     How can I help you?
                   </p>
                   <p className="text-xs text-white/40 leading-relaxed max-w-xs mx-auto">
-                    I&apos;m your AI concierge. Ask me about programs, pricing, booking, or anything about RYDAX.
+                    I&apos;m your AI concierge. Ask me about programs, pricing, booking, or anything about DRIIV.
                   </p>
                 </motion.div>
               )}

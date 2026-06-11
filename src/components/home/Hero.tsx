@@ -39,10 +39,10 @@ export default function Hero() {
         />
 
         <motion.div
-          className="absolute -right-20 top-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.03]"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.03]"
           style={{ y: yTranslate }}
         >
-          <span className="text-[30vw] font-black leading-none tracking-tighter text-white">DRIVE</span>
+          <span className="text-[30vw] font-black leading-none tracking-tighter text-white">DRIIV</span>
         </motion.div>
 
         <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />

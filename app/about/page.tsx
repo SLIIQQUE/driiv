@@ -16,7 +16,7 @@ export default function AboutPage() {
             <PageHero label="Our Philosophy" />
 
             <h1 className="sr-only">
-              About RyDax — Surrey&rsquo;s Trusted Driving School Since 2024
+              About DRIIV — Surrey&rsquo;s Trusted Driving School Since 2024
             </h1>
             <PageTitle>
               Sophisticated <br />
@@ -28,7 +28,7 @@ export default function AboutPage() {
             </PageTitle>
 
             <PageDescription>
-              We engineered RYDAX to demonstrate that learning to drive can be
+              We engineered DRIIV to demonstrate that learning to drive can be
               seamless, transparent, and stress-free — without sacrificing a
               milligram of instructional quality.
             </PageDescription>

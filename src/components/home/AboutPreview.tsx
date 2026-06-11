@@ -27,7 +27,7 @@ export default function AboutPreview() {
             transition={{ duration: 0.8 }}
           >
             <Badge icon={<Quote className="w-4 h-4" />} className="mb-8">
-              The RYDAX difference
+              The DRIIV difference
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95] mb-8">
               Metro Vancouver&apos;s <br />

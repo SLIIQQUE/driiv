@@ -32,7 +32,7 @@ const testimonials: Testimonial[] = [
     name: "Emma Richardson",
     location: "Delta, BC",
     rating: 5,
-    text: "After failing twice with conventional schools, RYDAX diagnosed and corrected my deficiencies in three sessions. The ability to book online, pay by card, and review my progress intelligence after each session eliminated every ounce of guesswork. The entire ecosystem operates in perfect orchestration.",
+    text: "After failing twice with conventional schools, DRIIV diagnosed and corrected my deficiencies in three sessions. The ability to book online, pay by card, and review my progress intelligence after each session eliminated every ounce of guesswork. The entire ecosystem operates in perfect orchestration.",
     tag: "Test Mastery",
   },
   {

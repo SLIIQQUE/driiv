@@ -49,7 +49,7 @@ function FloatingOrb({
         animationDuration: `${duration}s`,
         willChange: "transform",
       }}
-      />
+    />
   );
 }
 
@@ -60,7 +60,11 @@ export default function Footer() {
     offset: ["start end", "end start"],
   });
   const watermarkParallax = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const orbsOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.2, 0.6, 0.6, 0.2]);
+  const orbsOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.3, 0.7, 1],
+    [0.2, 0.6, 0.6, 0.2],
+  );
 
   return (
     <footer
@@ -68,7 +72,10 @@ export default function Footer() {
       className="relative bg-[#030305] text-white overflow-hidden pt-20 lg:pt-32 pb-6"
     >
       {/* Floating orbs */}
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: orbsOpacity }}>
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{ opacity: orbsOpacity }}
+      >
         <FloatingOrb
           color="linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05))"
           size={500}
@@ -97,18 +104,16 @@ export default function Footer() {
 
       {/* Animated top border shimmer */}
       <div className="absolute top-0 left-0 right-0 h-px overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/30 to-transparent animate-[border-shimmer_3s_ease-in-out_infinite]" />
+        <div className="absolute inset-0 bg-linear-to-r from-transparent via-accent/30 to-transparent animate-[border-shimmer_3s_ease-in-out_infinite]" />
       </div>
 
-      {/* RYDAX watermark */}
+      {/* DRIIV watermark — full width */}
       <motion.div
-        className="absolute inset-0 overflow-hidden pointer-events-none flex items-center justify-center"
+        className="absolute inset-0 overflow-hidden pointer-events-none flex items-center"
         style={{ y: watermarkParallax }}
       >
-        <span
-          className="font-display text-[18vw] lg:text-[22vw] font-bold leading-none tracking-tighter bg-gradient-to-r from-white/0 via-accent/15 via-30% to-white/0 bg-[length:200%_100%] bg-clip-text text-transparent animate-[watermark-shine_8s_ease-in-out_infinite]"
-        >
-          RYDAX
+        <span className="w-full text-center font-display text-[35vw] lg:text-[40vw] font-bold leading-none tracking-tighter bg-linear-to-r from-white/0 via-accent/15 via-30% to-white/0 bg-[length:200%_100%] bg-clip-text text-transparent animate-[watermark-shine_8s_ease-in-out_infinite]">
+          DRIIV
         </span>
       </motion.div>
 
@@ -125,23 +130,26 @@ export default function Footer() {
           >
             <Link href="/" className="flex items-center gap-3 mb-6 group">
               <div className="relative">
-                <div className="w-14 h-14 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                <div className="w-14 h-14 bg-linear-to-br from-accent via-primary-light to-primary rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
                   <Car className="w-7 h-7 text-black" />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity" />
+                <div className="absolute inset-0 bg-linear-to-br from-accent via-primary-light to-primary rounded-xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity" />
               </div>
               <div>
                 <span className="font-display font-bold text-2xl text-gradient-premium tracking-tight">
-                  RYDAX
+                  DRIIV
                 </span>
               </div>
             </Link>
-            <p className="text-sm leading-7 text-white/50 max-w-md mb-8">
-              Surrey&apos;s most advanced driving school. AI-powered booking, automated reminders, and ICBC licensed instruction. Learn to drive with confidence.
+            <p className="text-sm leading-7 text-white/50 w-100 mb-8">
+              Surrey&apos;s most advanced driving school. AI-powered booking,{" "}
+              automated reminders, and ICBC licensed instruction. Learn to drive
+              with confidence.
             </p>
 
             <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
-              <Car className="w-3 h-3 text-accent/60" /> ICBC Licensed {'\u2022'} Fully Insured
+              <Car className="w-3 h-3 text-accent/60" /> ICBC Licensed{" "}
+              {"\u2022"} Fully Insured
             </div>
           </motion.div>
 
@@ -201,7 +209,7 @@ export default function Footer() {
           transition={{ delay: 0.5, duration: 0.8 }}
         >
           <p className="text-xs text-white/20 font-medium">
-            {'\u00A9'} {new Date().getFullYear()} RYDAX. All rights reserved.
+            {"\u00A9"} {new Date().getFullYear()} DRIIV. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             {[

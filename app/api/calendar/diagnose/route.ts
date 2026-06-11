@@ -80,7 +80,7 @@ export async function GET() {
         const testEvent = await calendar.events.insert({
           calendarId: calId,
           requestBody: {
-            summary: "🔧 RYDAX Diagnostic Test — delete me",
+            summary: "🔧 DRIIV Diagnostic Test — delete me",
             description: "This is a diagnostic test event. Please delete.",
             start: {
               dateTime: `${today}T23:00:00+01:00`,

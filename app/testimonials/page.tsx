@@ -9,7 +9,7 @@ export default function TestimonialsPage() {
           <PageHero label="Social Proof" />
 
           <h1 className="sr-only">
-            Student Reviews — RyDax Driving School Surrey BC
+            Student Reviews — DRIIV Driving School Surrey BC
           </h1>
           <PageTitle>
             Over a thousand <br />

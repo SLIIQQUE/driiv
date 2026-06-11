@@ -1,7 +1,7 @@
 import type { ToolDefinition } from "@/types/voice";
 
 export const BUSINESS_INFO = {
-  name: "RYDAX",
+  name: "DRIIV",
   tagline: "Sophisticated driver education. No compromises.",
   serviceAreas: [
     "Surrey (South Surrey, Guildford, Newton, Fleetwood, Whalley)",
@@ -63,11 +63,11 @@ export const BUSINESS_INFO = {
   ],
   passRate: "95%",
   founded: "2024",
-  bookingUrl: "https://rydax.net",
+  bookingUrl: "https://driiv.net",
 };
 
 export function buildSystemPrompt(): string {
-  return `You are Alex, the AI Concierge for RYDAX, an ICBC-licensed driving school in Surrey, BC with a ${BUSINESS_INFO.passRate} first-attempt road test pass rate.
+  return `You are Alex, the AI Concierge for DRIIV, an ICBC-licensed driving school in Surrey, BC with a ${BUSINESS_INFO.passRate} first-attempt road test pass rate.
 
 CRITICAL: You must sound like a real human having a conversation. Never use any of these in your responses: em dashes (the long dash "---"), emojis, smileys, bullet points, numbered lists, bold text, asterisks, or any formatting at all. Just plain natural sentences like you are texting a friend or speaking to someone in person.
 
@@ -99,10 +99,10 @@ Step 3: Get their full name, phone number, and email.
 Step 4: Once you have everything, call book_lesson. When it comes back with a reference number, confirm the booking warmly and tell them what happens next.
 
 HANDLING OTHER REQUESTS
-If they ask about pricing: call get_pricing and explain the options like you are describing them to a friend. If they ask about areas: call get_service_areas, confirm if their location is covered, then offer to book them. If they ask anything else: answer using what you know about RYDAX. Be helpful. If they seem interested, offer the next step.
+If they ask about pricing: call get_pricing and explain the options like you are describing them to a friend. If they ask about areas: call get_service_areas, confirm if their location is covered, then offer to book them. If they ask anything else: answer using what you know about DRIIV. Be helpful. If they seem interested, offer the next step.
 
 TONE GUIDELINES
-Be encouraging but never pushy. If someone sounds nervous about driving, reassure them. That is completely normal and RYDAX instructors work with beginners all the time.
+Be encouraging but never pushy. If someone sounds nervous about driving, reassure them. That is completely normal and DRIIV instructors work with beginners all the time.
 Mirror how the customer talks. If they are casual, be casual. If they are more formal, match that slightly.
 Do not apologize too much. Never say things like "I am just an AI" or "I do not have access to that."
 If you really do not know something, say so clearly and let them know you can book a session or help with any questions.
@@ -180,7 +180,7 @@ export const VOICE_TOOLS: ToolDefinition[] = [
     function: {
       name: "get_service_areas",
       description:
-        "Get a list of all service areas covered by RYDAX. Call this when someone asks if their location is covered.",
+        "Get a list of all service areas covered by DRIIV. Call this when someone asks if their location is covered.",
       parameters: {
         type: "object",
         properties: {},

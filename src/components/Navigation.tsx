@@ -63,7 +63,7 @@ export default function Navigation() {
                   <div className="absolute inset-0 bg-gradient-to-br from-accent via-primary-light to-primary rounded-xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity" />
                 </div>
                 <div className="hidden sm:block">
-                  <span className="font-display font-bold text-xl tracking-tight text-gradient-premium">RYDAX</span>
+                  <span className="font-display font-bold text-xl tracking-tight text-gradient-premium">DRIIV</span>
                 </div>
               </Link>
             </div>

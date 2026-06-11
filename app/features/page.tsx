@@ -4,14 +4,14 @@ import { FeatureCards } from "@/components/features/FeatureCards";
 import { TestimonialShowcase } from "@/components/features/TestimonialShowcase";
 import { FeaturesCTA } from "@/components/features/FeaturesCTA";
 
-export default function WhyRydaxPage() {
+export default function WhyDriivPage() {
   return (
     <main className="bg-[#030305] pt-32 pb-40 lg:pb-64 overflow-hidden flex flex-col gap-10">
       <section className="container mb-20 lg:mb-32 relative">
         <div className="max-w-4xl relative z-10">
           <PageHero label="The Ecosystem" />
           <h1 className="sr-only">
-            Why Choose RyDax Driving School Surrey — Features & Benefits
+            Why Choose DRIIV Driving School Surrey — Features & Benefits
           </h1>
           <PageTitle>
             Seamless <br />

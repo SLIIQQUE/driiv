@@ -24,7 +24,7 @@ const testimonials = [
   {
     name: "Emma Richardson",
     location: "Delta",
-    text: "After failing twice with conventional schools, RYDAX diagnosed and corrected my deficiencies in three sessions. The ability to book online, pay by card, and review my progress intelligence after each lesson eliminated every ounce of guesswork. The system works in perfect orchestration.",
+    text: "After failing twice with conventional schools, DRIIV diagnosed and corrected my deficiencies in three sessions. The ability to book online, pay by card, and review my progress intelligence after each lesson eliminated every ounce of guesswork. The system works in perfect orchestration.",
     rating: 5,
     tag: "Test Mastery",
   },

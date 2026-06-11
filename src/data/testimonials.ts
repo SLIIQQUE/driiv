@@ -18,7 +18,7 @@ export const testimonials: Testimonial[] = [
   {
     author: "Emma Richardson",
     rating: 5,
-    body: "I failed my road test twice with other schools. RyDax identified my weak spots and fixed them in just three sessions. Being able to book online, pay by card, and see my progress after each lesson took all the uncertainty out of the process. I finally passed with confidence.",
+    body: "I failed my road test twice with other schools. DRIIV identified my weak spots and fixed them in just three sessions. Being able to book online, pay by card, and see my progress after each lesson took all the uncertainty out of the process. I finally passed with confidence.",
   },
   {
     author: "David Clarke",
@@ -33,6 +33,6 @@ export const testimonials: Testimonial[] = [
   {
     author: "Michael Brown",
     rating: 5,
-    body: "I looked at a few driving schools before choosing RyDax and I'm glad I did. The online system handles everything — booking, payments, reminders — and the instruction quality is excellent. The most professional driving school I've experienced in Metro Vancouver.",
+    body: "I looked at a few driving schools before choosing DRIIV and I'm glad I did. The online system handles everything — booking, payments, reminders — and the instruction quality is excellent. The most professional driving school I've experienced in Metro Vancouver.",
   },
 ];
