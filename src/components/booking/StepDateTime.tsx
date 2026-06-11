@@ -61,7 +61,7 @@ export default function StepDateTime({
           whileInView={{ opacity: 1, scale: 1 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 border border-accent/20 bg-accent/10 rounded-full mb-3"
         >
-          <Sparkles className="w-3 h-3 text-accent" />
+          <Sparkles className="w-3 h-3 text-accent" aria-hidden="true" />
           <span className="text-xs font-black uppercase tracking-widest text-accent/70">
             Pick your moment
           </span>
@@ -76,18 +76,20 @@ export default function StepDateTime({
           <div className="flex items-center justify-between mb-4">
             <button
               onClick={onPrevMonth}
-              className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all"
+              aria-label="Previous month"
+              className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all cursor-pointer"
             >
-              <ChevronLeft className="w-4 h-4 text-white/60" />
+              <ChevronLeft className="w-4 h-4 text-white/60" aria-hidden="true" />
             </button>
             <div className="text-sm font-black text-white uppercase tracking-tight">
               {MONTHS[calendarMonth.getMonth()]} {calendarMonth.getFullYear()}
             </div>
             <button
               onClick={onNextMonth}
-              className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all"
+              aria-label="Next month"
+              className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all cursor-pointer"
             >
-              <ChevronRight className="w-4 h-4 text-white/60" />
+              <ChevronRight className="w-4 h-4 text-white/60" aria-hidden="true" />
             </button>
           </div>
           <CalendarGrid

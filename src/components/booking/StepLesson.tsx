@@ -24,7 +24,7 @@ export default function StepLesson({ selectedLesson, onSelectLesson }: Props) {
           whileInView={{ opacity: 1, scale: 1 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 border border-accent/20 bg-accent/10 rounded-full mb-3"
         >
-          <Sparkles className="w-3 h-3 text-accent" />
+          <Sparkles className="w-3 h-3 text-accent" aria-hidden="true" />
           <span className="text-xs font-black uppercase tracking-widest text-accent/70">
             Choose your program
           </span>
@@ -36,13 +36,20 @@ export default function StepLesson({ selectedLesson, onSelectLesson }: Props) {
 
       <div className="grid grid-cols-1 gap-4">
         {LESSONS.map((l, i) => (
-          <motion.div
+          <motion.button
+            type="button"
             key={l.id}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.08, duration: 0.4 }}
             onClick={() => onSelectLesson(l.id)}
-            className={`premium-card p-5 flex flex-col group relative overflow-hidden cursor-pointer transition-all duration-500 ${
+            onKeyDown={(e: React.KeyboardEvent) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onSelectLesson(l.id);
+              }
+            }}
+            className={`premium-card p-5 flex flex-col group relative overflow-hidden cursor-pointer text-left transition-all duration-500 ${
               selectedLesson === l.id
                 ? "border-accent/50 bg-accent/[0.03] ring-1 ring-accent/30 shadow-2xl shadow-accent/10"
                 : "hover:border-accent/20"
@@ -59,7 +66,7 @@ export default function StepLesson({ selectedLesson, onSelectLesson }: Props) {
             <div
               className={`w-10 h-10 rounded-xl bg-linear-to-br ${l.color} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}
             >
-              <ShieldCheck className="w-5 h-5 text-accent" />
+              <ShieldCheck className="w-5 h-5 text-accent" aria-hidden="true" />
             </div>
 
             <div className="mb-4">
@@ -89,7 +96,7 @@ export default function StepLesson({ selectedLesson, onSelectLesson }: Props) {
             <div className="space-y-1.5 mb-5 flex-1">
               {l.features.slice(0, 4).map((f, j) => (
                 <div key={j} className="flex items-center gap-2 text-xs font-bold text-white/50">
-                  <Check className="w-3 h-3 text-accent shrink-0" />
+                  <Check className="w-3 h-3 text-accent shrink-0" aria-hidden="true" />
                   {f}
                 </div>
               ))}
@@ -105,7 +112,7 @@ export default function StepLesson({ selectedLesson, onSelectLesson }: Props) {
               {selectedLesson === l.id ? "Selected" : "Select"}
               <ArrowRight className="w-3 h-3" />
             </div>
-          </motion.div>
+            </motion.button>
         ))}
       </div>
 

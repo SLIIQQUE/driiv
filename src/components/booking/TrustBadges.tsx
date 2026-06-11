@@ -21,7 +21,7 @@ export default function TrustBadges() {
           key={i}
           className="flex items-center gap-1.5 hover:text-accent transition-colors"
         >
-          <item.icon className="w-3 h-3 text-accent" /> {item.label}
+          <item.icon className="w-3 h-3 text-accent" aria-hidden="true" /> {item.label}
         </span>
       ))}
     </motion.div>

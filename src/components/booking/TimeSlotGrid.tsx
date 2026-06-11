@@ -21,7 +21,7 @@ export default function TimeSlotGrid({
   return (
     <div className="glass-card border-white/5 rounded-2xl p-5">
       <div className="flex items-center gap-2 mb-4">
-        <Clock className="w-4 h-4 text-accent" />
+        <Clock className="w-4 h-4 text-accent" aria-hidden="true" />
         <span className="text-sm font-black text-white uppercase tracking-tight">
           Available Slots
         </span>

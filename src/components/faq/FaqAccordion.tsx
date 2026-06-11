@@ -101,7 +101,7 @@ export default function FaqAccordion() {
               className="glass-card border-white/5 p-8 lg:p-10 rounded-[2rem]"
             >
               <div className="flex items-center gap-3 mb-8">
-                <group.icon className="w-6 h-6 text-accent" />
+                <group.icon className="w-6 h-6 text-accent" aria-hidden="true" />
                 <h2 className="text-xl font-black text-white uppercase tracking-tighter">{group.category}</h2>
               </div>
 
@@ -120,7 +120,7 @@ export default function FaqAccordion() {
                           animate={{ rotate: isOpen ? 180 : 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <ChevronDown className="w-5 h-5 text-white/30 shrink-0" />
+                          <ChevronDown className="w-5 h-5 text-white/30 shrink-0" aria-hidden="true" />
                         </motion.div>
                       </button>
                       <AnimatePresence>
@@ -146,21 +146,22 @@ export default function FaqAccordion() {
 
         <div className="lg:col-span-5 lg:sticky lg:top-32 self-start space-y-6">
           <div className="glass-card border-white/5 p-8 lg:p-12 rounded-[2rem]">
-            <MessageCircle className="w-12 h-12 text-accent mb-8" />
+            <MessageCircle className="w-12 h-12 text-accent mb-8" aria-hidden="true" />
             <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-4">Still Have Questions?</h3>
             <p className="text-white/40 text-sm font-medium mb-8">Our AI concierge operates 24/7. Just ask and we&apos;ll help.</p>
             <div className="space-y-4">
-              <div
+              <button
+                type="button"
                 onClick={() =>
                   document.querySelector<HTMLButtonElement>("[data-voice-button]")?.click()
                 }
                 className="group relative w-full py-5 bg-accent text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-2 overflow-hidden shadow-2xl shadow-accent/20 cursor-pointer"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  <Bot className="w-4 h-4" /> Ask AI Concierge
+                  <Bot className="w-4 h-4" aria-hidden="true" /> Ask AI Concierge
                 </span>
                 <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300" />
-              </div>
+              </button>
             </div>
           </div>
 
