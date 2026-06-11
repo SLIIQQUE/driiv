@@ -56,14 +56,27 @@ export function formatDateParam(d: Date): string {
   return `${year}-${month}-${day}`;
 }
 
+export interface CalendarAvailability {
+  busySlots: string[];
+  error: string | null;
+}
+
 /** Fetch busy slots from Google Calendar for a given date string (YYYY-MM-DD) */
-export async function getBusySlotsForDate(dateStr: string): Promise<string[]> {
+export async function getBusySlotsForDate(dateStr: string): Promise<CalendarAvailability> {
   try {
     const res = await fetch(`/api/calendar/availability?date=${dateStr}`);
-    if (!res.ok) return [];
+    if (!res.ok) {
+      return {
+        busySlots: [],
+        error: "Could not check calendar availability. Please try again later.",
+      };
+    }
     const data = await res.json();
-    return data.busySlots || [];
+    return { busySlots: data.busySlots || [], error: null };
   } catch {
-    return []; // Fail open — show all slots if check fails
+    return {
+      busySlots: [],
+      error: "Unable to reach our booking calendar. Check your connection and try again.",
+    };
   }
 }

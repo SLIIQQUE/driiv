@@ -147,6 +147,7 @@ export default function BookingSidesheet() {
                   onTimeSelect={booking.setSelectedTime}
                   onPrevMonth={booking.prevMonth}
                   onNextMonth={booking.nextMonth}
+                  onCalendarError={(hasError) => booking.setCalendarError(hasError)}
                 />
               )}
               {booking.step === "details" && (

@@ -2,7 +2,7 @@
 
 import { useEffect, useReducer } from "react";
 import { motion } from "motion/react";
-import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles, XCircle } from "lucide-react";
 import { MONTHS, getBusySlotsForDate, formatDateParam } from "@/lib/booking-utils";
 import CalendarGrid from "./CalendarGrid";
 import TimeSlotGrid from "./TimeSlotGrid";
@@ -10,21 +10,22 @@ import TimeSlotGrid from "./TimeSlotGrid";
 interface SlotState {
   busySlots: string[];
   isChecking: boolean;
+  error: string | null;
 }
 
 type SlotAction =
   | { type: "checking" }
-  | { type: "loaded"; slots: string[] }
+  | { type: "loaded"; slots: string[]; error?: string | null }
   | { type: "clear" };
 
 function slotReducer(state: SlotState, action: SlotAction): SlotState {
   switch (action.type) {
     case "checking":
-      return { busySlots: [], isChecking: true };
+      return { busySlots: [], isChecking: true, error: null };
     case "loaded":
-      return { busySlots: action.slots, isChecking: false };
+      return { busySlots: action.slots, isChecking: false, error: action.error ?? null };
     case "clear":
-      return { busySlots: [], isChecking: false };
+      return { busySlots: [], isChecking: false, error: null };
   }
 }
 
@@ -36,15 +37,18 @@ interface Props {
   onTimeSelect: (time: string) => void;
   onPrevMonth: () => void;
   onNextMonth: () => void;
+  onCalendarError?: (hasError: boolean) => void;
 }
 
 export default function StepDateTime({
   selectedDate, selectedTime, calendarMonth,
   onDateClick, onTimeSelect, onPrevMonth, onNextMonth,
+  onCalendarError,
 }: Props) {
   const [slotState, dispatch] = useReducer(slotReducer, {
     busySlots: [],
     isChecking: false,
+    error: null,
   });
 
   useEffect(() => {
@@ -54,10 +58,12 @@ export default function StepDateTime({
     let cancelled = false;
 
     dispatch({ type: "checking" });
+    onCalendarError?.(false); // Reset error while checking
 
-    getBusySlotsForDate(dateStr).then((slots) => {
+    getBusySlotsForDate(dateStr).then((result) => {
       if (!cancelled) {
-        dispatch({ type: "loaded", slots });
+        dispatch({ type: "loaded", slots: result.busySlots, error: result.error });
+        onCalendarError?.(result.error !== null);
       }
     });
 
@@ -125,6 +131,23 @@ export default function StepDateTime({
           busySlots={slotState.busySlots}
           isCheckingAvailability={slotState.isChecking}
         />
+
+        {slotState.error && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
+            role="alert"
+          >
+            <p className="text-xs font-bold text-red-400 flex items-start gap-2">
+              <XCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" aria-hidden="true" />
+              <span>{slotState.error}</span>
+            </p>
+            <p className="text-[10px] text-red-400/60 font-medium mt-1.5 ml-5.5">
+              Please try reloading the page or contact us to book.
+            </p>
+          </motion.div>
+        )}
       </div>
     </motion.div>
   );

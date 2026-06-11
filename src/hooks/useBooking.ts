@@ -22,11 +22,12 @@ export function useBooking() {
   const [success, setSuccess] = useState(false);
   const [bookingRef, setBookingRef] = useState("");
   const [error, setError] = useState("");
+  const [calendarError, setCalendarError] = useState(false);
 
   const lesson = LESSONS.find((l) => l.id === selectedLesson);
   const stepProgress = { lesson: 1, datetime: 2, details: 3, confirm: 4 }[step];
   const canProceedFromLesson = selectedLesson !== null;
-  const canProceedFromDateTime = selectedDate !== null && selectedTime !== null;
+  const canProceedFromDateTime = selectedDate !== null && selectedTime !== null && !calendarError;
   const canProceedFromDetails = !!(name.trim() && email.trim() && phone.trim());
 
   const prevMonth = () => {
@@ -70,6 +71,7 @@ export function useBooking() {
     setSuccess(false);
     setBookingRef("");
     setError("");
+    setCalendarError(false);
   };
 
   const handleConfirm = async () => {
@@ -121,5 +123,6 @@ export function useBooking() {
     lesson, stepProgress,
     canProceedFromLesson, canProceedFromDateTime, canProceedFromDetails,
     handleConfirm, reset,
+    calendarError, setCalendarError,
   };
 }
