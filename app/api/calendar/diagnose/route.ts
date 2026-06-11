@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getVancouverOffset } from "@/lib/google-calendar";
+import { getLagosOffset } from "@/lib/google-calendar";
 
 /**
  * Diagnostic endpoint to test Google Calendar connection.
@@ -66,14 +66,14 @@ export async function GET() {
 
       const now = new Date();
       const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-      const vancouverOffset = getVancouverOffset(today);
+      const lagosOffset = getLagosOffset();
 
       const freebusyRes = await calendar.freebusy.query({
         requestBody: {
-          timeMin: `${today}T00:00:00${vancouverOffset}`,
-          timeMax: `${today}T23:59:59${vancouverOffset}`,
+          timeMin: `${today}T00:00:00${lagosOffset}`,
+          timeMax: `${today}T23:59:59${lagosOffset}`,
           items: [{ id: calId }],
-          timeZone: "America/Vancouver",
+          timeZone: "Africa/Lagos",
         },
       });
 
@@ -93,12 +93,12 @@ export async function GET() {
               summary: "🔧 DRIIV Diagnostic Test — delete me",
               description: "This is a diagnostic test event. Please delete.",
               start: {
-                dateTime: `${today}T23:00:00${vancouverOffset}`,
-                timeZone: "America/Vancouver",
+                dateTime: `${today}T23:00:00${lagosOffset}`,
+                timeZone: "Africa/Lagos",
               },
               end: {
-                dateTime: `${today}T23:01:00${vancouverOffset}`,
-                timeZone: "America/Vancouver",
+                dateTime: `${today}T23:01:00${lagosOffset}`,
+                timeZone: "Africa/Lagos",
               },
             },
           });

@@ -42,17 +42,16 @@ function createAuth() {
 }
 
 /**
- * Convert an RFC 3339 timestamp to the hour in America/Vancouver.
+ * Convert an RFC 3339 timestamp to the hour in Africa/Lagos (WAT, UTC+1).
  *
- * Vancouver observes DST (PDT UTC-7 / PST UTC-8), so the offset
- * depends on the date.
- * Example: "2026-06-10T16:00:00Z" → 9 (9 AM Vancouver PDT)
+ * Nigeria does not observe DST, so the offset is always UTC+1 year-round.
+ * Example: "2026-06-15T09:00:00+01:00" → 9 (9 AM Lagos)
  */
-function getVancouverHour(isoString: string): number {
+function getLagosHour(isoString: string): number {
   const date = new Date(isoString);
   return parseInt(
     date.toLocaleString("en-CA", {
-      timeZone: "America/Vancouver",
+      timeZone: "Africa/Lagos",
       hour: "numeric",
       hour12: false,
     }),
@@ -61,15 +60,16 @@ function getVancouverHour(isoString: string): number {
 }
 
 /**
- * Determine the Vancouver timezone offset string for a given date.
- * Returns "-07:00" for PDT (roughly Mar-Oct) and "-08:00" for PST (roughly Nov-Feb).
+ * Return the Lagos timezone offset string.
+ * Nigeria observes WAT (West Africa Time, UTC+1) year-round — no DST.
  */
-export function getVancouverOffset(dateStr: string): string {
-  const date = new Date(dateStr + "T12:00:00");
-  const month = date.getMonth();
-  // DST in BC: 2nd Sunday Mar → 1st Sunday Nov
-  // Simplified: months 2-9 (Mar-Oct) = PDT (-7), months 0-1,10-11 (Nov-Feb) = PST (-8)
-  return month >= 2 && month <= 9 ? "-07:00" : "-08:00";
+export function getLagosOffset(): string {
+  return "+01:00";
+}
+
+export interface BusySlotsResult {
+  busySlots: string[];
+  error: string | null;
 }
 
 /**
@@ -78,19 +78,18 @@ export function getVancouverOffset(dateStr: string): string {
  * Uses the freebusy.query API to retrieve events and converts them into
  * hour-precision slot strings (e.g. "09:00", "14:00").
  *
- * On failure, returns an empty array (fail-open) so the user is never
- * blocked from seeing available slots.
+ * Returns both the busy slots and any error that occurred. Callers should
+ * check the error field and surface it to the user when present.
  *
  * @param date - Date string in "YYYY-MM-DD" format.
- * @returns Sorted array of busy hour-precision slot strings.
  */
-export async function getBusySlots(date: string): Promise<string[]> {
+export async function getBusySlots(date: string): Promise<BusySlotsResult> {
   try {
     const auth = createAuth();
     const calendar = google.calendar({ version: "v3", auth });
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
 
-    const offset = getVancouverOffset(date);
+    const offset = getLagosOffset();
     const timeMin = `${date}T00:00:00${offset}`;
     const timeMax = `${date}T23:59:59${offset}`;
 
@@ -99,18 +98,40 @@ export async function getBusySlots(date: string): Promise<string[]> {
         timeMin,
         timeMax,
         items: [{ id: calendarId }],
-        timeZone: "America/Vancouver",
+        timeZone: "Africa/Lagos",
       },
     });
 
-    const busyPeriods = response.data.calendars?.[calendarId]?.busy ?? [];
+    const calendarResult = response.data.calendars?.[calendarId];
+
+    // Google returns HTTP 200 with an `errors` array on the calendar when
+    // the calendar ID is unknown, auth is insufficient, or the calendar is
+    // otherwise inaccessible. Check this before trusting the `busy` field.
+    if (!calendarResult) {
+      return {
+        busySlots: [],
+        error: `Calendar "${calendarId}" not found in Google response.`,
+      };
+    }
+
+    if (calendarResult.errors && calendarResult.errors.length > 0) {
+      const reasons = calendarResult.errors
+        .map((e: { reason?: string | null; message?: string | null }) => e.reason ?? e.message ?? "unknown error")
+        .join("; ");
+      return {
+        busySlots: [],
+        error: `Calendar error: ${reasons}`,
+      };
+    }
+
+    const busyPeriods = calendarResult.busy ?? [];
     const busySlots = new Set<string>();
 
     for (const period of busyPeriods) {
       if (!period.start || !period.end) continue;
 
-      const startHour = getVancouverHour(period.start);
-      const endHour = getVancouverHour(period.end);
+      const startHour = getLagosHour(period.start);
+      const endHour = getLagosHour(period.end);
 
       // Mark every hour from start to end (exclusive) as busy
       for (let hour = startHour; hour < endHour; hour++) {
@@ -118,10 +139,13 @@ export async function getBusySlots(date: string): Promise<string[]> {
       }
     }
 
-    return Array.from(busySlots).sort();
+    return { busySlots: Array.from(busySlots).sort(), error: null };
   } catch (error) {
     console.error("Failed to fetch busy slots from Google Calendar:", error);
-    return [];
+    return {
+      busySlots: [],
+      error: "The booking calendar is temporarily unavailable. Please try again later or contact us to book.",
+    };
   }
 }
 
@@ -185,8 +209,8 @@ export async function createBookingEvent(
     const isoDate = parseDateToISO(booking.preferredDate);
     const hhmm = parseTimeToHHMM(booking.preferredTime);
 
-    // Build start and end date-time strings in America/Vancouver
-    const offset = getVancouverOffset(isoDate);
+    // Build start and end date-time strings in Africa/Lagos
+    const offset = getLagosOffset();
     const startDateTime = `${isoDate}T${hhmm}:00${offset}`;
 
     // Validate the datetime string before sending
@@ -219,11 +243,11 @@ export async function createBookingEvent(
         colorId: "11",
         start: {
           dateTime: startDateTime,
-          timeZone: "America/Vancouver",
+          timeZone: "Africa/Lagos",
         },
         end: {
           dateTime: endDateTime,
-          timeZone: "America/Vancouver",
+          timeZone: "Africa/Lagos",
         },
       },
     });
