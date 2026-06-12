@@ -1,80 +1,191 @@
-import fs from "fs";
-import path from "path";
-import { Booking } from "@/types/booking";
+/**
+ * Bookings Persistence Layer — Google Sheets Backend
+ *
+ * Replaces the previous file-based storage (data/bookings.json) with the
+ * Google Sheets API. Key design decisions:
+ *
+ *   - **Google Sheets** is the persistent store for booking records.
+ *   - **Google Calendar** remains the source of truth for availability.
+ *   - **PII encryption** is applied before writing to Sheets.
+ *   - **Retry logic** handles transient Sheets API failures (3 attempts).
+ *
+ * Public API (unchanged from the file-based version):
+ *   - saveBooking(booking)    → append row to sheet (with retry + double-booking check)
+ *   - getBookings()           → read all rows from sheet (PII decrypted)
+ *   - isSlotBooked(date,time) → check slot from sheet data
+ *   - getLocalBusySlots(date) → busy slots from sheet data for a date
+ *
+ * ⚠️  All public functions are now async (they make HTTP calls to Google Sheets).
+ *     Callers that previously called them synchronously must use `await`.
+ */
 
-const BOOKINGS_FILE = path.join(process.cwd(), "data", "bookings.json");
-const BOOKINGS_BACKUP_FILE = path.join(process.cwd(), "data", "bookings.json.bak");
+import { createAuth } from "@/lib/google-auth";
+import {
+  appendBookingRow,
+  getAllBookings as getSheetsAllBookings,
+  isSlotBooked as sheetsIsSlotBooked,
+  getLocalBusySlots as sheetsGetLocalBusySlots,
+} from "@/lib/google-sheets";
+import { encryptPII, decryptPII } from "@/lib/encryption";
+import type { Booking } from "@/types/booking";
+
+// ────────────────────────────────────────────────────────────
+//  Encryption helpers
+// ────────────────────────────────────────────────────────────
 
 /**
- * Read existing bookings with fallback for corrupted file.
- * Returns an empty array on parse failure.
+ * Encrypt PII fields in a booking for persistent storage.
+ * If already encrypted, returns the booking unchanged (idempotent).
  */
-function readBookingsSafe(): Booking[] {
-  try {
-    if (!fs.existsSync(BOOKINGS_FILE)) return [];
-    const raw = fs.readFileSync(BOOKINGS_FILE, "utf-8");
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) {
-      console.error("bookings.json is not an array — resetting to empty");
-      return [];
-    }
-    return parsed as Booking[];
-  } catch (error) {
-    console.error("Failed to parse bookings.json, trying backup:", error);
-    // Try reading from backup
-    try {
-      if (fs.existsSync(BOOKINGS_BACKUP_FILE)) {
-        const rawBackup = fs.readFileSync(BOOKINGS_BACKUP_FILE, "utf-8");
-        const parsed = JSON.parse(rawBackup);
-        if (Array.isArray(parsed)) {
-          console.log("Recovered bookings from backup file");
-          return parsed as Booking[];
-        }
-      }
-    } catch {
-      console.error("Backup file also corrupted — starting fresh");
-    }
-    return [];
-  }
+function encryptBookingPII(booking: Booking): Booking {
+  if (booking.piiEncrypted) return booking;
+
+  return {
+    ...booking,
+    customerName: encryptPII(booking.customerName),
+    phone: encryptPII(booking.phone),
+    email: encryptPII(booking.email),
+    piiEncrypted: true,
+  };
 }
 
 /**
- * Atomically write bookings: write to temp file, then rename.
- * This prevents partial writes from corrupting the file.
+ * Decrypt PII fields in a booking for runtime use.
+ * If not encrypted, returns the booking unchanged (idempotent).
  */
-function writeBookingsAtomic(bookings: Booking[]): void {
-  const dir = path.dirname(BOOKINGS_FILE);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+function decryptBookingPII(booking: Booking): Booking {
+  if (!booking.piiEncrypted) return booking;
+
+  return {
+    ...booking,
+    customerName: decryptPII(booking.customerName),
+    phone: decryptPII(booking.phone),
+    email: decryptPII(booking.email),
+    piiEncrypted: false,
+  };
+}
+
+// ────────────────────────────────────────────────────────────
+//  Schema validation
+// ────────────────────────────────────────────────────────────
+
+/** Basic email regex — validates a@b.c format. */
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * Validate a single booking entry from storage.
+ *
+ * Checks presence of all required fields, their types, and format
+ * constraints for non-encrypted PII values.
+ *
+ * @returns An error string if invalid, or `null` if valid.
+ */
+function validateBookingEntry(entry: unknown): string | null {
+  if (!entry || typeof entry !== "object") {
+    return "Entry is not an object";
   }
 
-  // Write to a temp file first
-  const tmpFile = BOOKINGS_FILE + ".tmp";
-  fs.writeFileSync(tmpFile, JSON.stringify(bookings, null, 2));
+  const b = entry as Record<string, unknown>;
 
-  // Create backup of previous file if it exists
-  if (fs.existsSync(BOOKINGS_FILE)) {
-    try {
-      fs.copyFileSync(BOOKINGS_FILE, BOOKINGS_BACKUP_FILE);
-    } catch (err) {
-      console.error("Failed to create backup:", err);
+  // --- Required fields (all must be present, non-null strings) ---
+  const requiredFields = [
+    "id",
+    "customerName",
+    "phone",
+    "email",
+    "lessonId",
+    "lessonName",
+    "preferredDate",
+    "preferredTime",
+  ] as const;
+
+  for (const field of requiredFields) {
+    if (b[field] === undefined || b[field] === null) {
+      return `Missing required field: "${field}"`;
+    }
+    if (typeof b[field] !== "string") {
+      return `Field "${field}" must be a string, got ${typeof b[field]}`;
+    }
+    if ((b[field] as string).length === 0) {
+      return `Field "${field}" must not be empty`;
     }
   }
 
-  // Atomic rename (prevents partial write corruption)
-  fs.renameSync(tmpFile, BOOKINGS_FILE);
+  // Sanity: id shouldn't be absurdly long
+  if ((b.id as string).length > 64) {
+    return `Field "id" exceeds maximum length (64 chars)`;
+  }
+
+  // --- PII format validation (only for non-encrypted entries) ---
+  if (!b.piiEncrypted) {
+    // customerName: max 100 chars
+    if ((b.customerName as string).length > 100) {
+      return `Field "customerName" exceeds 100 characters`;
+    }
+
+    // phone: must contain 7–15 digits (allow common formatting chars)
+    const phoneDigits = (b.phone as string).replace(/[\s\-\(\)\+\.]/g, "");
+    if (phoneDigits.length < 7 || phoneDigits.length > 15) {
+      return `Field "phone" must contain 7–15 digits (found ${phoneDigits.length})`;
+    }
+    if (!/^\d+$/.test(phoneDigits)) {
+      return `Field "phone" contains non-digit characters`;
+    }
+
+    // email: basic format check
+    if (!EMAIL_REGEX.test(b.email as string)) {
+      return `Field "email" has invalid format`;
+    }
+  }
+
+  return null; // Valid entry
 }
 
 /**
- * Normalize a preferredDate value to YYYY-MM-DD format.
- * Handles both "2026-06-15" (ISO) and "June 15, 2026" (display) formats.
+ * Filter, validate, and decrypt an array of raw booking objects.
+ * Invalid entries are skipped with a warning rather than crashing the read.
+ */
+function processEntries(rawEntries: Booking[]): Booking[] {
+  const valid: Booking[] = [];
+  let skipped = 0;
+
+  for (let i = 0; i < rawEntries.length; i++) {
+    const entry = rawEntries[i];
+    const error = validateBookingEntry(entry);
+
+    if (error) {
+      const id = (entry as unknown as Record<string, unknown>)?.id ?? `index ${i}`;
+      console.warn(`[bookings] Skipping entry ${id}: ${error}`);
+      skipped++;
+      continue;
+    }
+
+    // Decrypt PII if stored encrypted
+    valid.push(decryptBookingPII(entry as Booking));
+  }
+
+  if (skipped > 0) {
+    console.warn(
+      `[bookings] Skipped ${skipped} of ${rawEntries.length} entries due to validation errors`,
+    );
+  }
+
+  return valid;
+}
+
+// ────────────────────────────────────────────────────────────
+//  Date/time normalization
+// ────────────────────────────────────────────────────────────
+
+/**
+ * Normalize a `preferredDate` to YYYY-MM-DD format.
+ * Handles "2026-06-15" (ISO) and "June 15, 2026" (display) formats.
  */
 function normalizeDate(dateValue: string): string {
-  // Already in YYYY-MM-DD format
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
     return dateValue;
   }
-  // Try parsing with Date constructor (handles "June 15, 2026" etc.)
+
   const d = new Date(dateValue);
   if (!isNaN(d.getTime())) {
     const year = d.getFullYear();
@@ -82,66 +193,59 @@ function normalizeDate(dateValue: string): string {
     const day = String(d.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
-  // Fallback — return as-is
-  return dateValue;
+
+  return dateValue; // fallback — let downstream validation catch it
 }
 
 /**
- * Normalize a preferredTime value to "HH:00" format (24-hour).
+ * Normalize a `preferredTime` to HH:MM (24-hour) format.
  * Handles "10:00", "10:00 AM", "10:00AM", "2:00 PM", "09:00", etc.
  */
 function normalizeTime(timeValue: string): string {
-  // Match "HH:MM" optionally followed by AM/PM
   const match = timeValue.match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)?$/i);
-  if (!match) {
-    return timeValue;
-  }
+  if (!match) return timeValue;
+
   let hours = parseInt(match[1], 10);
   const minutes = match[2];
   const meridian = (match[3] || "").toUpperCase();
-  // Convert 12-hour to 24-hour
+
   if (meridian === "PM" && hours < 12) hours += 12;
   if (meridian === "AM" && hours === 12) hours = 0;
+
   return `${String(hours).padStart(2, "0")}:${minutes}`;
 }
 
-/**
- * Check if a given date/time slot is already booked.
- * Normalizes both stored and incoming values for consistent comparison.
- */
-export function isSlotBooked(date: string, time: string): boolean {
-  const existing = readBookingsSafe();
-  const normDate = normalizeDate(date);
-  const normTime = normalizeTime(time);
-  return existing.some((b) => {
-    const bDate = normalizeDate(b.preferredDate);
-    const bTime = normalizeTime(b.preferredTime);
-    return bDate === normDate && bTime === normTime;
-  });
-}
+// ────────────────────────────────────────────────────────────
+//  Public API
+// ────────────────────────────────────────────────────────────
 
 const MAX_SAVE_RETRIES = 3;
 
 /**
- * Save a booking to the local JSON file with retry logic.
+ * Save a booking to the Google Sheet with retry logic.
  *
- * Retries mitigate the TOCTOU race condition in serverless deployments
- * (multiple Lambda instances reading/writing simultaneously). On each
- * retry the file is re-read so the slot check uses the latest state.
- * For true atomicity, migrate to a database with transactions.
+ * **PII Encryption:**
+ *   `customerName`, `phone`, and `email` are encrypted with AES-256-GCM
+ *   before being written to the sheet. The `piiEncrypted` flag is set to `true`.
+ *
+ * **TOCTOU Retry:**
+ *   In serverless environments, concurrent requests may race to read the
+ *   sheet and append. This function re-reads the sheet on each retry attempt
+ *   to check for conflicts. For true atomicity, consider using Google Sheets
+ *   locking or a transactional database.
+ *
+ * @throws {Error} with message "already been booked" on slot conflict.
+ * @throws {Error} on write failure after exhausting retries.
  */
 export async function saveBooking(booking: Booking): Promise<void> {
-  const dir = path.dirname(BOOKINGS_FILE);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-
   const slotDate = normalizeDate(booking.preferredDate);
   const slotTime = normalizeTime(booking.preferredTime);
 
   for (let attempt = 1; attempt <= MAX_SAVE_RETRIES; attempt++) {
-    // Re-read on every attempt to get the latest state
-    const existing = readBookingsSafe();
+    const auth = createAuth(["https://www.googleapis.com/auth/spreadsheets"]);
+
+    // Re-read the sheet on every attempt for the latest state (TOCTOU mitigation)
+    const existing = await getSheetsAllBookings(auth);
 
     // Check for double-booking
     const isSlotTaken = existing.some((b) => {
@@ -151,51 +255,70 @@ export async function saveBooking(booking: Booking): Promise<void> {
     });
 
     if (isSlotTaken) {
-      throw new Error("This time slot has already been booked. Please choose another time.");
+      throw new Error(
+        "This time slot has already been booked. Please choose another time.",
+      );
     }
 
-    // Try the write (attempt is final)
-    existing.push(booking);
+    // Encrypt PII for the new booking, then append to sheet
+    const encryptedBooking = encryptBookingPII(booking);
+
     try {
-      writeBookingsAtomic(existing);
+      await appendBookingRow(auth, encryptedBooking);
       return; // Success — exit
     } catch (writeError) {
       if (attempt === MAX_SAVE_RETRIES) {
-        throw writeError; // Last attempt failed — propagate
+        throw writeError; // Last attempt — propagate the error
       }
-      console.warn(`saveBooking attempt ${attempt} failed, retrying...`, writeError);
-      // Small delay before retry to let concurrent writes settle
+
+      console.warn(
+        `[bookings] saveBooking attempt ${attempt}/${MAX_SAVE_RETRIES} failed, retrying...`,
+        writeError,
+      );
       await new Promise((r) => setTimeout(r, 50 * attempt));
     }
   }
 }
 
+/**
+ * Retrieve all bookings from the Google Sheet with PII decrypted.
+ *
+ * ⚠️  PII is returned in plaintext. The caller MUST ensure this data is
+ *     only exposed to authenticated/authorized users. The GET /api/book
+ *     endpoint requires an `ADMIN_API_KEY` bearer token.
+ */
 export async function getBookings(): Promise<Booking[]> {
-  return readBookingsSafe();
+  const auth = createAuth(["https://www.googleapis.com/auth/spreadsheets"]);
+  const rawBookings = await getSheetsAllBookings(auth);
+  return processEntries(rawBookings);
 }
 
 /**
- * Get busy hour slots from local bookings for a given date (YYYY-MM-DD).
- * Returns time strings like ["09:00", "12:00"].
- * This ensures locally-stored bookings are always factored into availability,
- * even if the Google Calendar sync failed for those bookings.
+ * Check if a given date/time slot is already booked (from sheet data).
+ *
+ * Normalizes both stored and incoming values for consistent comparison.
+ * This is an async call because it reads from the Google Sheet.
  */
-export function getLocalBusySlots(dateStr: string): string[] {
+export async function isSlotBooked(date: string, time: string): Promise<boolean> {
+  const auth = createAuth(["https://www.googleapis.com/auth/spreadsheets"]);
+  return sheetsIsSlotBooked(auth, date, time);
+}
+
+/**
+ * Get busy hour slots from the Google Sheet for a given date (YYYY-MM-DD).
+ *
+ * Returns time strings like `["09:00", "12:00"]`. This ensures locally
+ * stored bookings are always factored into availability, even if the
+ * Google Calendar sync failed for those bookings.
+ *
+ * Only compares date/time fields — no PII is needed or accessed.
+ */
+export async function getLocalBusySlots(dateStr: string): Promise<string[]> {
   try {
-    const bookings = readBookingsSafe();
-    const busySlots = new Set<string>();
-
-    for (const booking of bookings) {
-      if (!booking.preferredDate || !booking.preferredTime) continue;
-      const bookingDate = normalizeDate(booking.preferredDate);
-      if (bookingDate !== dateStr) continue;
-      const normalizedTime = normalizeTime(booking.preferredTime);
-      busySlots.add(normalizedTime);
-    }
-
-    return Array.from(busySlots).sort();
+    const auth = createAuth(["https://www.googleapis.com/auth/spreadsheets"]);
+    return await sheetsGetLocalBusySlots(auth, dateStr);
   } catch (error) {
-    console.error("Failed to read local bookings for availability:", error);
+    console.error("[bookings] Failed to read local bookings for availability:", error);
     return [];
   }
 }

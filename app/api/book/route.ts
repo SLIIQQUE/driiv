@@ -3,6 +3,7 @@ import { createBookingEvent } from "@/lib/google-calendar";
 import { sendBookingConfirmation } from "@/lib/email";
 import { saveBooking, getBookings } from "@/lib/bookings";
 import { isDateDisabled } from "@/lib/booking-utils";
+import { validateOrigin } from "@/lib/csrf";
 
 const VALID_LESSON_IDS = ["foundation", "power-pack", "mastery"] as const;
 
@@ -58,10 +59,21 @@ function validateBookingBody(body: Record<string, unknown>): string | null {
 
   // Server-side time validation
   if (typeof preferredTime === "string") {
-    const timeRegex = /^\d{1,2}:\d{2}\s*(AM|PM|am|pm)?$/i;
-    if (!timeRegex.test(preferredTime)) {
+    const timeRegex = /^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)?$/i;
+    const match = preferredTime.match(timeRegex);
+    if (!match) {
       return "Invalid time format";
     }
+    const hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const meridian = (match[3] || "").toUpperCase();
+    // Validate hour range based on 12/24-hour format
+    if (meridian) {
+      if (hours < 1 || hours > 12) return "Invalid hour value (1-12 for AM/PM)";
+    } else {
+      if (hours < 0 || hours > 23) return "Invalid hour value (0-23 for 24-hour format)";
+    }
+    if (minutes < 0 || minutes > 59) return "Invalid minute value (0-59)";
   }
 
   return null; // No validation error
@@ -69,6 +81,19 @@ function validateBookingBody(body: Record<string, unknown>): string | null {
 
 export async function POST(request: Request) {
   try {
+    // CSRF protection: validate Origin/Referer header
+    const allowedOrigins = [
+      process.env.NEXT_PUBLIC_BASE_URL || "https://driiv.net",
+    ];
+    const originCheck = validateOrigin(request, allowedOrigins);
+    if (!originCheck.valid) {
+      console.warn(`[CSRF] Rejected booking request: ${originCheck.reason}`);
+      return NextResponse.json(
+        { error: "CSRF validation failed" },
+        { status: 403 },
+      );
+    }
+
     const body = await request.json();
 
     // Validate inputs

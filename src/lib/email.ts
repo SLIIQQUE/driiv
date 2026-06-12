@@ -16,12 +16,41 @@ function getResend(): Resend {
   return _resend;
 }
 
+/**
+ * HTML-escape a string to prevent XSS in email templates.
+ * Replaces: & < > " ' with their HTML entity equivalents.
+ */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
+/** Short human-readable booking reference (first 8 chars of UUID). */
+function bookingRef(id: string): string {
+  return escapeHtml(id.slice(0, 8).toUpperCase());
+}
+
 export async function sendBookingConfirmation(booking: Booking) {
   const resend = getResend();
+
+  // HTML-escape all user-supplied values before inserting into the template.
+  // This prevents stored XSS attacks via email client HTML rendering.
+  const safeName = escapeHtml(booking.customerName);
+  const safeLesson = escapeHtml(booking.lessonName);
+  const safeDate = escapeHtml(booking.preferredDate);
+  const safeTime = escapeHtml(booking.preferredTime);
+  const safeRef = bookingRef(booking.id);
+
+  const subject = `Lesson Confirmed - ${safeLesson} - DRIIV`;
+
   return resend.emails.send({
     from: fromAddress,
     to: [booking.email],
-    subject: `Lesson Confirmed - ${booking.lessonName} - DRIIV`,
+    subject,
     html: `
       <!DOCTYPE html>
       <html>
@@ -49,16 +78,16 @@ export async function sendBookingConfirmation(booking: Booking) {
           </div>
           <div class="content">
             <h2>Your lesson is confirmed!</h2>
-            <p>Hi ${booking.customerName},</p>
+            <p>Hi ${safeName},</p>
             <p>Thank you for booking with DRIIV. Your lesson has been confirmed - here's a summary:</p>
             
             <div class="details">
               <h3>Booking Details</h3>
               <ul>
-                <li><span class="label">Service:</span> ${booking.lessonName}</li>
-                <li><span class="label">Date:</span> ${booking.preferredDate}</li>
-                <li><span class="label">Time:</span> ${booking.preferredTime}</li>
-                <li><span class="label">Reference:</span> ${booking.id.slice(0, 8).toUpperCase()}</li>
+                <li><span class="label">Service:</span> ${safeLesson}</li>
+                <li><span class="label">Date:</span> ${safeDate}</li>
+                <li><span class="label">Time:</span> ${safeTime}</li>
+                <li><span class="label">Reference:</span> ${safeRef}</li>
               </ul>
             </div>
             

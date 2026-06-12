@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import { createAuth } from "@/lib/google-auth";
 
 interface BookingEvent {
   id: string;
@@ -10,35 +11,6 @@ interface BookingEvent {
   preferredDate: string;
   preferredTime: string;
   notes?: string;
-}
-
-/**
- * Create a JWT auth client from environment variables.
- * The private key is expected to have literal \n sequences
- * (common in .env files) which are converted to actual newlines.
- */
-function createAuth() {
-  const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  let key = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY;
-
-  if (!email || !key) {
-    throw new Error(
-      "Google Calendar credentials not configured. " +
-        "Set GOOGLE_SERVICE_ACCOUNT_EMAIL and GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.",
-    );
-  }
-
-  // Strip surrounding quotes (from .env file wrapping)
-  key = key.replace(/^["']|["']$/g, "");
-
-  // Convert literal \n sequences to actual newlines for PEM format
-  key = key.replace(/\\n/g, "\n");
-
-  return new google.auth.JWT({
-    email,
-    key,
-    scopes: ["https://www.googleapis.com/auth/calendar"],
-  });
 }
 
 /**
@@ -91,7 +63,7 @@ export interface BusySlotsResult {
  */
 export async function getBusySlots(date: string): Promise<BusySlotsResult> {
   try {
-    const auth = createAuth();
+    const auth = createAuth(["https://www.googleapis.com/auth/calendar"]);
     const calendar = google.calendar({ version: "v3", auth });
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
 
@@ -210,7 +182,7 @@ export async function createBookingEvent(
   booking: BookingEvent,
 ): Promise<{ success: true } | { success: false; error: string }> {
   try {
-    const auth = createAuth();
+    const auth = createAuth(["https://www.googleapis.com/auth/calendar"]);
     const calendar = google.calendar({ version: "v3", auth });
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
 

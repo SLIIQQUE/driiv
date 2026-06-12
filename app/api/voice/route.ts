@@ -4,6 +4,7 @@ import type { GroqMessage } from "@/types/voice";
 import { saveBooking } from "@/lib/bookings";
 import { createBookingEvent } from "@/lib/google-calendar";
 import { sendBookingConfirmation } from "@/lib/email";
+import { validateOrigin } from "@/lib/csrf";
 import { PROGRAMS } from "@/data/programs";
 
 interface Message {
@@ -143,10 +144,23 @@ function validateVoiceBooking(args: Record<string, unknown>): string | null {
     }
   }
 
-  // Validate preferredTime format
+  // Validate preferredTime format and range
   if (preferredTime && typeof preferredTime === "string") {
-    if (!/^\d{1,2}:\d{2}\s*(AM|PM|am|pm)?$/i.test(preferredTime)) {
+    const timeMatch = preferredTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)?$/i);
+    if (!timeMatch) {
       return "Please provide a valid time (e.g., '10:00 AM' or '14:00').";
+    }
+    const hrs = parseInt(timeMatch[1], 10);
+    const mins = parseInt(timeMatch[2], 10);
+    const meridiem = (timeMatch[3] || "").toUpperCase();
+    if (meridiem && (hrs < 1 || hrs > 12)) {
+      return "Hour must be between 1 and 12 for AM/PM format.";
+    }
+    if (!meridiem && (hrs < 0 || hrs > 23)) {
+      return "Hour must be between 0 and 23 for 24-hour format.";
+    }
+    if (mins < 0 || mins > 59) {
+      return "Minutes must be between 0 and 59.";
     }
   }
 
@@ -260,6 +274,19 @@ async function persistBooking(bookingData: Record<string, unknown>) {
 
 export async function POST(request: Request) {
   try {
+    // CSRF protection: validate Origin/Referer header
+    const allowedOrigins = [
+      process.env.NEXT_PUBLIC_BASE_URL || "https://driiv.net",
+    ];
+    const originCheck = validateOrigin(request, allowedOrigins);
+    if (!originCheck.valid) {
+      console.warn(`[CSRF] Rejected voice request: ${originCheck.reason}`);
+      return NextResponse.json(
+        { error: "CSRF validation failed" },
+        { status: 403 },
+      );
+    }
+
     const body = await request.json();
     const { messages } = body as { messages: Message[] };
 

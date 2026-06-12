@@ -16,6 +16,15 @@ export interface Booking {
   notes?: string;
   status: "pending" | "confirmed" | "cancelled";
   createdAt: string;
+  /**
+   * Tracks whether PII fields (customerName, phone, email) are encrypted on disk.
+   * - `true`  → stored encrypted; decrypt after reading
+   * - `false` / `undefined` → stored as plaintext (legacy data or dev mode)
+   *
+   * In-memory bookings are always plaintext. Encryption/decryption happens
+   * transparently in the persistence layer (src/lib/bookings.ts).
+   */
+  piiEncrypted?: boolean;
 }
 
 export const BOOKING_HOURS = {

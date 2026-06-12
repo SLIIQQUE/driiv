@@ -26,9 +26,9 @@ export async function GET(request: Request) {
     // Fetch busy slots from Google Calendar
     const result = await getBusySlots(date);
 
-    // Also fetch busy slots from local bookings (covers cases where
+    // Also fetch busy slots from Google Sheets (covers cases where
     // Google Calendar sync failed, or bookings haven't synced yet)
-    const localBusy = getLocalBusySlots(date);
+    const localBusy = await getLocalBusySlots(date);
 
     // Merge both sources — use a Set to deduplicate
     const mergedBusy = Array.from(new Set([
