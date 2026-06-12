@@ -65,7 +65,7 @@ export function SidesheetHeader({ step, stepProgress, onClose }: SidesheetHeader
               />
               <span
                 className={`text-xs font-bold uppercase tracking-wider ${
-                  isActive ? "text-accent" : isComplete ? "text-white/40" : "text-white/20"
+                  isActive ? "text-accent" : isComplete ? "text-white/40" : "text-white/50"
                 }`}
               >
                 {stepShortLabels[s]}

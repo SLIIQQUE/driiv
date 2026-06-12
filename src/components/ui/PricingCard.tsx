@@ -59,7 +59,7 @@ export function PricingCard({ tier, index }: PricingCardProps) {
 
       <div className="mb-10">
         <span className="text-5xl font-black text-white tracking-tighter">{tier.price}</span>
-        <span className="text-white/30 font-bold uppercase text-xs tracking-widest ml-2">{tier.period}</span>
+        <span className="text-white/60 font-bold uppercase text-xs tracking-widest ml-2">{tier.period}</span>
         <div className="w-12 h-1 bg-accent/20 rounded-full mt-4 group-hover:w-16 transition-all duration-300" />
       </div>
 
@@ -72,7 +72,7 @@ export function PricingCard({ tier, index }: PricingCardProps) {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 + j * 0.05 }}
           >
-            <Check className={`w-4 h-4 shrink-0 ${tier.popular ? "text-accent" : "text-white/20"}`} />
+            <Check className={`w-4 h-4 shrink-0 ${tier.popular ? "text-accent" : "text-white/50"}`} />
             {f}
           </motion.div>
         ))}

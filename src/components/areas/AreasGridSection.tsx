@@ -79,7 +79,7 @@ export function AreasGridSection() {
               <div
                 className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:bg-accent/10 group-hover:border-accent/20 transition-all hover:scale-110 hover:rotate-6 duration-300"
               >
-                <span className="font-black text-2xl text-white/30 group-hover:text-accent transition-colors">{area.image}</span>
+                <span className="font-black text-2xl text-white/60 group-hover:text-accent transition-colors">{area.image}</span>
               </div>
               <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-4 group-hover:text-accent transition-colors">{area.city}</h3>
               <p className="text-white/40 font-medium text-sm leading-relaxed mb-6">{area.description}</p>

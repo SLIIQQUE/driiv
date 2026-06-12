@@ -92,7 +92,7 @@ export default function BookingSuccess({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {selectedDate && selectedTime && (
                   <div className="p-3 bg-white/[0.02] rounded-xl border border-white/5">
-                    <div className="text-xs font-black uppercase tracking-widest text-white/20 mb-1">Date</div>
+                    <div className="text-xs font-black uppercase tracking-widest text-white/50 mb-1">Date</div>
                     <div className="flex items-center gap-2">
                       <CalendarDays className="w-3.5 h-3.5 text-accent" />
                       <span className="text-xs font-black text-white">{formatDate(selectedDate)}</span>
@@ -101,7 +101,7 @@ export default function BookingSuccess({
                 )}
                 {selectedTime && (
                   <div className="p-3 bg-white/[0.02] rounded-xl border border-white/5">
-                    <div className="text-xs font-black uppercase tracking-widest text-white/20 mb-1">Time</div>
+                    <div className="text-xs font-black uppercase tracking-widest text-white/50 mb-1">Time</div>
                     <div className="flex items-center gap-2">
                       <Clock className="w-3.5 h-3.5 text-accent" />
                       <span className="text-xs font-black text-white">{selectedTime}</span>
@@ -114,7 +114,7 @@ export default function BookingSuccess({
                 <div className="mt-4 pt-4 border-t border-white/5">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-3 h-px bg-accent/30" />
-                    <span className="text-xs font-black uppercase tracking-widest text-white/20">What&apos;s Included</span>
+                    <span className="text-xs font-black uppercase tracking-widest text-white/50">What&apos;s Included</span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
                     {lesson.features.slice(0, 4).map((f, j) => (

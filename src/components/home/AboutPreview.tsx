@@ -91,7 +91,7 @@ export default function AboutPreview() {
                 ))}
               </div>
               <div className="border-t border-white/5 pt-8">
-                <div className="flex items-center justify-center gap-2 text-xs font-black uppercase tracking-widest text-white/30">
+                <div className="flex items-center justify-center gap-2 text-xs font-black uppercase tracking-widest text-white/60">
                   <Shield className="w-4 h-4 text-accent" />
                   <span>ICBC Licensed • Dual-Control Fleet • Fully Insured</span>
                 </div>

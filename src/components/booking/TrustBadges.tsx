@@ -9,7 +9,7 @@ export default function TrustBadges() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ delay: 0.3 }}
-      className="mt-6 flex flex-wrap justify-center gap-3 text-xs font-black uppercase tracking-widest text-white/20"
+      className="mt-6 flex flex-wrap justify-center gap-3 text-xs font-black uppercase tracking-widest text-white/50"
     >
       {[
         { icon: Bot, label: "AI Concierge" },

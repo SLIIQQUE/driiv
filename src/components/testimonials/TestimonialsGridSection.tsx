@@ -70,14 +70,14 @@ export function TestimonialsGridSection() {
               </p>
 
               <div className="mt-auto flex items-center gap-5 pt-6 border-t border-white/5">
-                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center font-black text-xl text-white/20 hover:scale-110 hover:bg-accent/10 transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center font-black text-xl text-white/50 hover:scale-110 hover:bg-accent/10 transition-all duration-300">
                   {testimonial.name[0]}
                 </div>
                 <div>
                   <h4 className="text-sm font-black text-white uppercase tracking-tighter">
                     {testimonial.name}
                   </h4>
-                  <div className="flex items-center gap-2 text-white/20 text-[10px] font-black uppercase tracking-widest">
+                  <div className="flex items-center gap-2 text-white/50 text-[10px] font-black uppercase tracking-widest">
                     <MapPin className="w-3 h-3" /> {testimonial.location}
                   </div>
                 </div>

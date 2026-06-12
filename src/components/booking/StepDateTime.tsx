@@ -70,7 +70,7 @@ export default function StepDateTime({
     return () => {
       cancelled = true;
     };
-  }, [selectedDate]);
+  }, [selectedDate, onCalendarError]);
 
   return (
     <motion.div

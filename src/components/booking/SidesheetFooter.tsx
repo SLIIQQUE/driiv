@@ -20,7 +20,18 @@ export default function SidesheetFooter({
   onConfirm,
 }: SidesheetFooterProps) {
   return (
-    <div className="sticky bottom-0 z-10 bg-[#0a0f1a]/95 backdrop-blur-xl border-t border-white/5 px-6 py-5">
+    <div className="sticky bottom-0 z-10 bg-[#0a0f1a]/95 backdrop-blur-xl border-t border-white/5 px-6 py-5" role="group" aria-label={`Booking step: ${step}`}>
+      {/* Screen-reader-only live region for step announcements */}
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {step === "lesson" && "Step 1: Select a lesson"}
+        {step === "datetime" && "Step 2: Choose date and time"}
+        {step === "details" && "Step 3: Enter your details"}
+        {step === "confirm" && "Step 4: Confirm your booking"}
+      </div>
+      {/* Live region for submission status */}
+      <div className="sr-only" aria-live="assertive" aria-atomic="true">
+        {submitting ? "Submitting your booking, please wait." : ""}
+      </div>
       {step !== "confirm" ? (
         <div className="flex items-center gap-4">
           {step !== "lesson" && (

@@ -27,7 +27,7 @@ export default function TimeSlotGrid({
           Available Slots
         </span>
         {isCheckingAvailability && (
-          <span className="inline-flex items-center gap-1.5 ml-auto text-[10px] font-bold uppercase tracking-wider text-white/30">
+          <span className="inline-flex items-center gap-1.5 ml-auto text-[10px] font-bold uppercase tracking-wider text-white/60">
             <Loader2 className="w-3 h-3 animate-spin" />
             Checking availability
           </span>
@@ -35,7 +35,7 @@ export default function TimeSlotGrid({
       </div>
 
       {!selectedDate ? (
-        <div className="flex flex-col items-center justify-center py-10 text-white/20">
+        <div className="flex flex-col items-center justify-center py-10 text-white/50">
           <CalendarDays className="w-10 h-10 mb-3" />
           <p className="text-xs font-bold">Select a date first</p>
         </div>
@@ -46,12 +46,12 @@ export default function TimeSlotGrid({
           <p className="text-[10px] text-red-400/40 mt-1">Please try again later or contact us.</p>
         </div>
       ) : isCheckingAvailability ? (
-        <div className="flex flex-col items-center justify-center py-10 text-white/20">
+        <div className="flex flex-col items-center justify-center py-10 text-white/50">
           <Loader2 className="w-8 h-8 mb-3 animate-spin" />
           <p className="text-xs font-bold">Checking calendar availability...</p>
         </div>
       ) : availableSlots.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-10 text-white/20">
+        <div className="flex flex-col items-center justify-center py-10 text-white/50">
           <Clock className="w-10 h-10 mb-3" />
           <p className="text-xs font-bold">No availability on this day</p>
         </div>
@@ -76,7 +76,7 @@ export default function TimeSlotGrid({
               >
                 {slot}
                 {isBusy && (
-                  <span className="absolute -top-1.5 -right-1.5 flex items-center gap-0.5 bg-white/10 text-[9px] font-bold uppercase tracking-wider text-white/30 px-1.5 py-0.5 rounded-md">
+                  <span className="absolute -top-1.5 -right-1.5 flex items-center gap-0.5 bg-white/10 text-[9px] font-bold uppercase tracking-wider text-white/60 px-1.5 py-0.5 rounded-md">
                     <XCircle className="w-2.5 h-2.5" />
                     Busy
                   </span>
@@ -99,7 +99,7 @@ export default function TimeSlotGrid({
           <div className="text-sm font-bold flex items-center gap-2">
             <CalendarDays className="w-3.5 h-3.5 text-accent" />
             {formatDate(selectedDate)}
-            <span className="text-white/30">|</span>
+            <span className="text-white/60">|</span>
             <Clock className="w-3.5 h-3.5 text-accent" />
             {selectedTime}
           </div>

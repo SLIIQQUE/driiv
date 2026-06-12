@@ -69,13 +69,13 @@ export default function TestimonialsSection() {
               </p>
               <div className="border-t border-white/5 pt-6 flex items-center gap-4">
                 <div
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center font-black text-white/20 text-sm hover:scale-110 hover:bg-accent/10 transition-all duration-300"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center font-black text-white/50 text-sm hover:scale-110 hover:bg-accent/10 transition-all duration-300"
                 >
                   {t.name[0]}
                 </div>
                 <div>
                   <div className="text-sm font-black text-white">{t.name}</div>
-                  <div className="text-[10px] font-black uppercase tracking-widest text-white/20">{t.location}</div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-white/50">{t.location}</div>
                 </div>
               </div>
             </motion.div>
@@ -104,7 +104,7 @@ export default function TestimonialsSection() {
           transition={{ delay: 0.3 }}
           className="mt-16 glass-card border-white/5 p-8 lg:p-10 rounded-[2rem]"
         >
-          <div className="flex flex-wrap justify-center gap-8 text-[11px] font-black uppercase tracking-widest text-white/30">
+          <div className="flex flex-wrap justify-center gap-8 text-[11px] font-black uppercase tracking-widest text-white/60">
             <span className="flex items-center gap-2"><Bot className="w-4 h-4 text-accent" /> AI Booking</span>
             <span className="flex items-center gap-2"><Bell className="w-4 h-4 text-accent" /> Auto-Reminders</span>
             <span className="flex items-center gap-2"><CreditCard className="w-4 h-4 text-accent" /> Online Pay</span>

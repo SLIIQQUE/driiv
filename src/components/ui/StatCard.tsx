@@ -22,7 +22,7 @@ export function StatCard({ icon: Icon, value, label, delay = 0, valueClassName, 
       >
         {value}
       </div>
-      <div className={`text-[10px] font-black uppercase tracking-widest text-white/30 ${labelClassName ?? ""}`}>{label}</div>
+      <div className={`text-[10px] font-black uppercase tracking-widest text-white/60 ${labelClassName ?? ""}`}>{label}</div>
     </div>
   );
 }

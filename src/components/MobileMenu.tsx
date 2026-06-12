@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 import { X, Bot, Car } from "lucide-react";
 import { useBookingContext } from "@/contexts/BookingContext";
 import { NAV_ITEMS, BOOK_ITEM } from "@/data/navigation";
+import { useCallback, useEffect, useRef } from "react";
 
 interface MobileMenuProps {
   open: boolean;
@@ -15,6 +16,49 @@ interface MobileMenuProps {
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const pathname = usePathname();
   const { openBooking } = useBookingContext();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  // Store trigger and focus panel on open
+  useEffect(() => {
+    if (open) {
+      triggerRef.current = document.activeElement as HTMLElement;
+      // Focus the panel or first focusable element
+      requestAnimationFrame(() => {
+        panelRef.current?.focus();
+      });
+    } else if (triggerRef.current) {
+      // Return focus on close
+      triggerRef.current.focus();
+      triggerRef.current = null;
+    }
+  }, [open]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      onClose();
+      return;
+    }
+
+    // Focus trap
+    if (e.key === "Tab" && panelRef.current) {
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }, [onClose]);
 
   if (!open) return null;
 
@@ -26,6 +70,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
       className="fixed inset-0 z-[100] xl:hidden"
       role="dialog"
       aria-modal="true"
+      aria-label="Navigation menu"
     >
       <motion.div
         className="fixed inset-0 bg-black/80 backdrop-blur-xl"
@@ -36,11 +81,14 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
       />
 
       <motion.div
+        ref={panelRef}
+        tabIndex={-1}
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
         className="fixed inset-y-0 right-0 w-full overflow-y-auto px-6 py-6 sm:max-w-sm border-l shadow-2xl bg-[#0a0f1a]/98 backdrop-blur-2xl border-white/10"
+        onKeyDown={handleKeyDown}
       >
         <div className="flex items-center justify-between mb-8">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3" onClick={onClose}>

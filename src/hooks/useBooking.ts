@@ -99,7 +99,7 @@ export function useBooking() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        setBookingRef(data.booking.id.slice(0, 8).toUpperCase());
+        setBookingRef(data.booking?.id ? data.booking.id.slice(0, 8).toUpperCase() : "—");
         setSuccess(true);
       } else {
         setError(data.error || "Something went wrong. Please try again.");

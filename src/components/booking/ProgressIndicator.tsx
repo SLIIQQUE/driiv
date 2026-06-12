@@ -15,7 +15,7 @@ export default function ProgressIndicator({ stepProgress }: Props) {
             className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-black transition-all duration-500 ${
               stepProgress >= s
                 ? "bg-accent text-primary shadow-lg shadow-accent/20"
-                : "bg-white/5 text-white/20"
+                : "bg-white/5 text-white/50"
             }`}
           >
             {stepProgress > s ? <Check className="w-4 h-4" aria-hidden="true" /> : s}

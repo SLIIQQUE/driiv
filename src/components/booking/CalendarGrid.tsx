@@ -29,7 +29,7 @@ export default function CalendarGrid({ calendarMonth, selectedDate, onDateClick 
     <>
       <div className="grid grid-cols-7 mb-4">
         {DAYS_HEADERS.map((d) => (
-          <div key={d} className="text-center text-xs font-black uppercase tracking-widest text-white/20 py-2">
+          <div key={d} className="text-center text-xs font-black uppercase tracking-widest text-white/50 py-2">
             {d}
           </div>
         ))}

@@ -25,20 +25,34 @@ export default function BookingSidesheet() {
   );
 
   const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
 
-  // Reset booking state when sidesheet closes + scroll lock
+  // Keep a stable ref to booking so the effect doesn't need it in deps
+  const bookingRef = useRef(booking);
+  useEffect(() => {
+    bookingRef.current = booking;
+  });
+
+  // Reset booking state when sidesheet closes + scroll lock + return focus
   useEffect(() => {
     if (!isOpen) {
-      booking.reset();
+      bookingRef.current.reset();
       document.body.style.overflow = "";
+      // Return focus to the element that triggered the sidesheet
+      if (triggerRef.current) {
+        triggerRef.current.focus();
+        triggerRef.current = null;
+      }
       return;
     }
     document.body.style.overflow = "hidden";
+    // Store the currently focused element to restore focus on close
+    triggerRef.current = document.activeElement as HTMLElement;
 
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   // Focus the panel when it opens
   useEffect(() => {

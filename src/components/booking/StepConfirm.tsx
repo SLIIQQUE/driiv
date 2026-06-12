@@ -65,7 +65,7 @@ export default function StepConfirm({
                 </div>
                 <div className="text-right">
                   <div className="text-2xl font-black text-white tracking-tighter">{lesson.price}</div>
-                  <div className="text-xs text-white/30 font-black uppercase tracking-widest">{lesson.period}</div>
+                  <div className="text-xs text-white/60 font-black uppercase tracking-widest">{lesson.period}</div>
                 </div>
               </div>
               {lesson.savings && (

@@ -94,21 +94,21 @@ export default function StepDetails({
             <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
               <ShieldCheck className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
               <div className="min-w-0">
-                <div className="text-xs text-white/30 font-black uppercase tracking-widest">Program</div>
+                <div className="text-xs text-white/60 font-black uppercase tracking-widest">Program</div>
                 <div className="text-xs font-black text-white truncate">{lesson.name}</div>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
               <CalendarDays className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
               <div className="min-w-0">
-                <div className="text-xs text-white/30 font-black uppercase tracking-widest">Date</div>
+                <div className="text-xs text-white/60 font-black uppercase tracking-widest">Date</div>
                 <div className="text-xs font-black text-white truncate">{formatDate(selectedDate)}</div>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
               <Clock className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
               <div className="min-w-0">
-                <div className="text-xs text-white/30 font-black uppercase tracking-widest">Time</div>
+                <div className="text-xs text-white/60 font-black uppercase tracking-widest">Time</div>
                 <div className="text-xs font-black text-white">{selectedTime}</div>
               </div>
             </div>
@@ -127,25 +127,26 @@ export default function StepDetails({
               </div>
               <div>
                 <div className="text-xs font-black text-white uppercase tracking-tight">Personal Information</div>
-                <div className="text-xs text-white/30 font-medium">How we reach you</div>
+                <div className="text-xs text-white/60 font-medium">How we reach you</div>
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="group space-y-1.5">
-                <label htmlFor="booking-name" className="text-xs uppercase tracking-[0.3em] font-black text-white/30 ml-3 group-focus-within:text-accent transition-colors">
+                <label htmlFor="booking-name" className="text-xs uppercase tracking-[0.3em] font-black text-white/60 ml-3 group-focus-within:text-accent transition-colors">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20 group-focus-within:text-accent transition-colors" aria-hidden="true" />
-                  <input
-                    id="booking-name"
-                    type="text" value={name} onChange={(e) => onChangeName(e.target.value)}
-                    onBlur={() => handleBlur("name")}
-                    placeholder="Your legal name"
-                    autoComplete="name"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
-                  />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/50 group-focus-within:text-accent transition-colors" aria-hidden="true" />
+                    <input
+                      id="booking-name"
+                      type="text" value={name} onChange={(e) => { if (e.target.value.length <= 100) onChangeName(e.target.value); }}
+                      onBlur={() => handleBlur("name")}
+                      placeholder="Your legal name"
+                      autoComplete="name"
+                      maxLength={100}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
+                    />
                 </div>
                 {getNameError() && (
                   <p className="text-red-400 text-[10px] mt-1.5 ml-3 font-medium" role="alert">
@@ -154,21 +155,22 @@ export default function StepDetails({
                 )}
               </div>
               <div className="group space-y-1.5">
-                <label htmlFor="booking-email" className="text-xs uppercase tracking-[0.3em] font-black text-white/30 ml-3 group-focus-within:text-accent transition-colors">
+                <label htmlFor="booking-email" className="text-xs uppercase tracking-[0.3em] font-black text-white/60 ml-3 group-focus-within:text-accent transition-colors">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20 group-focus-within:text-accent transition-colors" aria-hidden="true" />
-                  <input
-                    id="booking-email"
-                    type="email" value={email} onChange={(e) => onChangeEmail(e.target.value)}
-                    onBlur={() => handleBlur("email")}
-                    placeholder="you@email.com"
-                    autoComplete="email"
-                    aria-invalid={!!getEmailError()}
-                    aria-describedby={getEmailError() ? "email-error" : undefined}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
-                  />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/50 group-focus-within:text-accent transition-colors" aria-hidden="true" />
+                    <input
+                      id="booking-email"
+                      type="email" value={email} onChange={(e) => { if (e.target.value.length <= 254) onChangeEmail(e.target.value); }}
+                      onBlur={() => handleBlur("email")}
+                      placeholder="you@email.com"
+                      autoComplete="email"
+                      maxLength={254}
+                      aria-invalid={!!getEmailError()}
+                      aria-describedby={getEmailError() ? "email-error" : undefined}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
+                    />
                 </div>
                 {getEmailError() && (
                   <p id="email-error" className="text-red-400 text-[10px] mt-1.5 ml-3 font-medium" role="alert">
@@ -179,18 +181,19 @@ export default function StepDetails({
             </div>
 
             <div className="group space-y-1.5 mt-4">
-              <label htmlFor="booking-phone" className="text-xs uppercase tracking-[0.3em] font-black text-white/30 ml-3 group-focus-within:text-accent transition-colors">
+              <label htmlFor="booking-phone" className="text-xs uppercase tracking-[0.3em] font-black text-white/60 ml-3 group-focus-within:text-accent transition-colors">
                 Phone Number
               </label>
               <div className="relative">
-                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20 group-focus-within:text-accent transition-colors" aria-hidden="true" />
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/50 group-focus-within:text-accent transition-colors" aria-hidden="true" />
                   <input
                     id="booking-phone"
-                    type="tel" value={phone} onChange={(e) => onChangePhone(e.target.value)}
+                    type="tel" value={phone} onChange={(e) => { if (e.target.value.length <= 20) onChangePhone(e.target.value); }}
                     onBlur={() => handleBlur("phone")}
                     placeholder="+1 (604) 000-0000"
                     autoComplete="tel"
                     inputMode="tel"
+                    maxLength={20}
                     className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10"
                   />
                 </div>
@@ -211,13 +214,14 @@ export default function StepDetails({
               </div>
               <div>
                 <div className="text-xs font-black text-white uppercase tracking-tight">Additional Notes</div>
-                <div className="text-xs text-white/30 font-medium">Optional</div>
+                <div className="text-xs text-white/60 font-medium">Optional</div>
               </div>
             </div>
             <div className="group space-y-1.5">
               <textarea
-                value={notes} onChange={(e) => onChangeNotes(e.target.value)}
+                value={notes} onChange={(e) => { if (e.target.value.length <= 500) onChangeNotes(e.target.value); }}
                 rows={2} placeholder="Experience level, special requests, preferred pickup location..."
+                maxLength={500}
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-bold placeholder:text-white/10 resize-none"
               />
             </div>

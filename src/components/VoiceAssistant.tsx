@@ -242,7 +242,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
             </motion.div>
 
             {/* ── Messages ── */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin">
+            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin" aria-live="polite" role="log">
               {state.messages.length === 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -374,7 +374,7 @@ export const VoiceAssistant = forwardRef<VoiceAssistantRef>(function VoiceAssist
               <div className="flex items-center justify-end mt-2 px-1">
                 <button
                   onClick={clearMessages}
-                  className="text-[10px] text-white/20 hover:text-white/50 transition-colors"
+                  className="text-[10px] text-white/50 hover:text-white/50 transition-colors"
                 >
                   Clear chat
                 </button>

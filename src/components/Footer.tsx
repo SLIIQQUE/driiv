@@ -137,7 +137,7 @@ export default function Footer() {
               with confidence.
             </p>
 
-            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-white/50">
               <Car className="w-3 h-3 text-accent/60" /> ICBC Licensed{" "}
               {"\u2022"} Fully Insured
             </div>
@@ -158,7 +158,7 @@ export default function Footer() {
                   delay: 0.1 + sectionIdx * 0.15,
                 }}
               >
-                <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.25em] mb-6">
+                <h3 className="text-[10px] font-black text-white/60 uppercase tracking-[0.25em] mb-6">
                   {section === "quickLinks" ? "Quick Links" : "Company"}
                 </h3>
                 <ul role="list" className="space-y-3">
@@ -198,7 +198,7 @@ export default function Footer() {
           viewport={{ once: true }}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          <p className="text-xs text-white/20 font-medium">
+          <p className="text-xs text-white/50 font-medium">
             {"\u00A9"} {new Date().getFullYear()} DRIIV. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
@@ -209,7 +209,7 @@ export default function Footer() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-xs text-white/20 hover:text-accent/60 transition-colors"
+                className="text-xs text-white/50 hover:text-accent/60 transition-colors"
               >
                 {link.name}
               </Link>

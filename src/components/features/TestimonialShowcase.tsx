@@ -32,7 +32,7 @@ export function TestimonialShowcase() {
               <div className="font-black text-white text-sm">
                 — David Clarke
               </div>
-              <div className="text-[10px] font-black uppercase tracking-widest text-white/20">
+              <div className="text-[10px] font-black uppercase tracking-widest text-white/50">
                 Richmond, BC
               </div>
             </div>
@@ -46,7 +46,7 @@ export function TestimonialShowcase() {
               <div className="font-black text-white text-sm">
                 — Sarah Mitchell
               </div>
-              <div className="text-[10px] font-black uppercase tracking-widest text-white/20">
+              <div className="text-[10px] font-black uppercase tracking-widest text-white/50">
                 Surrey, BC
               </div>
             </div>

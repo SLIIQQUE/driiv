@@ -159,7 +159,7 @@ export function FeatureCards() {
               <span className="text-3xl font-black text-accent">
                 {item.stat}
               </span>
-              <span className="text-[10px] font-black uppercase tracking-widest text-white/30 ml-1">
+              <span className="text-[10px] font-black uppercase tracking-widest text-white/60 ml-1">
                 {item.statLabel}
               </span>
             </div>

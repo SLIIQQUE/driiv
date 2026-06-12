@@ -120,7 +120,7 @@ export default function FaqAccordion() {
                           animate={{ rotate: isOpen ? 180 : 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <ChevronDown className="w-5 h-5 text-white/30 shrink-0" aria-hidden="true" />
+                          <ChevronDown className="w-5 h-5 text-white/60 shrink-0" aria-hidden="true" />
                         </motion.div>
                       </button>
                       <AnimatePresence>
@@ -177,7 +177,7 @@ export default function FaqAccordion() {
                 ].map((item, i) => (
                   <div key={i} className="flex flex-col items-center hover:-translate-y-1 transition-transform duration-300">
                     <item.icon className="w-5 h-5 text-accent mb-2" />
-                    <span className="text-[10px] font-bold text-white/30 uppercase">{item.label}</span>
+                    <span className="text-[10px] font-bold text-white/60 uppercase">{item.label}</span>
                   </div>
                 ))}
               </div>
