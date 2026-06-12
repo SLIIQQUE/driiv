@@ -3,6 +3,8 @@ import { buildSystemPrompt, VOICE_TOOLS, BUSINESS_INFO } from "@/lib/voice-promp
 import type { GroqMessage } from "@/types/voice";
 import { saveBooking } from "@/lib/bookings";
 import { createBookingEvent } from "@/lib/google-calendar";
+import { sendBookingConfirmation } from "@/lib/email";
+import { PROGRAMS } from "@/data/programs";
 
 interface Message {
   role: "user" | "assistant";
@@ -16,6 +18,8 @@ interface ToolCallResult {
 }
 
 const GROQ_API_BASE = "https://api.groq.com/openai/v1";
+
+const VALID_SERVICE_TYPES = ["foundation", "power-pack", "mastery"] as const;
 
 async function callGroq(
   messages: GroqMessage[],
@@ -79,7 +83,7 @@ async function callGroq(
 function executeGetPricing(): string {
   const programs = BUSINESS_INFO.programs;
   const lines = programs.map(
-    (p) => `- ${p.name}: ${p.price} ${p.period}${p.savings ? ` (${p.savings})` : ""} — ${p.tagline}`,
+    (p) => `${p.name}: ${p.price} ${p.period}${p.savings ? ` (${p.savings})` : ""} — ${p.tagline}`,
   );
   return `Available programs:\n${lines.join("\n")}`;
 }
@@ -89,76 +93,169 @@ function executeGetServiceAreas(): string {
   return `Service areas: ${areas.join(", ")}. We cover these ${areas.length} areas across Metro Vancouver.`;
 }
 
+/**
+ * Validate booking payload from the voice assistant.
+ * Returns an error string if invalid, or null if valid.
+ */
+function validateVoiceBooking(args: Record<string, unknown>): string | null {
+  const { name, phone, email, serviceType, notes, preferredDate, preferredTime } = args;
+
+  if (!name || !phone) {
+    return "Missing required booking information (name and phone are required).";
+  }
+
+  if (typeof name !== "string" || name.length > 100) {
+    return "Name is too long (max 100 characters).";
+  }
+
+  if (typeof phone !== "string") {
+    return "Invalid phone number format.";
+  }
+
+  const phoneClean = phone.replace(/[\s\-\(\)\+]/g, "");
+  if (phoneClean.length < 7 || phoneClean.length > 15 || !/^\d+$/.test(phoneClean)) {
+    return "Invalid phone number format.";
+  }
+
+  if (email && typeof email === "string") {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return "Please provide a valid email address.";
+    }
+  }
+
+  if (serviceType && typeof serviceType === "string" && !VALID_SERVICE_TYPES.includes(serviceType as typeof VALID_SERVICE_TYPES[number])) {
+    return `Invalid program selected. Please choose one of: ${VALID_SERVICE_TYPES.join(", ")}.`;
+  }
+
+  if (notes && typeof notes === "string" && notes.length > 500) {
+    return "Notes are too long (max 500 characters).";
+  }
+
+  // Validate preferredDate format
+  if (preferredDate && typeof preferredDate === "string") {
+    // Accept YYYY-MM-DD format
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(preferredDate)) {
+      const d = new Date(preferredDate);
+      if (isNaN(d.getTime())) {
+        return "Please provide a valid date (e.g., 'June 15, 2026').";
+      }
+    }
+  }
+
+  // Validate preferredTime format
+  if (preferredTime && typeof preferredTime === "string") {
+    if (!/^\d{1,2}:\d{2}\s*(AM|PM|am|pm)?$/i.test(preferredTime)) {
+      return "Please provide a valid time (e.g., '10:00 AM' or '14:00').";
+    }
+  }
+
+  return null;
+}
+
 async function executeBooking(args: Record<string, unknown>) {
+  // Validate inputs
+  const validationError = validateVoiceBooking(args);
+  if (validationError) {
+    return { success: false, error: validationError };
+  }
+
   const serviceType = String(args.serviceType || "foundation");
 
-  // Map service type to lesson data
-  const lessonMap: Record<string, { id: string; name: string; price: string }> = {
-    foundation: { id: "foundation", name: "Foundation Pass", price: "$55" },
-    "power-pack": { id: "power-pack", name: "Power Pack", price: "$250" },
-    mastery: { id: "mastery", name: "Mastery Bundle", price: "$450" },
-  };
-
-  const lesson = lessonMap[serviceType] || lessonMap.foundation;
+  // Look up program from canonical data source
+  const program = PROGRAMS.find((p) => p.id === serviceType);
+  if (!program) {
+    return {
+      success: false,
+      error: `Invalid program "${serviceType}". Please choose Foundation Pass, Power Pack, or Mastery Bundle.`,
+    };
+  }
 
   const bookingPayload = {
     customerName: String(args.name || ""),
     phone: String(args.phone || ""),
     email: String(args.email || ""),
-    lessonId: lesson.id,
-    lessonName: lesson.name,
-    lessonPrice: lesson.price,
+    lessonId: program.id,
+    lessonName: program.name,
+    lessonPrice: program.price,
     preferredDate: String(args.preferredDate || ""),
     preferredTime: String(args.preferredTime || ""),
     notes: String(args.notes || ""),
   };
 
-  // Validate required fields
-  if (!bookingPayload.customerName || !bookingPayload.phone) {
-    return {
-      success: false,
-      error: "Missing required booking information (name and phone are required).",
-    };
-  }
+  const bookingId = crypto.randomUUID();
+  const bookingRef = bookingId.slice(0, 8).toUpperCase();
 
-  try {
-    const booking = {
-      id: crypto.randomUUID(),
-      customerName: bookingPayload.customerName,
-      phone: bookingPayload.phone,
-      email: bookingPayload.email,
-      lessonId: bookingPayload.lessonId,
-      lessonName: bookingPayload.lessonName,
-      lessonPrice: bookingPayload.lessonPrice,
-      preferredDate: bookingPayload.preferredDate,
-      preferredTime: bookingPayload.preferredTime,
-      notes: bookingPayload.notes,
-      status: "pending" as const,
-      createdAt: new Date().toISOString(),
-    };
+  const booking = {
+    id: bookingId,
+    customerName: bookingPayload.customerName,
+    phone: bookingPayload.phone,
+    email: bookingPayload.email,
+    lessonId: bookingPayload.lessonId,
+    lessonName: bookingPayload.lessonName,
+    lessonPrice: bookingPayload.lessonPrice,
+    preferredDate: bookingPayload.preferredDate,
+    preferredTime: bookingPayload.preferredTime,
+    notes: bookingPayload.notes,
+    status: "pending" as const,
+    createdAt: new Date().toISOString(),
+  };
 
-    await saveBooking(booking);
+  // IMPORTANT: Do NOT save the booking here. Return the data and let
+  // the caller save it after the second Groq call succeeds.
+  // This prevents orphaned bookings if the LLM follow-up fails.
+  return {
+    success: true,
+    bookingRef,
+    data: {
+      ...booking,
+      id: bookingRef,
+      _bookingId: bookingId, // full UUID for persistBooking to use
+    },
+  };
+}
 
-    // Fire-and-forget calendar event creation
-    createBookingEvent(booking).catch((err) => {
-      console.error("Calendar event failed for voice booking", booking.id, ":", err);
-    });
+/**
+ * Persist the booking: save to local storage, create calendar event,
+ * and send confirmation email. Called after the Groq conversation completes.
+ * Uses the same booking ID generated in executeBooking for consistency.
+ */
+async function persistBooking(bookingData: Record<string, unknown>) {
+  // Use the UUID generated in executeBooking so the booking ref the LLM
+  // told the user matches the one persisted to disk.
+  const bookingId = String(bookingData._bookingId || crypto.randomUUID());
 
-    return {
-      success: true,
-      bookingRef: booking.id.slice(0, 8).toUpperCase(),
-      data: {
-        ...booking,
-        id: booking.id.slice(0, 8).toUpperCase(),
-      },
-    };
-  } catch (err) {
-    console.error("Booking execution error:", err);
-    return {
-      success: false,
-      error: "Could not complete the booking due to a system error. Please try again.",
-    };
-  }
+  const booking = {
+    id: bookingId,
+    customerName: String(bookingData.customerName || ""),
+    phone: String(bookingData.phone || ""),
+    email: String(bookingData.email || ""),
+    lessonId: String(bookingData.lessonId || ""),
+    lessonName: String(bookingData.lessonName || ""),
+    lessonPrice: String(bookingData.lessonPrice || ""),
+    preferredDate: String(bookingData.preferredDate || ""),
+    preferredTime: String(bookingData.preferredTime || ""),
+    notes: String(bookingData.notes || ""),
+    status: "pending" as const,
+    createdAt: new Date().toISOString(),
+  };
+
+  // Save to local storage (includes double-booking check with retry)
+  await saveBooking(booking);
+
+  // Fire-and-forget calendar event creation
+  createBookingEvent(booking).catch((err) => {
+    console.error("Calendar event failed for voice booking", booking.id, ":", err);
+  });
+
+  // Fire-and-forget confirmation email
+  sendBookingConfirmation(booking).catch((err) => {
+    console.error("Confirmation email failed for voice booking", booking.id, ":", err);
+  });
+
+  // Shorten for display — match the ref the user was told
+  const bookingRef = bookingId.slice(0, 8).toUpperCase();
+  return { bookingRef };
 }
 
 export async function POST(request: Request) {
@@ -182,8 +279,6 @@ export async function POST(request: Request) {
       })),
     ];
 
-    let bookingResult = null;
-
     // First LLM call
     const { content, toolCalls } = await callGroq(groqMessages);
 
@@ -197,13 +292,19 @@ export async function POST(request: Request) {
     }
 
     // Handle tool calls: execute each and collect results
+    // Use else-if chain to prevent multiple tools executing for one message
     const toolResults: ToolCallResult[] = [];
+    let bookingResult = null;
+    let bookingDataForPersist: Record<string, unknown> | null = null;
 
     for (const toolCall of toolCalls) {
       if (toolCall.function.name === "book_lesson") {
         try {
           const args = JSON.parse(toolCall.function.arguments);
           bookingResult = await executeBooking(args);
+          if (bookingResult.success) {
+            bookingDataForPersist = bookingResult.data as Record<string, unknown>;
+          }
           toolResults.push({
             role: "tool",
             tool_call_id: toolCall.id,
@@ -219,18 +320,14 @@ export async function POST(request: Request) {
             content: JSON.stringify(errResult),
           });
         }
-      }
-
-      if (toolCall.function.name === "get_pricing") {
+      } else if (toolCall.function.name === "get_pricing") {
         const pricingInfo = executeGetPricing();
         toolResults.push({
           role: "tool",
           tool_call_id: toolCall.id,
           content: pricingInfo,
         });
-      }
-
-      if (toolCall.function.name === "get_service_areas") {
+      } else if (toolCall.function.name === "get_service_areas") {
         const areasInfo = executeGetServiceAreas();
         toolResults.push({
           role: "tool",
@@ -257,6 +354,27 @@ export async function POST(request: Request) {
 
     const secondResponse = await callGroq(groqMessagesWithTools);
 
+    // Only persist the booking AFTER both Groq calls succeed
+    if (bookingDataForPersist) {
+      try {
+        const persistResult = await persistBooking(bookingDataForPersist);
+        // Update booking result with the real reference
+        bookingResult = {
+          ...bookingResult,
+          bookingRef: persistResult.bookingRef,
+        };
+      } catch (persistErr) {
+        const msg = persistErr instanceof Error ? persistErr.message : String(persistErr);
+        console.error("Failed to persist voice booking:", msg);
+        bookingResult = {
+          success: false,
+          error: msg.includes("already been booked")
+            ? msg
+            : "We couldn't complete your booking due to a system error. Please try again or book online.",
+        };
+      }
+    }
+
     return NextResponse.json({
       content: secondResponse.content,
       toolCalls: toolCalls.map((tc) => ({
@@ -272,7 +390,8 @@ export async function POST(request: Request) {
         toolCalls: [],
         booking: null,
       },
-      { status: 200 }, // Return 200 with graceful message so UI doesn't break
+      // Return 200 with graceful message so UI doesn't break
+      { status: 200 },
     );
   }
 }

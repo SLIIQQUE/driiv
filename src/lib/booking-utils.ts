@@ -22,8 +22,11 @@ export function getAvailableSlots(date: Date): string[] {
 export function isDateDisabled(date: Date): boolean {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);
+  // Reconstruct from local components to avoid UTC interpretation.
+  // new Date("YYYY-MM-DD") parses as UTC midnight, which shifts the date
+  // by -7/-8 hours in America/Vancouver. Using local-component constructor
+  // ensures the date stays in the local timezone.
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   if (d <= today) return true;
   if (d.getDay() === 0) return true;
   const maxDate = new Date(today);

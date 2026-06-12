@@ -1,61 +1,100 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 import { createBookingEvent } from "@/lib/google-calendar";
 import { sendBookingConfirmation } from "@/lib/email";
+import { saveBooking, getBookings } from "@/lib/bookings";
+import { isDateDisabled } from "@/lib/booking-utils";
 
-const BOOKINGS_FILE = path.join(process.cwd(), "data", "bookings.json");
+const VALID_LESSON_IDS = ["foundation", "power-pack", "mastery"] as const;
 
-function getExistingBookings() {
-  if (!fs.existsSync(BOOKINGS_FILE)) return [];
-  return JSON.parse(fs.readFileSync(BOOKINGS_FILE, "utf-8"));
+function validateBookingBody(body: Record<string, unknown>): string | null {
+  const { customerName, phone, email, lessonId, preferredDate, preferredTime, notes } = body;
+
+  if (!customerName || !phone || !email || !lessonId || !preferredDate || !preferredTime) {
+    return "Missing required fields";
+  }
+
+  if (typeof customerName !== "string" || customerName.length > 100) {
+    return "Name is too long (max 100 characters)";
+  }
+
+  if (typeof phone !== "string") {
+    return "Invalid phone number";
+  }
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email as string)) {
+    return "Invalid email format";
+  }
+
+  // Phone validation — accept digits, spaces, +, -, parentheses (Canadian phone format)
+  const phoneClean = (phone as string).replace(/[\s\-\(\)\+]/g, "");
+  if (phoneClean.length < 7 || phoneClean.length > 15 || !/^\d+$/.test(phoneClean)) {
+    return "Invalid phone number format";
+  }
+
+  // Lesson ID validation
+  if (!VALID_LESSON_IDS.includes(lessonId as typeof VALID_LESSON_IDS[number])) {
+    return "Invalid lesson ID";
+  }
+
+  // Notes length
+  if (notes && typeof notes === "string" && notes.length > 500) {
+    return "Notes are too long (max 500 characters)";
+  }
+
+  // Server-side date validation
+  if (typeof preferredDate === "string") {
+    // Parse YYYY-MM-DD using local-time constructor to avoid UTC date shift
+    const parts = preferredDate.split("-").map(Number);
+    if (parts.length !== 3 || parts.some(isNaN)) {
+      return "Invalid date format";
+    }
+    const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+    if (isDateDisabled(dateObj)) {
+      return "Selected date is unavailable (Sundays, past dates, and dates beyond 60 days are not bookable)";
+    }
+  }
+
+  // Server-side time validation
+  if (typeof preferredTime === "string") {
+    const timeRegex = /^\d{1,2}:\d{2}\s*(AM|PM|am|pm)?$/i;
+    if (!timeRegex.test(preferredTime)) {
+      return "Invalid time format";
+    }
+  }
+
+  return null; // No validation error
 }
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    // Validate inputs
+    const validationError = validateBookingBody(body);
+    if (validationError) {
+      return NextResponse.json(
+        { error: validationError },
+        { status: 400 },
+      );
+    }
+
     const {
       customerName, phone, email,
       lessonId, lessonName, lessonPrice,
       preferredDate, preferredTime, notes,
-    } = body;
-
-    if (!customerName || !phone || !email || !lessonId || !preferredDate || !preferredTime) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: "Invalid email format" },
-        { status: 400 },
-      );
-    }
-
-    // Phone validation — accept digits, spaces, +, -, parentheses (Canadian phone format)
-    const phoneClean = phone.replace(/[\s\-\(\)\+]/g, "");
-    if (phoneClean.length < 7 || phoneClean.length > 15 || !/^\d+$/.test(phoneClean)) {
-      return NextResponse.json({ error: "Invalid phone number format" }, { status: 400 });
-    }
-
-    // Lesson ID validation
-    const VALID_LESSON_IDS = ["foundation", "power-pack", "mastery"];
-    if (!VALID_LESSON_IDS.includes(lessonId)) {
-      return NextResponse.json({ error: "Invalid lesson ID" }, { status: 400 });
-    }
-
-    // Name length
-    if (customerName.length > 100) {
-      return NextResponse.json({ error: "Name is too long (max 100 characters)" }, { status: 400 });
-    }
-
-    // Notes length
-    if (notes && notes.length > 500) {
-      return NextResponse.json({ error: "Notes are too long (max 500 characters)" }, { status: 400 });
-    }
+    } = body as {
+      customerName: string;
+      phone: string;
+      email: string;
+      lessonId: string;
+      lessonName: string;
+      lessonPrice: string;
+      preferredDate: string;
+      preferredTime: string;
+      notes?: string;
+    };
 
     const booking = {
       id: crypto.randomUUID(),
@@ -72,35 +111,28 @@ export async function POST(request: Request) {
       createdAt: new Date().toISOString(),
     };
 
-    const dir = path.dirname(BOOKINGS_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-
-    const existing = getExistingBookings();
-
-    // Check for double-booking
-    const isSlotTaken = existing.some(
-      (b: Record<string, unknown>) => b.preferredDate === preferredDate && b.preferredTime === preferredTime,
-    );
-    if (isSlotTaken) {
+    // Save to local storage FIRST (includes double-booking check).
+    // This ensures we never create a calendar event for a duplicate booking.
+    try {
+      await saveBooking(booking);
+    } catch (saveError) {
+      const msg = saveError instanceof Error ? saveError.message : String(saveError);
+      console.error("Failed to save booking locally:", booking.id, ":", msg);
+      if (msg.includes("already been booked")) {
+        return NextResponse.json(
+          { error: msg },
+          { status: 409 },
+        );
+      }
       return NextResponse.json(
-        { error: "This time slot has already been booked. Please choose another time." },
-        { status: 409 },
+        { error: "Failed to save booking" },
+        { status: 500 },
       );
     }
 
-    existing.push(booking);
-    fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(existing, null, 2));
-
-    console.log("Booking saved:", booking.id);
-
-    // Send confirmation email (fire-and-forget, never blocks response)
-    sendBookingConfirmation(booking).catch((err) => {
-      console.error("Failed to send confirmation email for booking", booking.id, ":", err);
-    });
-
-    // Create Google Calendar event (never blocks the booking response)
+    // Create the calendar event AFTER local save.
+    // If this fails the booking is still valid — it just needs manual
+    // calendar sync. Admin can follow up via the dashboard.
     const calendarResult = await createBookingEvent(booking);
     if (!calendarResult.success) {
       console.error(
@@ -110,6 +142,11 @@ export async function POST(request: Request) {
         calendarResult.error,
       );
     }
+
+    // Send confirmation email (fire-and-forget, never blocks response)
+    sendBookingConfirmation(booking).catch((err) => {
+      console.error("Failed to send confirmation email for booking", booking.id, ":", err);
+    });
 
     return NextResponse.json({
       success: true,
@@ -131,11 +168,12 @@ export async function GET(request: Request) {
     const authHeader = request.headers.get("authorization");
     const adminKey = process.env.ADMIN_API_KEY;
 
-    if (adminKey && authHeader !== `Bearer ${adminKey}`) {
+    // Fail-closed: if ADMIN_API_KEY is not configured, deny all requests
+    if (!adminKey || authHeader !== `Bearer ${adminKey}`) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const existing = getExistingBookings();
+    const existing = await getBookings();
     return NextResponse.json({ bookings: existing });
   } catch {
     return NextResponse.json(

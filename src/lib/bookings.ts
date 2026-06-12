@@ -3,24 +3,66 @@ import path from "path";
 import { Booking } from "@/types/booking";
 
 const BOOKINGS_FILE = path.join(process.cwd(), "data", "bookings.json");
+const BOOKINGS_BACKUP_FILE = path.join(process.cwd(), "data", "bookings.json.bak");
 
-export async function saveBooking(booking: Booking): Promise<void> {
+/**
+ * Read existing bookings with fallback for corrupted file.
+ * Returns an empty array on parse failure.
+ */
+function readBookingsSafe(): Booking[] {
+  try {
+    if (!fs.existsSync(BOOKINGS_FILE)) return [];
+    const raw = fs.readFileSync(BOOKINGS_FILE, "utf-8");
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      console.error("bookings.json is not an array — resetting to empty");
+      return [];
+    }
+    return parsed as Booking[];
+  } catch (error) {
+    console.error("Failed to parse bookings.json, trying backup:", error);
+    // Try reading from backup
+    try {
+      if (fs.existsSync(BOOKINGS_BACKUP_FILE)) {
+        const rawBackup = fs.readFileSync(BOOKINGS_BACKUP_FILE, "utf-8");
+        const parsed = JSON.parse(rawBackup);
+        if (Array.isArray(parsed)) {
+          console.log("Recovered bookings from backup file");
+          return parsed as Booking[];
+        }
+      }
+    } catch {
+      console.error("Backup file also corrupted — starting fresh");
+    }
+    return [];
+  }
+}
+
+/**
+ * Atomically write bookings: write to temp file, then rename.
+ * This prevents partial writes from corrupting the file.
+ */
+function writeBookingsAtomic(bookings: Booking[]): void {
   const dir = path.dirname(BOOKINGS_FILE);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
 
-  const existing: Booking[] = fs.existsSync(BOOKINGS_FILE)
-    ? JSON.parse(fs.readFileSync(BOOKINGS_FILE, "utf-8"))
-    : [];
+  // Write to a temp file first
+  const tmpFile = BOOKINGS_FILE + ".tmp";
+  fs.writeFileSync(tmpFile, JSON.stringify(bookings, null, 2));
 
-  existing.push(booking);
-  fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(existing, null, 2));
-}
+  // Create backup of previous file if it exists
+  if (fs.existsSync(BOOKINGS_FILE)) {
+    try {
+      fs.copyFileSync(BOOKINGS_FILE, BOOKINGS_BACKUP_FILE);
+    } catch (err) {
+      console.error("Failed to create backup:", err);
+    }
+  }
 
-export async function getBookings(): Promise<Booking[]> {
-  if (!fs.existsSync(BOOKINGS_FILE)) return [];
-  return JSON.parse(fs.readFileSync(BOOKINGS_FILE, "utf-8"));
+  // Atomic rename (prevents partial write corruption)
+  fs.renameSync(tmpFile, BOOKINGS_FILE);
 }
 
 /**
@@ -45,19 +87,91 @@ function normalizeDate(dateValue: string): string {
 }
 
 /**
- * Normalize a preferredTime value to "HH:00" format.
- * Handles "10:00", "10:00 AM", "10:00AM", "09:00", etc.
+ * Normalize a preferredTime value to "HH:00" format (24-hour).
+ * Handles "10:00", "10:00 AM", "10:00AM", "2:00 PM", "09:00", etc.
  */
 function normalizeTime(timeValue: string): string {
-  // Strip AM/PM and trim
-  const cleaned = timeValue.replace(/\s*(AM|PM|am|pm)\s*/g, "").trim();
-  // Extract hour portion
-  const match = cleaned.match(/^(\d{1,2}):\d{2}$/);
-  if (match) {
-    return `${String(Number(match[1])).padStart(2, "0")}:00`;
+  // Match "HH:MM" optionally followed by AM/PM
+  const match = timeValue.match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)?$/i);
+  if (!match) {
+    return timeValue;
   }
-  // Fallback — return as-is
-  return timeValue;
+  let hours = parseInt(match[1], 10);
+  const minutes = match[2];
+  const meridian = (match[3] || "").toUpperCase();
+  // Convert 12-hour to 24-hour
+  if (meridian === "PM" && hours < 12) hours += 12;
+  if (meridian === "AM" && hours === 12) hours = 0;
+  return `${String(hours).padStart(2, "0")}:${minutes}`;
+}
+
+/**
+ * Check if a given date/time slot is already booked.
+ * Normalizes both stored and incoming values for consistent comparison.
+ */
+export function isSlotBooked(date: string, time: string): boolean {
+  const existing = readBookingsSafe();
+  const normDate = normalizeDate(date);
+  const normTime = normalizeTime(time);
+  return existing.some((b) => {
+    const bDate = normalizeDate(b.preferredDate);
+    const bTime = normalizeTime(b.preferredTime);
+    return bDate === normDate && bTime === normTime;
+  });
+}
+
+const MAX_SAVE_RETRIES = 3;
+
+/**
+ * Save a booking to the local JSON file with retry logic.
+ *
+ * Retries mitigate the TOCTOU race condition in serverless deployments
+ * (multiple Lambda instances reading/writing simultaneously). On each
+ * retry the file is re-read so the slot check uses the latest state.
+ * For true atomicity, migrate to a database with transactions.
+ */
+export async function saveBooking(booking: Booking): Promise<void> {
+  const dir = path.dirname(BOOKINGS_FILE);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+
+  const slotDate = normalizeDate(booking.preferredDate);
+  const slotTime = normalizeTime(booking.preferredTime);
+
+  for (let attempt = 1; attempt <= MAX_SAVE_RETRIES; attempt++) {
+    // Re-read on every attempt to get the latest state
+    const existing = readBookingsSafe();
+
+    // Check for double-booking
+    const isSlotTaken = existing.some((b) => {
+      const bDate = normalizeDate(b.preferredDate);
+      const bTime = normalizeTime(b.preferredTime);
+      return bDate === slotDate && bTime === slotTime;
+    });
+
+    if (isSlotTaken) {
+      throw new Error("This time slot has already been booked. Please choose another time.");
+    }
+
+    // Try the write (attempt is final)
+    existing.push(booking);
+    try {
+      writeBookingsAtomic(existing);
+      return; // Success — exit
+    } catch (writeError) {
+      if (attempt === MAX_SAVE_RETRIES) {
+        throw writeError; // Last attempt failed — propagate
+      }
+      console.warn(`saveBooking attempt ${attempt} failed, retrying...`, writeError);
+      // Small delay before retry to let concurrent writes settle
+      await new Promise((r) => setTimeout(r, 50 * attempt));
+    }
+  }
+}
+
+export async function getBookings(): Promise<Booking[]> {
+  return readBookingsSafe();
 }
 
 /**
@@ -68,10 +182,7 @@ function normalizeTime(timeValue: string): string {
  */
 export function getLocalBusySlots(dateStr: string): string[] {
   try {
-    const bookings = fs.existsSync(BOOKINGS_FILE)
-      ? JSON.parse(fs.readFileSync(BOOKINGS_FILE, "utf-8"))
-      : [];
-
+    const bookings = readBookingsSafe();
     const busySlots = new Set<string>();
 
     for (const booking of bookings) {

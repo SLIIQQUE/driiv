@@ -42,29 +42,35 @@ function createAuth() {
 }
 
 /**
- * Convert an RFC 3339 timestamp to the hour in Africa/Lagos (WAT, UTC+1).
- *
- * Nigeria does not observe DST, so the offset is always UTC+1 year-round.
- * Example: "2026-06-15T09:00:00+01:00" → 9 (9 AM Lagos)
+ * Get the timezone offset string for America/Vancouver on a given date.
+ * Vancouver observes DST: UTC-8 (PST) in winter, UTC-7 (PDT) in summer.
+ * Returns e.g. "-07:00" or "-08:00".
  */
-function getLagosHour(isoString: string): number {
+export function getVancouverOffset(dateStr: string): string {
+  const date = new Date(dateStr + "T12:00:00Z");
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Vancouver",
+    timeZoneName: "longOffset",
+  });
+  const parts = formatter.formatToParts(date);
+  const offset = parts.find((p) => p.type === "timeZoneName")?.value ?? "GMT-08:00";
+  return offset.replace("GMT", "");
+}
+
+/**
+ * Convert an RFC 3339 timestamp to the hour in America/Vancouver.
+ * Example: "2026-06-15T09:00:00-07:00" → 9 (9 AM Vancouver)
+ */
+function getVancouverHour(isoString: string): number {
   const date = new Date(isoString);
   return parseInt(
     date.toLocaleString("en-CA", {
-      timeZone: "Africa/Lagos",
+      timeZone: "America/Vancouver",
       hour: "numeric",
       hour12: false,
     }),
     10,
   );
-}
-
-/**
- * Return the Lagos timezone offset string.
- * Nigeria observes WAT (West Africa Time, UTC+1) year-round — no DST.
- */
-export function getLagosOffset(): string {
-  return "+01:00";
 }
 
 export interface BusySlotsResult {
@@ -89,7 +95,7 @@ export async function getBusySlots(date: string): Promise<BusySlotsResult> {
     const calendar = google.calendar({ version: "v3", auth });
     const calendarId = process.env.GOOGLE_CALENDAR_ID || "primary";
 
-    const offset = getLagosOffset();
+    const offset = getVancouverOffset(date);
     const timeMin = `${date}T00:00:00${offset}`;
     const timeMax = `${date}T23:59:59${offset}`;
 
@@ -98,7 +104,7 @@ export async function getBusySlots(date: string): Promise<BusySlotsResult> {
         timeMin,
         timeMax,
         items: [{ id: calendarId }],
-        timeZone: "Africa/Lagos",
+        timeZone: "America/Vancouver",
       },
     });
 
@@ -130,8 +136,8 @@ export async function getBusySlots(date: string): Promise<BusySlotsResult> {
     for (const period of busyPeriods) {
       if (!period.start || !period.end) continue;
 
-      const startHour = getLagosHour(period.start);
-      const endHour = getLagosHour(period.end);
+      const startHour = getVancouverHour(period.start);
+      const endHour = getVancouverHour(period.end);
 
       // Mark every hour from start to end (exclusive) as busy
       for (let hour = startHour; hour < endHour; hour++) {
@@ -172,20 +178,23 @@ function parseDateToISO(dateValue: string): string {
 }
 
 /**
- * Parse a preferredTime value into "HH:MM" format.
- * Handles "10:00", "10:00 AM", "10:00AM", etc.
+ * Parse a preferredTime value into "HH:MM" format (24-hour).
+ * Handles "10:00", "10:00 AM", "10:00AM", "2:00 PM", "2:00PM", etc.
  */
 function parseTimeToHHMM(timeValue: string): string {
-  // Strip AM/PM and trim
-  const cleaned = timeValue.replace(/\s*(AM|PM|am|pm)\s*/g, "").trim();
-  // If already HH:MM, return as-is
-  if (/^\d{1,2}:\d{2}$/.test(cleaned)) {
-    const [h, m] = cleaned.split(":");
-    return `${String(Number(h)).padStart(2, "0")}:${m}`;
+  // Match "HH:MM" optionally followed by AM/PM
+  const match = timeValue.match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)?$/i);
+  if (!match) {
+    console.warn(`[Calendar] Unable to parse preferredTime: "${timeValue}" — using raw value`);
+    return timeValue;
   }
-  // Fallback
-  console.warn(`[Calendar] Unable to parse preferredTime: "${timeValue}" — using raw value`);
-  return timeValue;
+  let hours = parseInt(match[1], 10);
+  const minutes = match[2];
+  const meridian = (match[3] || "").toUpperCase();
+  // Convert 12-hour to 24-hour
+  if (meridian === "PM" && hours < 12) hours += 12;
+  if (meridian === "AM" && hours === 12) hours = 0;
+  return `${String(hours).padStart(2, "0")}:${minutes}`;
 }
 
 /**
@@ -209,8 +218,8 @@ export async function createBookingEvent(
     const isoDate = parseDateToISO(booking.preferredDate);
     const hhmm = parseTimeToHHMM(booking.preferredTime);
 
-    // Build start and end date-time strings in Africa/Lagos
-    const offset = getLagosOffset();
+    // Build start and end date-time strings in America/Vancouver
+    const offset = getVancouverOffset(isoDate);
     const startDateTime = `${isoDate}T${hhmm}:00${offset}`;
 
     // Validate the datetime string before sending
@@ -226,28 +235,29 @@ export async function createBookingEvent(
       throw new Error(`Invalid end datetime constructed: "${endDateTime}"`);
     }
 
+    // Store only the booking reference in the calendar description — NOT full PII.
+    // Instructors look up customer details in the admin dashboard.
+    const ref = booking.id.slice(0, 8).toUpperCase();
     const description = [
-      `Booking ID: ${booking.id}`,
+      `Booking Ref: ${ref}`,
       `Lesson: ${booking.lessonName} (${booking.lessonPrice})`,
-      `Customer: ${booking.customerName}`,
-      `Phone: ${booking.phone}`,
-      `Email: ${booking.email}`,
-      ...(booking.notes ? [`Notes: ${booking.notes}`] : []),
+      `Date: ${booking.preferredDate} at ${booking.preferredTime}`,
+      `Instructor: Refer to booking system`,
     ].join("\n");
 
     const response = await calendar.events.insert({
       calendarId,
       requestBody: {
-        summary: `🚗 Driving Lesson — ${booking.customerName}`,
+        summary: `Driving Lesson — ${ref}`,
         description,
         colorId: "11",
         start: {
           dateTime: startDateTime,
-          timeZone: "Africa/Lagos",
+          timeZone: "America/Vancouver",
         },
         end: {
           dateTime: endDateTime,
-          timeZone: "Africa/Lagos",
+          timeZone: "America/Vancouver",
         },
       },
     });
