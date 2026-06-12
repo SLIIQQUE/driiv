@@ -6,7 +6,10 @@
  *
  *   - **Google Sheets** is the persistent store for booking records.
  *   - **Google Calendar** remains the source of truth for availability.
- *   - **PII encryption** is applied before writing to Sheets.
+ *   - **PII is stored in plaintext** in Sheets (Google's own access controls
+ *     handle security — the sheet is shared only with specific people).
+ *     Existing encrypted rows (from the file-based era) are still decrypted
+ *     on read for backward compatibility.
  *   - **Retry logic** handles transient Sheets API failures (3 attempts).
  *
  * Public API (unchanged from the file-based version):
@@ -224,9 +227,10 @@ const MAX_SAVE_RETRIES = 3;
 /**
  * Save a booking to the Google Sheet with retry logic.
  *
- * **PII Encryption:**
- *   `customerName`, `phone`, and `email` are encrypted with AES-256-GCM
- *   before being written to the sheet. The `piiEncrypted` flag is set to `true`.
+ * **PII Storage:**
+ *   `customerName`, `phone`, and `email` are stored in plaintext. Google
+ *   Sheets access controls (Editor-only sharing) handle security. Existing
+ *   encrypted rows from the file-based era are still decrypted on read.
  *
  * **TOCTOU Retry:**
  *   In serverless environments, concurrent requests may race to read the
@@ -260,11 +264,9 @@ export async function saveBooking(booking: Booking): Promise<void> {
       );
     }
 
-    // Encrypt PII for the new booking, then append to sheet
-    const encryptedBooking = encryptBookingPII(booking);
-
+    // Append to sheet as plaintext (Google's own access controls handle security)
     try {
-      await appendBookingRow(auth, encryptedBooking);
+      await appendBookingRow(auth, booking);
       return; // Success — exit
     } catch (writeError) {
       if (attempt === MAX_SAVE_RETRIES) {
@@ -282,6 +284,9 @@ export async function saveBooking(booking: Booking): Promise<void> {
 
 /**
  * Retrieve all bookings from the Google Sheet with PII decrypted.
+ *
+ * Decrypts any remaining encrypted entries (from the file-based storage era)
+ * for backward compatibility. New entries are stored in plaintext.
  *
  * ⚠️  PII is returned in plaintext. The caller MUST ensure this data is
  *     only exposed to authenticated/authorized users. The GET /api/book

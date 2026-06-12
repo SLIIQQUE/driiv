@@ -169,15 +169,22 @@ export async function POST(request: Request) {
     }
 
     // Send confirmation email (fire-and-forget, never blocks response)
-    sendBookingConfirmation(booking).catch((err) => {
-      console.error("Failed to send confirmation email for booking", booking.id, ":", err);
-    });
+    let emailStatus: string;
+    try {
+      await sendBookingConfirmation(booking);
+      emailStatus = "sent";
+    } catch (err) {
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.error("Failed to send confirmation email for booking", booking.id, ":", errMsg);
+      emailStatus = `failed: ${errMsg}`;
+    }
 
     return NextResponse.json({
       success: true,
       booking,
       message: "Booking confirmed! We'll see you on the road.",
       calendar: calendarResult.success ? "synced" : "failed",
+      email: emailStatus,
     });
   } catch (error) {
     console.error("Booking error:", error);
