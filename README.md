@@ -30,6 +30,7 @@
 ## Features
 
 ### 🚗 Online Booking System
+
 - Multi-step booking wizard (lesson selection → date/time → details → confirm)
 - Real-time availability synced with Google Calendar (source of truth)
 - Three packages: **Foundation Pass** ($55/session), **Power Pack** ($250/5 sessions), **Mastery Bundle** ($450/10 sessions)
@@ -39,6 +40,7 @@
 - **Google Sheets backend** — booking data stored in a collaborative spreadsheet, readable by non-technical staff
 
 ### 🤖 AI Voice Concierge ("Alex")
+
 - Natural language booking assistant powered by Groq (Qwen 3 32B)
 - Handles pricing inquiries, service area lookups, and full booking flow
 - Function calling for structured data extraction
@@ -46,6 +48,7 @@
 - Deferred-save semantics (validates before persisting)
 
 ### 📅 Google Calendar Integration
+
 - **Availability** — checks the instructor's calendar via `freebusy.query` to grey out taken time slots (primary source of truth)
 - **Event creation** — automatically creates a 1-hour calendar event when a student books
 - **PII-free events** — calendar descriptions contain only booking reference, never customer name/phone/email
@@ -53,6 +56,7 @@
 - Powered by a Google Cloud service account with OAuth 2.0 (JWT)
 
 ### 📊 Google Sheets Backend
+
 - Collaborative spreadsheet replaces file-based JSON storage
 - Human-readable for non-technical staff (no admin dashboard needed)
 - PII stored in plaintext (Google's access controls handle security)
@@ -60,6 +64,7 @@
 - AES-256-GCM encryption module preserved for future use
 
 ### 📱 Responsive UI
+
 - Mobile-first, fully responsive layout
 - Dark theme with gold accent palette
 - Smooth page transitions and micro-animations via Framer Motion
@@ -67,6 +72,7 @@
 - Loading states and error handling throughout
 
 ### 🔒 Security
+
 - **Rate limiting** — per-IP limits on all API endpoints (5/min voice, 10/min book, 60/min GET)
 - **CSRF protection** — Origin/Referer header validation on all POST endpoints
 - **Request body limits** — 32KB max on POST requests
@@ -79,6 +85,7 @@
 - **Diagnose endpoint hardened** — no info leakage, ADMIN_API_KEY gated
 
 ### 🌐 SEO & Accessibility
+
 - JSON-LD structured data (DrivingSchool schema, BreadcrumbList)
 - Auto-generated sitemap and robots.txt
 - Canonical URLs and Open Graph / Twitter Card metadata
@@ -89,22 +96,22 @@
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 16 (App Router, React 19, React Compiler) |
-| **Styling** | Tailwind CSS v4, CSS variables |
-| **Animation** | Framer Motion (`motion/react`) |
-| **Icons** | Lucide React |
-| **AI** | Groq API (Qwen 3 32B) + function calling |
-| **Calendar** | Google Calendar API (`googleapis`) |
-| **Database** | Google Sheets API (`googleapis`) |
-| **Auth (internal)** | Bearer token (`ADMIN_API_KEY`) |
-| **PII Encryption** | AES-256-GCM (Node.js `crypto`) |
-| **Email** | Resend |
-| **Rate Limiting** | In-memory Map (edge middleware) |
-| **Fonts** | Outfit (display), Space Mono (mono) |
-| **Package Manager** | pnpm |
-| **Deployment** | Vercel |
+| Layer               | Technology                                        |
+| ------------------- | ------------------------------------------------- |
+| **Framework**       | Next.js 16 (App Router, React 19, React Compiler) |
+| **Styling**         | Tailwind CSS v4, CSS variables                    |
+| **Animation**       | Framer Motion (`motion/react`)                    |
+| **Icons**           | Lucide React                                      |
+| **AI**              | Groq API (Qwen 3 32B) + function calling          |
+| **Calendar**        | Google Calendar API (`googleapis`)                |
+| **Database**        | Google Sheets API (`googleapis`)                  |
+| **Auth (internal)** | Bearer token (`ADMIN_API_KEY`)                    |
+| **PII Encryption**  | AES-256-GCM (Node.js `crypto`)                    |
+| **Email**           | Resend                                            |
+| **Rate Limiting**   | In-memory Map (edge middleware)                   |
+| **Fonts**           | Outfit (display), Space Mono (mono)               |
+| **Package Manager** | pnpm                                              |
+| **Deployment**      | Vercel                                            |
 
 ---
 
@@ -147,6 +154,7 @@
 ### Data Flow
 
 **Write Path (Booking):**
+
 ```
 User submits booking → CSRF check → Validate input → saveBooking() →
    1. Append row to Google Sheets
@@ -155,6 +163,7 @@ User submits booking → CSRF check → Validate input → saveBooking() →
 ```
 
 **Read Path (Availability):**
+
 ```
 User picks date → GET /api/calendar/availability →
    1. Query Google Calendar freebusy (primary source of truth)
@@ -224,19 +233,19 @@ The app requires **11 environment variables**. For production, all must be set i
 # and create .env.local with your actual values
 ```
 
-| Variable | Required | Source | Description |
-|---|---|---|---|
-| `GROQ_API_KEY` | ✅ Yes | [Groq Console](https://console.groq.com/keys) | AI concierge API key |
-| `GROQ_MODEL` | ✅ Yes | Fixed | Groq model — `qwen/qwen3-32b` |
-| `NEXT_PUBLIC_BASE_URL` | ✅ Yes | Your domain | Public URL (`http://localhost:3000` in dev) |
-| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | ✅ Yes | GCP service account JSON → `client_email` | JWT auth for Calendar + Sheets |
-| `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` | ✅ Yes | GCP service account JSON → `private_key` | RSA private key (wrapped in quotes with `\n`) |
-| `GOOGLE_CALENDAR_ID` | ✅ Yes | Google Calendar settings | Calendar to read/write events |
-| `SHEET_ID` | ✅ Yes | Google Sheets URL (between `/d/` and `/edit`) | Spreadsheet for booking records |
-| `ADMIN_API_KEY` | ✅ Yes | `openssl rand -hex 32` | Bearer token for admin endpoints |
-| `RESEND_API_KEY` | ✅ Yes | [Resend Dashboard](https://resend.com/api-keys) | Email delivery API key |
-| `RESEND_FROM_EMAIL` | ✅ Yes | Your verified domain | Sender address (e.g., `noreply@yourdomain.com`) |
-| `ENCRYPTION_KEY` | ⚠️ Legacy | `openssl rand -hex 32` | AES-256-GCM key (for decrypting legacy encrypted rows) |
+| Variable                             | Required  | Source                                          | Description                                            |
+| ------------------------------------ | --------- | ----------------------------------------------- | ------------------------------------------------------ |
+| `GROQ_API_KEY`                       | ✅ Yes    | [Groq Console](https://console.groq.com/keys)   | AI concierge API key                                   |
+| `GROQ_MODEL`                         | ✅ Yes    | Fixed                                           | Groq model — `qwen/qwen3-32b`                          |
+| `NEXT_PUBLIC_BASE_URL`               | ✅ Yes    | Your domain                                     | Public URL (`http://localhost:3000` in dev)            |
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL`       | ✅ Yes    | GCP service account JSON → `client_email`       | JWT auth for Calendar + Sheets                         |
+| `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` | ✅ Yes    | GCP service account JSON → `private_key`        | RSA private key (wrapped in quotes with `\n`)          |
+| `GOOGLE_CALENDAR_ID`                 | ✅ Yes    | Google Calendar settings                        | Calendar to read/write events                          |
+| `SHEET_ID`                           | ✅ Yes    | Google Sheets URL (between `/d/` and `/edit`)   | Spreadsheet for booking records                        |
+| `ADMIN_API_KEY`                      | ✅ Yes    | `openssl rand -hex 32`                          | Bearer token for admin endpoints                       |
+| `RESEND_API_KEY`                     | ✅ Yes    | [Resend Dashboard](https://resend.com/api-keys) | Email delivery API key                                 |
+| `RESEND_FROM_EMAIL`                  | ✅ Yes    | Your verified domain                            | Sender address (e.g., `noreply@yourdomain.com`)        |
+| `ENCRYPTION_KEY`                     | ⚠️ Legacy | `openssl rand -hex 32`                          | AES-256-GCM key (for decrypting legacy encrypted rows) |
 
 ### Key Rotation
 
@@ -329,12 +338,14 @@ driiv/
 ## API Routes
 
 ### `POST /api/book`
+
 Create a new booking.
 
 **Headers:** `Content-Type: application/json`  
 **Auth:** Origin/Referer must match `NEXT_PUBLIC_BASE_URL` (CSRF)  
 **Rate limit:** 10 requests/minute/IP  
 **Body:**
+
 ```json
 {
   "customerName": "Jane Doe",
@@ -350,6 +361,7 @@ Create a new booking.
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -361,24 +373,28 @@ Create a new booking.
 ```
 
 ### `GET /api/book`
+
 List all bookings (admin only).
 
 **Headers:** `Authorization: Bearer <ADMIN_API_KEY>`  
 **Rate limit:** 60 requests/minute/IP
 
 **Response (200):**
+
 ```json
 {
-  "bookings": [ "...all booking objects..." ]
+  "bookings": ["...all booking objects..."]
 }
 ```
 
 ### `GET /api/calendar/availability?date=YYYY-MM-DD`
+
 Get busy time slots for a date.
 
 **Rate limit:** 60 requests/minute/IP
 
 **Response (200):**
+
 ```json
 {
   "date": "2026-06-20",
@@ -387,6 +403,7 @@ Get busy time slots for a date.
 ```
 
 ### `GET /api/calendar/diagnose`
+
 Calendar integration health check (admin only).
 
 **Headers:** `Authorization: Bearer <ADMIN_API_KEY>`  
@@ -395,17 +412,17 @@ Calendar integration health check (admin only).
 **Response (200):** Full diagnostic JSON with credentials status, auth test, read/write access, and Sheets connectivity.
 
 ### `POST /api/voice`
+
 AI Concierge conversational booking.
 
 **Headers:** `Content-Type: application/json`  
 **Rate limit:** 5 requests/minute/IP
 
 **Body:**
+
 ```json
 {
-  "messages": [
-    { "role": "user", "content": "I'd like to book a lesson" }
-  ]
+  "messages": [{ "role": "user", "content": "I'd like to book a lesson" }]
 }
 ```
 
@@ -435,18 +452,18 @@ The AI Concierge can also drive the entire flow conversationally via `/api/voice
 
 ### Layered Defense
 
-| Layer | What It Protects | Implementation |
-|---|---|---|
-| **1. Edge Middleware** | All API endpoints | Rate limiting, body size limits, Content-Type enforcement, security headers |
-| **2. CSRF Protection** | POST endpoints | Origin/Referer header validation against `NEXT_PUBLIC_BASE_URL` |
-| **3. Input Validation** | Booking + Voice APIs | Server-side validation (name, phone, email, date, time, lessonId) |
-| **4. Double-Booking Prevention** | Booking slots | Re-read sheet on each retry attempt → check conflict → write |
-| **5. Bearer Auth** | Admin endpoints (`GET /api/book`, diagnose) | `ADMIN_API_KEY` — fail-closed if missing |
-| **6. PII Protection** | Customer data at rest | AES-256-GCM encryption (legacy rows); Google Sheets access controls (new rows) |
-| **7. XSS Prevention** | Email clients | HTML escaping of all user-supplied values in email templates |
-| **8. Security Headers** | Browser clients | HSTS (2yr preload), CSP, X-Frame-Options, COOP, CORP, Permissions-Policy |
-| **9. Pre-commit Hook** | Git history | Blocks `.env` files and secret patterns from commits |
-| **10. Audit Trail** | Incident response | Structured console logging on all auth failures, booking events, API errors |
+| Layer                            | What It Protects                            | Implementation                                                                 |
+| -------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------ |
+| **1. Edge Middleware**           | All API endpoints                           | Rate limiting, body size limits, Content-Type enforcement, security headers    |
+| **2. CSRF Protection**           | POST endpoints                              | Origin/Referer header validation against `NEXT_PUBLIC_BASE_URL`                |
+| **3. Input Validation**          | Booking + Voice APIs                        | Server-side validation (name, phone, email, date, time, lessonId)              |
+| **4. Double-Booking Prevention** | Booking slots                               | Re-read sheet on each retry attempt → check conflict → write                   |
+| **5. Bearer Auth**               | Admin endpoints (`GET /api/book`, diagnose) | `ADMIN_API_KEY` — fail-closed if missing                                       |
+| **6. PII Protection**            | Customer data at rest                       | AES-256-GCM encryption (legacy rows); Google Sheets access controls (new rows) |
+| **7. XSS Prevention**            | Email clients                               | HTML escaping of all user-supplied values in email templates                   |
+| **8. Security Headers**          | Browser clients                             | HSTS (2yr preload), CSP, X-Frame-Options, COOP, CORP, Permissions-Policy       |
+| **9. Pre-commit Hook**           | Git history                                 | Blocks `.env` files and secret patterns from commits                           |
+| **10. Audit Trail**              | Incident response                           | Structured console logging on all auth failures, booking events, API errors    |
 
 ### Audit History
 
@@ -460,16 +477,16 @@ The AI Concierge can also drive the entire flow conversationally via `/api/voice
 
 ## Documentation Index
 
-| Document | Description |
-|---|---|
-| **[docs/account-setup-guide.md](docs/account-setup-guide.md)** | Create every account from absolute zero (986 lines) |
-| **[docs/key-rotation-guide.md](docs/key-rotation-guide.md)** | Rotate credentials + Google Sheets setup |
-| **[docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md)** | Full security audit with 20 findings |
-| **[docs/adr/001-csp-hardening.md](docs/adr/001-csp-hardening.md)** | CSP strategy (nonce-based, 3-phase migration) |
-| **[docs/adr/002-security-middleware-architecture.md](docs/adr/002-security-middleware-architecture.md)** | Edge middleware design |
-| **[docs/adr/003-architecture-review-recommendations.md](docs/adr/003-architecture-review-recommendations.md)** | Storage, auth, secrets architecture decisions |
-| **[docs/adr/004-google-sheets-backend.md](docs/adr/004-google-sheets-backend.md)** | Google Sheets as booking backend design |
-| **next.config.ts** | Security headers configuration |
+| Document                                                                                                       | Description                                         |
+| -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| **[docs/account-setup-guide.md](docs/account-setup-guide.md)**                                                 | Create every account from absolute zero (986 lines) |
+| **[docs/key-rotation-guide.md](docs/key-rotation-guide.md)**                                                   | Rotate credentials + Google Sheets setup            |
+| **[docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md)**                                                           | Full security audit with 20 findings                |
+| **[docs/adr/001-csp-hardening.md](docs/adr/001-csp-hardening.md)**                                             | CSP strategy (nonce-based, 3-phase migration)       |
+| **[docs/adr/002-security-middleware-architecture.md](docs/adr/002-security-middleware-architecture.md)**       | Edge middleware design                              |
+| **[docs/adr/003-architecture-review-recommendations.md](docs/adr/003-architecture-review-recommendations.md)** | Storage, auth, secrets architecture decisions       |
+| **[docs/adr/004-google-sheets-backend.md](docs/adr/004-google-sheets-backend.md)**                             | Google Sheets as booking backend design             |
+| **next.config.ts**                                                                                             | Security headers configuration                      |
 
 ---
 
@@ -478,6 +495,7 @@ The AI Concierge can also drive the entire flow conversationally via `/api/voice
 ### Pre-commit Hook
 
 The project includes a `.githooks/pre-commit` hook that:
+
 - Blocks any `.env*` file from being staged
 - Scans staged files for secrets (private keys, API tokens) and rejects the commit if found
 
